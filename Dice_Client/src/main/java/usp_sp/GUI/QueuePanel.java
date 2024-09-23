@@ -32,7 +32,7 @@ public class QueuePanel extends JPanel {
             Window window = (Window) SwingUtilities.getWindowAncestor(this);
             window.showScene("Login");
 
-            /** TODO: Send on server info that someone left the Queue */
+            /* TODO: Send on server info that someone left the Queue */
         });
 
         gbc.gridx = 0;

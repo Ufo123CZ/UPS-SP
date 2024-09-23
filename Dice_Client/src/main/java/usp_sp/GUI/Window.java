@@ -3,6 +3,9 @@ package usp_sp.GUI;
 import javax.swing.*;
 import java.awt.*;
 
+import static usp_sp.Utils.Const.WINDOW_HEIGHT;
+import static usp_sp.Utils.Const.WINDOW_WIDTH;
+
 public class Window extends JFrame {
     private CardLayout cardLayout;
     private JPanel mainPanel;
@@ -17,7 +20,7 @@ public class Window extends JFrame {
 
         add(mainPanel);
         setTitle("KCD Dice Client");
-        setSize(800, 600);
+        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }

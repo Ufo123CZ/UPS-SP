@@ -53,12 +53,12 @@ public class LoginPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Show loading screen
-                window.showScene("Queue");
+//                window.showScene("Queue");
 
-                /** TODO: Send on server info that someone joined */
+                /* TODO: Send on server info that someone joined */
 
                 // Switch to game screen
-//                window.showScene("Game");
+                window.showScene("Game");
             }
         });
         gbc.gridx = 0;
