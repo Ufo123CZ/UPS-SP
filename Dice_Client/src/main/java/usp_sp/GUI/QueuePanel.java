@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static usp_sp.Utils.Const.ASSETS_GIF;
+
 public class QueuePanel extends JPanel {
     private BufferedImage loadingGif;
 
@@ -19,7 +21,7 @@ public class QueuePanel extends JPanel {
         gbc.gridy = 0;
         add(loadingLabel, gbc);
 
-        ImageIcon originalIcon = new ImageIcon("src/main/resources/Assets/loading_dice.gif");
+        ImageIcon originalIcon = new ImageIcon( ASSETS_GIF + "loading_dice.gif");
         Image scaledImage = originalIcon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         JLabel loadingGif = new JLabel(scaledIcon);

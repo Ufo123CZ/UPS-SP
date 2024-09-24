@@ -55,7 +55,7 @@ public class LoginPanel extends JPanel {
                 // Show Lobby screen
 
                 /* TODO: Connect to server and request List for Lobby */
-                window.showScene("Lobby");
+//                window.showScene("Lobby");
 
                 // Show loading screen
                 //window.showScene("Queue");
@@ -63,7 +63,7 @@ public class LoginPanel extends JPanel {
                 /* TODO: Send on server info that someone joined */
 
                 // Switch to game screen
-//                window.showScene("Game");
+                window.showScene("Game");
             }
         });
         gbc.gridx = 0;
