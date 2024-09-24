@@ -15,6 +15,7 @@ public class Window extends JFrame {
         mainPanel = new JPanel(cardLayout);
 
         mainPanel.add(new LoginPanel(this), "Login");
+        mainPanel.add(new LobbyPanel(), "Lobby");
         mainPanel.add(new QueuePanel(), "Queue");
         mainPanel.add(new GamePanel(), "Game");
 

@@ -1,10 +1,7 @@
 package usp_sp.GUI;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.Line;
 import javax.swing.*;
-import javax.swing.text.Element;
-import javax.xml.crypto.dsig.Transform;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;

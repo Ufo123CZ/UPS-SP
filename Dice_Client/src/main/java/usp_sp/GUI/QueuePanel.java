@@ -30,7 +30,7 @@ public class QueuePanel extends JPanel {
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> {
             Window window = (Window) SwingUtilities.getWindowAncestor(this);
-            window.showScene("Login");
+            window.showScene("Lobby");
 
             /* TODO: Send on server info that someone left the Queue */
         });

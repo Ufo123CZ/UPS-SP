@@ -52,13 +52,18 @@ public class LoginPanel extends JPanel {
         connectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Show Lobby screen
+
+                /* TODO: Connect to server and request List for Lobby */
+                window.showScene("Lobby");
+
                 // Show loading screen
-//                window.showScene("Queue");
+                //window.showScene("Queue");
 
                 /* TODO: Send on server info that someone joined */
 
                 // Switch to game screen
-                window.showScene("Game");
+//                window.showScene("Game");
             }
         });
         gbc.gridx = 0;
