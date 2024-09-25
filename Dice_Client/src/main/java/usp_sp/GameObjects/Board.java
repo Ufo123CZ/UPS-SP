@@ -1,5 +1,6 @@
 package usp_sp.GameObjects;
 
+import lombok.Setter;
 import usp_sp.Utils.Materials;
 
 import java.awt.*;
@@ -8,23 +9,21 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
-import static usp_sp.Utils.Const.BOARD_SIZE;
+import static usp_sp.Utils.Const.*;
 
 public class Board extends Materials {
 
     private final TexturePaint textureBoard, textureBoardEdge, textureHinge, screwTexture, textureEdges;
-    private final Graphics2D g2d;
+    @Setter // Local
+    private Graphics2D g2d;
 
-    public Board(Graphics2D g2d) {
+    public Board() {
         // Load the textures
         textureBoard = loadTexture("oak.jpg");
         textureBoardEdge = loadTexture("spruce.jpg");
         textureHinge = loadTexture("iron.jpg");
         screwTexture = loadTexture("steel.jpg");
         textureEdges = loadTexture("dark_iron.jpg");
-
-        // Graphics2D
-        this.g2d = g2d;
     }
 
     public void drawBoard() {
@@ -145,5 +144,21 @@ public class Board extends Materials {
 
             g2d.setTransform(center);
         }
+    }
+
+    public void drawBoardText() {
+        AffineTransform old = g2d.getTransform();
+        g2d.setFont(GAME_TEXT_FONT);
+        g2d.setPaint(textureEdges);
+
+        g2d.translate(-BOARD_SIZE / 2.25f, -BOARD_SIZE / 2.5f);
+        g2d.drawString(GAME_TEXT_SEL, 0, -DICE_SIZE / 1.55f);
+        g2d.drawString(GAME_TEXT_TH, 0, DICE_SIZE / 0.45f);
+        g2d.setTransform(old);
+
+        g2d.translate(-BOARD_SIZE / 2.25f, BOARD_SIZE / 7f);
+        g2d.drawString(GAME_TEXT_SEL, 0, -DICE_SIZE / 1.55f);
+        g2d.drawString(GAME_TEXT_TH, 0, DICE_SIZE / 0.45f);
+        g2d.setTransform(old);
     }
 }

@@ -1,5 +1,7 @@
 package usp_sp.GameObjects;
 
+import lombok.Getter;
+import lombok.Setter;
 import usp_sp.Utils.Materials;
 
 import java.awt.*;
@@ -7,7 +9,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 
-import static usp_sp.Utils.Colours.DICE_EDGES;
+import static usp_sp.Utils.Colours.*;
 import static usp_sp.Utils.Const.DICE_ROLL_ARC;
 import static usp_sp.Utils.Const.DICE_SIZE;
 
@@ -15,19 +17,23 @@ public class Dice extends Materials {
 
     private final TexturePaint textureDice, textureDot;
 
-    Graphics2D g2d;
-
-    private String diceId;
+    @Setter // Local
+    Graphics2D g2d = null;
+    @Getter @Setter // Server
+    private String diceId = "";
+    @Getter @Setter // Server
     private int diceValue = 6;
+    @Getter @Setter // Server
+    private boolean selected = false;
+    @Getter @Setter // Local
+    private boolean hover = false;
+    @Getter @Setter // Server
+    private boolean hold = false;
 
-
-    public Dice(Graphics2D g2d) {
+    public Dice() {
         // Load the textures
         textureDice = loadTexture("birch.jpg");
         textureDot = loadTexture("spruce.jpg");
-
-        // Graphics2D
-        this.g2d = g2d;
     }
 
     public void drawDice() {
@@ -88,6 +94,17 @@ public class Dice extends Materials {
                 drawSideDot(dot, old, 1, 1);
                 break;
         }
+    }
+
+    public void markEllipse(Color color) {
+        Ellipse2D.Float dice = new Ellipse2D.Float(
+                -DICE_SIZE / 1.5f, -DICE_SIZE / 1.5f,
+                DICE_SIZE / 0.75f, DICE_SIZE / 0.75f
+        );
+        g2d.setPaint(color);
+
+        g2d.setStroke(new BasicStroke(2));
+        g2d.draw(dice);
     }
 
     //region Values draw

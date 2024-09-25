@@ -5,12 +5,32 @@ import usp_sp.GameObjects.Dice;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.util.List;
 
+import static usp_sp.Utils.Colours.*;
 import static usp_sp.Utils.Const.*;
 
 public class GamePanel extends JPanel {
 
-    public GamePanel() {}
+    // Globals
+    Board board;
+
+    Dice[] dicesP1;
+    Dice[] dicesP2;
+    List<Dice[]> diceList;
+
+    public GamePanel() {
+        board = new Board();
+
+        dicesP1 = new Dice[6];
+        dicesP2 = new Dice[6];
+        for (int i = 0; i < 6; i++) {
+            dicesP1[i] = new Dice();
+            dicesP2[i] = new Dice();
+        }
+        diceList = List.of(dicesP1, dicesP2);
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -21,12 +41,52 @@ public class GamePanel extends JPanel {
         prepareGraphics(g2d);
 
         // Board
-        Board board = new Board(g2d);
+        board.setG2d(g2d);
         board.drawBoard();
+        board.drawBoardText();
 
+        // Set Dices params form server
+        /* TODO: Get dices from server */
         // Draw the Dices
-         Dice dice = new Dice(g2d);
-         dice.drawDice();
+        String[] diceIdsP1 = {"P1K1", "P1K2", "P1K3", "P1K4", "P1K5", "P1K6"};
+        String[] diceIdsP2 = {"P2K1", "P2K2", "P2K3", "P2K4", "P2K5", "P2K6"};
+        List<String[]> idList = List.of(diceIdsP1, diceIdsP2);
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 2; j++) {
+                diceList.get(j)[i].setG2d(g2d);
+                diceList.get(j)[i].setDiceId(idList.get(j)[i]);
+                diceList.get(j)[i].setDiceValue(6);
+                diceList.get(j)[i].setSelected(false);
+                diceList.get(j)[i].setHover(false);
+                diceList.get(j)[i].setHold(false);
+            }
+            /* TODO: ^^^ Server preparation ^^^ */
+        }
+        // Draw the Dices
+        AffineTransform old = g2d.getTransform();
+        for (int i = 0; i < 2; i++) {
+            g2d.translate(-BOARD_SIZE / 2.25f, (i == 0) ? -BOARD_SIZE / 2.5f : BOARD_SIZE / 7.5f);
+
+            for (int j = 0; j < 6; j++) {
+                g2d.translate(DICE_SIZE / 0.9f, 0);
+                AffineTransform old2 = g2d.getTransform();
+                g2d.translate(0, diceList.get(i)[j].isSelected() ? DICE_SIZE / 2f : DICE_SIZE / 0.3f);
+                diceList.get(i)[j].drawDice();
+                g2d.setTransform(old2);
+            }
+            g2d.setTransform(old);
+
+            g2d.translate(-BOARD_SIZE / 2.25f, -BOARD_SIZE / 2.5f + DICE_SIZE / 0.3f);
+            for (int j = 0; j < 6; j++) {
+                g2d.translate(DICE_SIZE / 0.9f, 0);
+                if (diceList.get(i)[j].isHover()) {
+                    diceList.get(i)[j].markEllipse(DICE_HOVER);
+                } else if (diceList.get(i)[j].isHold()) {
+                    diceList.get(i)[j].markEllipse(DICE_HOLD);
+                }
+            }
+            g2d.setTransform(old);
+        }
     }
 
     //region Scale and Translate to Center

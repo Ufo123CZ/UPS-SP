@@ -43,12 +43,18 @@ public class LobbyPanel extends JPanel {
              */
         }
 
-        DefaultTableModel model = new DefaultTableModel(data, COLUMNS_NAMES);
+        DefaultTableModel model = new DefaultTableModel(data, COLUMNS_NAMES) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
         table = new JTable(model);
         DefaultTableCellRenderer centerRenderer = new CenterRenderer();
         for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            table.getColumnModel().getColumn(i).setResizable(false);
         }
         table.addMouseListener(new MouseAdapter() {
             @Override
@@ -72,6 +78,7 @@ public class LobbyPanel extends JPanel {
 
         JTableHeader header = table.getTableHeader();
         header.setDefaultRenderer(new CustomHeaderRenderer());
+        header.setReorderingAllowed(false);
 
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);

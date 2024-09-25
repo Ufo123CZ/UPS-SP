@@ -1,7 +1,6 @@
 package usp_sp.Utils;
 
-import lombok.Getter;
-import lombok.ToString;
+import java.awt.*;
 
 public class Const {
     // Assets Paths
@@ -16,6 +15,14 @@ public class Const {
     public static final float BOARD_SIZE = 500.0f;
     public static final float DICE_SIZE = 40.0f;
     public static final float DICE_ROLL_ARC = 20;
+
+    // Text Styles
+    public static final Font GAME_TEXT_FONT  = new Font("Georgia", Font.BOLD, 25);;
+
+    // Text content
+    public static final String GAME_TEXT_TH = "Hozené kostky";
+    public static final String GAME_TEXT_SEL = "Kostky v mezisoučtu";
+
 
     // Lobby
     public static final String[] COLUMNS_NAMES = {"No.", "Jmeno", "Pocet Hráčů", "Join", "Delete"};
