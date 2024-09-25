@@ -8,12 +8,15 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
+import static usp_sp.Utils.Colours.DICE_HOLD;
+import static usp_sp.Utils.Colours.DICE_HOVER;
 import static usp_sp.Utils.Const.*;
 
 public class Board extends Materials {
 
-    private final TexturePaint textureBoard, textureBoardEdge, textureHinge, screwTexture, textureEdges;
+    private final TexturePaint textureBoard, textureBoardEdge, textureHinge, screwTexture, textureEdges, textureText;
     @Setter // Local
     private Graphics2D g2d;
 
@@ -24,6 +27,7 @@ public class Board extends Materials {
         textureHinge = loadTexture("iron.jpg");
         screwTexture = loadTexture("steel.jpg");
         textureEdges = loadTexture("dark_iron.jpg");
+        textureText = loadTexture("birch.jpg");
     }
 
     public void drawBoard() {
@@ -149,16 +153,43 @@ public class Board extends Materials {
     public void drawBoardText() {
         AffineTransform old = g2d.getTransform();
         g2d.setFont(GAME_TEXT_FONT);
-        g2d.setPaint(textureEdges);
+        g2d.setPaint(textureText);
 
-        g2d.translate(-BOARD_SIZE / 2.25f, -BOARD_SIZE / 2.5f);
+        g2d.translate(-BOARD_SIZE / 2.05f, -BOARD_SIZE / 2.5f);
         g2d.drawString(GAME_TEXT_SEL, 0, -DICE_SIZE / 1.55f);
         g2d.drawString(GAME_TEXT_TH, 0, DICE_SIZE / 0.45f);
         g2d.setTransform(old);
 
-        g2d.translate(-BOARD_SIZE / 2.25f, BOARD_SIZE / 7f);
+        g2d.translate(-BOARD_SIZE / 2.05f, BOARD_SIZE / 7f);
         g2d.drawString(GAME_TEXT_SEL, 0, -DICE_SIZE / 1.55f);
         g2d.drawString(GAME_TEXT_TH, 0, DICE_SIZE / 0.45f);
         g2d.setTransform(old);
+    }
+
+    public void drawDices(List<Dice[]> diceList) {
+        AffineTransform old = g2d.getTransform();
+        for (int i = 0; i < 2; i++) {
+            g2d.translate(-BOARD_SIZE / 1.9f, (i == 0) ? -BOARD_SIZE / 2.5f : BOARD_SIZE / 7.5f);
+
+            for (int j = 0; j < 6; j++) {
+                g2d.translate(DICE_SIZE / 0.9f, 0);
+                AffineTransform old2 = g2d.getTransform();
+                g2d.translate(0, diceList.get(i)[j].isSelected() ? DICE_SIZE / 2f : DICE_SIZE / 0.3f);
+                diceList.get(i)[j].drawDice();
+                g2d.setTransform(old2);
+            }
+            g2d.setTransform(old);
+
+            g2d.translate(-BOARD_SIZE / 1.9f, -BOARD_SIZE / 2.5f + DICE_SIZE / 0.3f);
+            for (int j = 0; j < 6; j++) {
+                g2d.translate(DICE_SIZE / 0.9f, 0);
+                if (diceList.get(i)[j].isHover()) {
+                    diceList.get(i)[j].markEllipse(DICE_HOVER);
+                } else if (diceList.get(i)[j].isHold()) {
+                    diceList.get(i)[j].markEllipse(DICE_HOLD);
+                }
+            }
+            g2d.setTransform(old);
+        }
     }
 }

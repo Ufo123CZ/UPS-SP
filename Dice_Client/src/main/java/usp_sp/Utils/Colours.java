@@ -12,6 +12,7 @@ public class Colours {
     public static final Color DICE_EDGES = new Color(0xFFD2B48C, true);
     public static final Color DICE_HOVER = new Color(0xFF73C52C, true);
     public static final Color DICE_HOLD = new Color(0xFF42F5D4, true);
+    public static final Color PLAYER_STATS_DIVIDER = new Color(0xFFB71B1B, true);
 
     // Text
     public static final Color TEXT_ON_BOARD = new Color(0xFF000000, true);

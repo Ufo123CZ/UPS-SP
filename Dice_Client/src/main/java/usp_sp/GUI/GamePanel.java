@@ -2,6 +2,7 @@ package usp_sp.GUI;
 
 import usp_sp.GameObjects.Board;
 import usp_sp.GameObjects.Dice;
+import usp_sp.GameObjects.PlayerStats;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +21,10 @@ public class GamePanel extends JPanel {
     Dice[] dicesP2;
     List<Dice[]> diceList;
 
+    PlayerStats playerStatsP1;
+    PlayerStats playerStatsP2;
+    List<PlayerStats> playerStatsList;
+
     public GamePanel() {
         board = new Board();
 
@@ -30,6 +35,10 @@ public class GamePanel extends JPanel {
             dicesP2[i] = new Dice();
         }
         diceList = List.of(dicesP1, dicesP2);
+
+        playerStatsP1 = new PlayerStats();
+        playerStatsP2 = new PlayerStats();
+        playerStatsList = List.of(playerStatsP1, playerStatsP2);
     }
 
     @Override
@@ -58,35 +67,36 @@ public class GamePanel extends JPanel {
                 diceList.get(j)[i].setDiceValue(6);
                 diceList.get(j)[i].setSelected(false);
                 diceList.get(j)[i].setHover(false);
-                diceList.get(j)[i].setHold(false);
+                diceList.get(j)[i].setHold(true);
             }
             /* TODO: ^^^ Server preparation ^^^ */
         }
         // Draw the Dices
-        AffineTransform old = g2d.getTransform();
+        board.drawDices(diceList);
+
+        // Player Stats
+        playerStatsP1.setG2d(g2d);
+        playerStatsP1.setName("Player 1");
+        playerStatsP1.setTotalScore(0);
+        playerStatsP1.setSubtotalScore(0);
+        playerStatsP1.setThorwScore(0);
+
+        playerStatsP2.setG2d(g2d);
+        playerStatsP2.setName("Player 2");
+        playerStatsP2.setTotalScore(0);
+        playerStatsP2.setSubtotalScore(0);
+        playerStatsP2.setThorwScore(0);
         for (int i = 0; i < 2; i++) {
-            g2d.translate(-BOARD_SIZE / 2.25f, (i == 0) ? -BOARD_SIZE / 2.5f : BOARD_SIZE / 7.5f);
-
-            for (int j = 0; j < 6; j++) {
-                g2d.translate(DICE_SIZE / 0.9f, 0);
-                AffineTransform old2 = g2d.getTransform();
-                g2d.translate(0, diceList.get(i)[j].isSelected() ? DICE_SIZE / 2f : DICE_SIZE / 0.3f);
-                diceList.get(i)[j].drawDice();
-                g2d.setTransform(old2);
+            AffineTransform old = g2d.getTransform();
+            if (i == 0) {
+                g2d.translate(BOARD_SIZE / 2f - PLAYER_STATS_SIZE / 0.6f, -BOARD_SIZE / 2f);
+            } else {
+                g2d.translate(BOARD_SIZE / 2f - PLAYER_STATS_SIZE / 0.6f, BOARD_SIZE / 25f);
             }
-            g2d.setTransform(old);
-
-            g2d.translate(-BOARD_SIZE / 2.25f, -BOARD_SIZE / 2.5f + DICE_SIZE / 0.3f);
-            for (int j = 0; j < 6; j++) {
-                g2d.translate(DICE_SIZE / 0.9f, 0);
-                if (diceList.get(i)[j].isHover()) {
-                    diceList.get(i)[j].markEllipse(DICE_HOVER);
-                } else if (diceList.get(i)[j].isHold()) {
-                    diceList.get(i)[j].markEllipse(DICE_HOLD);
-                }
-            }
+            playerStatsList.get(i).drawStats();
             g2d.setTransform(old);
         }
+
     }
 
     //region Scale and Translate to Center

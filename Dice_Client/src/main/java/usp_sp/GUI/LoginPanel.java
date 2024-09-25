@@ -23,7 +23,7 @@ public class LoginPanel extends JPanel {
         gbc.gridy = 0;
         add(nameLabel, gbc);
 
-        nameField = new JTextField(32);
+        nameField = new JTextField(13);
         gbc.gridx = 1;
         gbc.gridy = 0;
         add(nameField, gbc);
