@@ -90,21 +90,37 @@ public class Dice extends Materials {
                 drawCornerDot(dot, old, 1, 1);
                 drawCornerDot(dot, old, -1, 1);
                 drawCornerDot(dot, old, 1, -1);
-                drawSideDot(dot, old, -1, 1);
-                drawSideDot(dot, old, 1, 1);
+                drawSideDot(dot, old, -1);
+                drawSideDot(dot, old, 1);
                 break;
         }
     }
 
-    public void markEllipse(Color color) {
+    public void markEllipse(Color[] color) {
         Ellipse2D.Float dice = new Ellipse2D.Float(
                 -DICE_SIZE / 1.5f, -DICE_SIZE / 1.5f,
                 DICE_SIZE / 0.75f, DICE_SIZE / 0.75f
         );
-        g2d.setPaint(color);
-
+        AffineTransform old = g2d.getTransform();
         g2d.setStroke(new BasicStroke(2));
-        g2d.draw(dice);
+
+        if (color.length == 2) {
+            g2d.setPaint(color[1]);
+            g2d.draw(dice);
+            g2d.setStroke(new BasicStroke(3));
+            g2d.scale(0.9f, 0.9f);
+            g2d.setPaint(color[0]);
+            g2d.draw(dice);
+        } else if (color[0] == DICE_HOLD) {
+            g2d.setStroke(new BasicStroke(3));
+            g2d.scale(0.9f, 0.9f);
+            g2d.setPaint(color[0]);
+            g2d.draw(dice);
+        } else {
+            g2d.setPaint(color[0]);
+            g2d.draw(dice);
+        }
+        g2d.setTransform(old);
     }
 
     //region Values draw
@@ -117,8 +133,8 @@ public class Dice extends Materials {
         g2d.fill(dot);
         g2d.setTransform(old);
     }
-    private void drawSideDot(Ellipse2D.Float dot, AffineTransform old, int xs, int ys) {
-        g2d.scale(xs, ys);
+    private void drawSideDot(Ellipse2D.Float dot, AffineTransform old, int xs) {
+        g2d.scale(xs, 1);
         g2d.translate(-DICE_SIZE / 4, 0);
         g2d.fill(dot);
         g2d.setTransform(old);

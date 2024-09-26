@@ -24,7 +24,7 @@ public class PlayerStats extends Materials {
     @Getter @Setter // Server
     public int subtotalScore = 0;
     @Getter @Setter // Server
-    public int thorwScore = 0;
+    public int throwScore = 0;
 
     TexturePaint textureStatsBG, textureEdge;
 
@@ -37,7 +37,7 @@ public class PlayerStats extends Materials {
         // Components
         Rectangle2D.Float statsBG = new Rectangle2D.Float(
                 0, 0,
-                PLAYER_STATS_SIZE / 0.6f, PLAYER_STATS_SIZE
+                PLAYER_STATS_SIZE / 0.6f, PLAYER_STATS_SIZE / 1.1f
         );
 
         Line2D.Float divider = new Line2D.Float(0, 0, PLAYER_STATS_SIZE / 0.64f, 0);
@@ -63,7 +63,7 @@ public class PlayerStats extends Materials {
         g2d.drawString("Mezisoučet: " + subtotalScore, 0, 0);
         drawDivider(divider);
         g2d.translate(0, PLAYER_STATS_SIZE / 5f);
-        g2d.drawString("Hozené skóre: " + thorwScore, 0, 0);
+        g2d.drawString("Hozené skóre: " + throwScore, 0, 0);
 
         g2d.setTransform(old);
     }

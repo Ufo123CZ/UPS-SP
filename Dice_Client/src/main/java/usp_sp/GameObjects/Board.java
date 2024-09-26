@@ -183,10 +183,12 @@ public class Board extends Materials {
             g2d.translate(-BOARD_SIZE / 1.9f, -BOARD_SIZE / 2.5f + DICE_SIZE / 0.3f);
             for (int j = 0; j < 6; j++) {
                 g2d.translate(DICE_SIZE / 0.9f, 0);
-                if (diceList.get(i)[j].isHover()) {
-                    diceList.get(i)[j].markEllipse(DICE_HOVER);
+                if (diceList.get(i)[j].isHover() && diceList.get(i)[j].isHold()) {
+                    diceList.get(i)[j].markEllipse(new Color[] {DICE_HOLD, DICE_HOVER});
+                } else if (diceList.get(i)[j].isHover()) {
+                    diceList.get(i)[j].markEllipse(new Color[] {DICE_HOVER});
                 } else if (diceList.get(i)[j].isHold()) {
-                    diceList.get(i)[j].markEllipse(DICE_HOLD);
+                    diceList.get(i)[j].markEllipse(new Color[] {DICE_HOLD});
                 }
             }
             g2d.setTransform(old);
