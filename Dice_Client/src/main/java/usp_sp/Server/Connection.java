@@ -13,8 +13,8 @@ public class Connection {
     }
 
     public void connectToServer() throws IOException {
-        // create a socket to connect to the server running on localhost at port number 9090
-        Socket socket = new Socket("localhost", 9090);
+        // create a socket to connect to the server running on localhost at port number 8080
+        Socket socket = new Socket("localhost", 8080);
 
         // Setup output stream to send data to the server
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
