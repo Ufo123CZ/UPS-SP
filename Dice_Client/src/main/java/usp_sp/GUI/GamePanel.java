@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.RoundRectangle2D;
 import java.util.List;
 
 import static usp_sp.Utils.Const.*;
@@ -103,7 +104,6 @@ public class GamePanel extends JPanel {
             playerStatsList.get(i).drawStats();
             g2d.setTransform(old);
         }
-
     }
 
     //region Scale and Translate to Center
@@ -140,6 +140,7 @@ public class GamePanel extends JPanel {
         inputMap.put(KeyStroke.getKeyStroke("F"), "NextThrow");
         inputMap.put(KeyStroke.getKeyStroke("Q"), "EndTurn");
         inputMap.put(KeyStroke.getKeyStroke("T"), "Help");
+        inputMap.put(KeyStroke.getKeyStroke("SPACE"), "ThrowDices");
 
         actionMap.put("MoveLeft", new AbstractAction() {
             @Override
@@ -220,14 +221,21 @@ public class GamePanel extends JPanel {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         });
-    }
 
-    private int whoIsPlaying() {
-        return currentPlayer.equals("P1") ? 0 : 1;
+        actionMap.put("ThrowDices", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Pressed SPACE");
+            }
+        });
     }
     //endregion
 
     //region Controls Functions
+    private int whoIsPlaying() {
+        return currentPlayer.equals("P1") ? 0 : 1;
+    }
+
     private int getTheLeftest() {
         int leftest = 0;
         for (int i = 0; i < 6; i++) {
