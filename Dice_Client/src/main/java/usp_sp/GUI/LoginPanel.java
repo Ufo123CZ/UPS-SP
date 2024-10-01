@@ -3,6 +3,10 @@ package usp_sp.GUI;
 import usp_sp.Server.Connection;
 
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +30,25 @@ public class LoginPanel extends JPanel {
         add(nameLabel, gbc);
 
         nameField = new JTextField(13);
+        //region Limit name field to 13 characters
+        ((AbstractDocument) nameField.getDocument()).setDocumentFilter(new DocumentFilter() {
+            private static final int MAX_CHARS = 13;
+
+            @Override
+            public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+                if ((fb.getDocument().getLength() + string.length()) <= MAX_CHARS) {
+                    super.insertString(fb, offset, string, attr);
+                }
+            }
+
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                if ((fb.getDocument().getLength() + text.length() - length) <= MAX_CHARS) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
+        //endregion
         gbc.gridx = 1;
         gbc.gridy = 0;
         add(nameField, gbc);
@@ -35,7 +58,7 @@ public class LoginPanel extends JPanel {
         gbc.gridy = 1;
         add(ipLabel, gbc);
 
-        ipField = new JTextField(20);
+        ipField = new JTextField("localhost",20);
         gbc.gridx = 1;
         gbc.gridy = 1;
         add(ipField, gbc);
@@ -45,7 +68,7 @@ public class LoginPanel extends JPanel {
         gbc.gridy = 2;
         add(portLabel, gbc);
 
-        portField = new JTextField(20);
+        portField = new JTextField("8080", 20);
         gbc.gridx = 1;
         gbc.gridy = 2;
         add(portField, gbc);
@@ -60,7 +83,7 @@ public class LoginPanel extends JPanel {
                     return;
                 }
                 // Check if port is a number
-                if (!portField.getText().matches("[0-9]+")) {
+                if (!portField.getText().matches("[0-9]+") || Integer.parseInt(portField.getText()) < 0 || Integer.parseInt(portField.getText()) > 65535) {
                     JOptionPane.showMessageDialog(window, "Port must be a number", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
