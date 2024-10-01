@@ -1,3 +1,4 @@
 # ninja log v6
-3	928	7493926724176096	CMakeFiles/Dice_Server.dir/main.c.obj	4565e4ec07a3e240
-27	1274	7493935829228531	CMakeFiles/Dice_Server.dir/main.c.obj	4565e4ec07a3e240
+42	908	7494708569566773	CMakeFiles/Dice_Server.dir/main.c.obj	4565e4ec07a3e240
+23	417	7494744748103177	build.ninja	3ca414fa0d45bb0b
+21	1392	7494707516066816	CMakeFiles/Dice_Server.dir/Setup/server.c.obj	2cbc7c50960be052

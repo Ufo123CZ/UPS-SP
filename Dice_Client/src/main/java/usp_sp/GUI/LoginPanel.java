@@ -1,5 +1,7 @@
 package usp_sp.GUI;
 
+import usp_sp.Server.Connection;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -52,18 +54,33 @@ public class LoginPanel extends JPanel {
         connectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Show Lobby screen
+                // Check if all fields are filled
+                if (nameField.getText().isEmpty() || ipField.getText().isEmpty() || portField.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(window, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                // Check if port is a number
+                if (!portField.getText().matches("[0-9]+")) {
+                    JOptionPane.showMessageDialog(window, "Port must be a number", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-                /* TODO: Connect to server and request List for Lobby */
-//                window.showScene("Lobby");
-
+                // Connect to server
+                Connection connection = Connection.getInstance();
+                connection.setServerDetails(ipField.getText(), Integer.parseInt(portField.getText()));
+                if (!connection.checkConnection()) {
+                    JOptionPane.showMessageDialog(window, "Connection failed", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(window, "Connection successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    window.showScene("Lobby");
+                }
                 // Show loading screen
                 //window.showScene("Queue");
 
                 /* TODO: Send on server info that someone joined */
 
                 // Switch to game screen
-                window.showScene("Game");
+//                window.showScene("Game");
             }
         });
         gbc.gridx = 0;
