@@ -27,13 +27,13 @@ public class Connection {
         this.port = port;
     }
 
-    public boolean checkConnection() {
+    public boolean checkConnection(String playerName) {
         try (Socket socket = new Socket(serverAddress, port);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
             // Send a message to the server
-            out.println("Hello from client");
+            out.println("Hello from client " + playerName);
 
             // Read the response from the server
             String response = in.readLine();

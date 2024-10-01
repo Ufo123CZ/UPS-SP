@@ -12,20 +12,28 @@
 #include "server.h"
 #include "../Worker/procces.h"
 
+/**
+* @brief The server thread function that handles incoming connections
+* @param arg The server file descriptor
+*/
 void *server_thread(void *arg) {
+    int server_fd = *(int *)arg;
+    struct sockaddr_in address;
+    int addrlen = sizeof(address);
+
     while (1) {
-        set_up_server();
+        handle_client_connection(server_fd, &address, &addrlen);
     }
     return NULL;
 }
 
+/**
+* @brief Sets up the server and starts it
+*/
 void set_up_server() {
-    int server_fd, new_socket;
+    int server_fd;
     struct sockaddr_in address;
     int opt = 1;
-    int addrlen = sizeof(address);
-    char buffer[BUFFER_SIZE] = {0};
-    char *hello = "Hello from server";
 
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
@@ -58,8 +66,22 @@ void set_up_server() {
         exit(EXIT_FAILURE);
     }
 
+    start_server(server_fd);
+}
+
+/**
+* @brief Handles an incoming connection
+* @param server_fd The server file descriptor
+* @param address The address of the client
+* @param addrlen The length of the address
+*/
+void handle_client_connection(int server_fd, struct sockaddr_in *address, int *addrlen) {
+    int new_socket;
+    char buffer[BUFFER_SIZE] = {0};
+    char *hello = "Hello from server";
+
     // Accepting an incoming connection
-    if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
+    if ((new_socket = accept(server_fd, (struct sockaddr *)address, (socklen_t *)addrlen)) < 0) {
         perror("accept");
         close(server_fd);
         exit(EXIT_FAILURE);
@@ -75,20 +97,22 @@ void set_up_server() {
 
     // Closing the socket
     close(new_socket);
-    close(server_fd);
 }
 
-void start_server() {
+/**
+* @brief Starts the server
+* @param server_fd The server file descriptor
+*/
+void start_server(int server_fd) {
     pthread_t thread_id;
     bool running = true;
 
     // Create a thread to run the server
-    pthread_create(&thread_id, NULL, server_thread, NULL);
+    pthread_create(&thread_id, NULL, server_thread, &server_fd);
 
     // Read input from the console
     char input[BUFFER_SIZE];
     while (running) {
-//        printf("Enter 'exit' to stop the server: \n");
         fgets(input, BUFFER_SIZE, stdin);
         input[strcspn(input, "\n")] = 0;
 
@@ -101,4 +125,6 @@ void start_server() {
     pthread_cancel(thread_id);
     pthread_join(thread_id, NULL);
 
+    // Close the server socket
+    close(server_fd);
 }

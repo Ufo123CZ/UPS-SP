@@ -120,6 +120,7 @@ public class Dice extends Materials {
             g2d.setPaint(color[0]);
             g2d.draw(dice);
         }
+        g2d.setStroke(new BasicStroke(1));
         g2d.setTransform(old);
     }
 

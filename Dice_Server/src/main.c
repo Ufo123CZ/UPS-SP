@@ -7,6 +7,6 @@
 #include "Setup/server.h"
 
 int main() {
-    start_server();
+    set_up_server();
     return 0;
 }

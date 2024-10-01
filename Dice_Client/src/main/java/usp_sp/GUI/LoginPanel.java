@@ -68,7 +68,7 @@ public class LoginPanel extends JPanel {
                 // Connect to server
                 Connection connection = Connection.getInstance();
                 connection.setServerDetails(ipField.getText(), Integer.parseInt(portField.getText()));
-                if (!connection.checkConnection()) {
+                if (!connection.checkConnection(nameField.getText())) {
                     JOptionPane.showMessageDialog(window, "Connection failed", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(window, "Connection successful", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -76,8 +76,6 @@ public class LoginPanel extends JPanel {
                 }
                 // Show loading screen
                 //window.showScene("Queue");
-
-                /* TODO: Send on server info that someone joined */
 
                 // Switch to game screen
 //                window.showScene("Game");
