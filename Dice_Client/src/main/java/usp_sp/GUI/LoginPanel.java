@@ -84,7 +84,7 @@ public class LoginPanel extends JPanel {
                 }
                 // Check if port is a number
                 if (!portField.getText().matches("[0-9]+") || Integer.parseInt(portField.getText()) < 0 || Integer.parseInt(portField.getText()) > 65535) {
-                    JOptionPane.showMessageDialog(window, "Port must be a number", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(window, "Port must be a valid number", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
