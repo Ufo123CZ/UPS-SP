@@ -1,6 +1,7 @@
 package usp_sp.GUI;
 
 import usp_sp.Server.Connection;
+import usp_sp.Server.Messeges;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
@@ -90,8 +91,8 @@ public class LoginPanel extends JPanel {
 
                 // Connect to server
                 Connection connection = Connection.getInstance();
-                connection.setServerDetails(ipField.getText(), Integer.parseInt(portField.getText()));
-                if (!connection.checkConnection(nameField.getText())) {
+                connection.setServerDetails(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText());
+                if (connection.makeConnection(Messeges.LOGIN + nameField.getText())[0].equals(false)) {
                     JOptionPane.showMessageDialog(window, "Connection failed", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(window, "Connection successful", "Success", JOptionPane.INFORMATION_MESSAGE);

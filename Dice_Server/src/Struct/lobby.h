@@ -1,13 +1,21 @@
 #ifndef LOBBY_H
 #define LOBBY_H
 
-struct Lobby {
-    int id;
+#include "player.h"
+#include "state.h"
+
+typedef struct Lobby {
     char *name;
     int maxPlayers;
     int currentPlayers;
-    int gameID;
-    int players[];
-};
+    char *creator;
+    State *state[2];
+    struct Lobby *next;
+} Lobby;
 
-#endif //LOBBY_H
+void add_lobby(Lobby **head, const char *name, Player *creator);
+void remove_lobby(Lobby **head, const char *name);
+void free_lobbies(Lobby **head);
+void print_lobbies(const Lobby *head);
+
+#endif // LOBBY_H

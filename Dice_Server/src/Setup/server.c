@@ -11,6 +11,9 @@
 
 #include "server.h"
 #include "../Worker/procces.h"
+#include "../Struct/player.h"
+
+extern Player *player_list;
 
 /**
 * @brief The server thread function that handles incoming connections
@@ -117,8 +120,11 @@ void start_server(int server_fd) {
         input[strcspn(input, "\n")] = 0;
 
         if (strcmp(input, "exit") == 0) {
+          	free_players(&player_list);
             running = false;
-        }
+        } else if (strcmp(input, "print") == 0) {
+        	print_players(player_list);
+    	}
     }
 
     // Wait for the server thread to finish

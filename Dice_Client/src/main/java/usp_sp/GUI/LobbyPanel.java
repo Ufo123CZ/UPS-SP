@@ -1,5 +1,8 @@
 package usp_sp.GUI;
 
+import usp_sp.Server.Connection;
+import usp_sp.Server.Messeges;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -20,13 +23,18 @@ public class LobbyPanel extends JPanel {
 
     private JTable table;
 
+    private List<String> lobbies;
+
     public LobbyPanel() {
         setLayout(new BorderLayout());
 
-        List<String> lobbies = new ArrayList<>();
+        lobbies = new ArrayList<>();
         /* TODO: Get lobbies from server */
 
         Object[][] data = new Object[lobbies.size()][5];
+
+        Connection connection = Connection.getInstance();
+        connection.makeConnection(Messeges.REQUEST_LOBBY);
 
         for (int i = 0; i < lobbies.size(); i++) {
             String[] lobby = lobbies.get(i).split(";");
@@ -107,7 +115,14 @@ public class LobbyPanel extends JPanel {
             if (lobbyName != null) {
                 // TEMP: Add new lobby to the table
                 /* TODO: Add new lobby to the server */
-                model.addRow(new Object[]{model.getRowCount() + 1, lobbyName, 0 + "/2", "Join", "Delete"});
+                //model.addRow(new Object[]{model.getRowCount() + 1, lobbyName, 0 + "/2", "Join", "Delete"});
+
+                Connection connection = Connection.getInstance();
+                connection.makeConnection(Messeges.CREATE_LOBBY + connection.getPlayerName() + ":" + lobbyName);
+
+                /* TODO: Get lobbies from server */
+                Window window = (Window) SwingUtilities.getWindowAncestor(LobbyPanel.this);
+                window.showScene("Lobby");
             }
         });
         buttonPanel.add(addLobbyButton);
@@ -115,10 +130,22 @@ public class LobbyPanel extends JPanel {
         // Logout button
         JButton logoutButton = new JButton("Logout");
         logoutButton.addActionListener(e -> {
+            Connection connection = Connection.getInstance();
+            connection.makeConnection(Messeges.LOGOUT + connection.getPlayerName());
+
             Window window = (Window) SwingUtilities.getWindowAncestor(LobbyPanel.this);
             window.showScene("Login");
         });
         buttonPanel.add(logoutButton);
+
+        // Refresh button
+        JButton refreshButton = new JButton("Refresh");
+        refreshButton.addActionListener(e -> {
+            Window window = (Window) SwingUtilities.getWindowAncestor(LobbyPanel.this);
+            window.showScene("Lobby");
+        });
+        buttonPanel.add(refreshButton);
+
         return buttonPanel;
     }
 
