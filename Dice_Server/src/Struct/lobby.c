@@ -1,17 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>
+
 #include "lobby.h"
 
-void add_lobby(Lobby **head, const char *name, Player *creator) {
+void add_lobby(Lobby **head, const char *name, char *creator) {
     Lobby *new_lobby = (Lobby *)malloc(sizeof(Lobby));
     if (new_lobby == NULL) {
         return;
     }
-    new_lobby->name = strdup(name);
+    new_lobby->name = strncpy(malloc(strlen(name) + 1), name, strlen(name) + 1);
     new_lobby->maxPlayers = 2;
     new_lobby->currentPlayers = 0;
-    new_lobby->creator = creator;
+    new_lobby->creator = strncpy(malloc(strlen(creator) + 1), creator, strlen(creator) + 1);
     new_lobby->state[0] = NULL;
     new_lobby->state[1] = NULL;
     new_lobby->next = *head;
@@ -45,6 +47,7 @@ void free_lobbies(Lobby **head) {
     while (current != NULL) {
         next = current->next;
         free(current->name);
+        free(current->creator);
         free(current);
         current = next;
     }
@@ -52,12 +55,28 @@ void free_lobbies(Lobby **head) {
     *head = NULL;
 }
 
-void print_lobbies(const Lobby *head) {
+void get_lobbies_info(const Lobby *head, char *buffer, size_t buffer_size) {
     const Lobby *current = head;
-    printf("Lobbies: ");
+    buffer[0] = '\0';
+
     while (current != NULL) {
-        printf("Name: %s, Max Players: %d, Current Players: %d\n", current->name, current->maxPlayers, current->currentPlayers);
+        char lobby_info[256];
+        snprintf(lobby_info, sizeof(lobby_info), "%s:%d:%s;", current->name, current->currentPlayers, current->creator);
+        if (strlen(buffer) + strlen(lobby_info) < buffer_size) {
+            strcat(buffer, lobby_info);
+        } else {
+        	// If the buffer is too small, break the loop
+            break;
+        }
         current = current->next;
     }
-    printf("\n");
+}
+
+void print_lobbies(const Lobby *head) {
+    const Lobby *current = head;
+    printf("Lobbies:\n");
+    while (current != NULL) {
+        printf("Name: %s, Max Players: %d, Current Players: %d, Creator: %s\n", current->name, current->maxPlayers, current->currentPlayers, current->creator);
+        current = current->next;
+    }
 }

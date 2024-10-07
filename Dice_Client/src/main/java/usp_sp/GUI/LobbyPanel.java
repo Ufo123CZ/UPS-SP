@@ -22,36 +22,78 @@ import static usp_sp.Utils.Const.COLUMNS_WIDTH;
 public class LobbyPanel extends JPanel {
 
     private JTable table;
-
-    private List<String> lobbies;
+    private static DefaultTableModel model;
 
     public LobbyPanel() {
         setLayout(new BorderLayout());
 
-        lobbies = new ArrayList<>();
-        /* TODO: Get lobbies from server */
+        List<String[]> lobbies = new ArrayList<>();
 
-        Object[][] data = new Object[lobbies.size()][5];
+        createTable(lobbies, new Object[0][5]);
+        updateTableData(lobbies);
+    }
 
-        Connection connection = Connection.getInstance();
-        connection.makeConnection(Messeges.REQUEST_LOBBY);
+    //region Buttons
+    private JPanel getButtonPanel(DefaultTableModel model) {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        // Add a new lobby
+        JButton addLobbyButton = getjButton();
+        buttonPanel.add(addLobbyButton);
+
+        // Logout button
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.addActionListener(e -> {
+            Connection connection = Connection.getInstance();
+            connection.makeConnection(Messeges.LOGOUT + connection.getPlayerName());
+
+            Window window = (Window) SwingUtilities.getWindowAncestor(LobbyPanel.this);
+            window.showScene("Login");
+        });
+        buttonPanel.add(logoutButton);
+
+        // Refresh button
+        JButton refreshButton = new JButton("Refresh");
+        refreshButton.addActionListener(e -> {
+            List<String[]> lobbies = getDataForTable(Messeges.FETCH_LOBBY);
+            updateTableData(lobbies);
+        });
+        buttonPanel.add(refreshButton);
+
+        return buttonPanel;
+    }
+
+    private JButton getjButton() {
+        JButton addLobbyButton = new JButton("Add Lobby");
+        addLobbyButton.addActionListener(e -> {
+            String lobbyName = JOptionPane.showInputDialog("Enter lobby name:");
+            if (lobbyName != null) {
+                List<String[]> lobbies = getDataForTable(Messeges.CREATE_LOBBY + Connection.getInstance().getPlayerName() + ":" + lobbyName);
+                updateTableData(lobbies);
+            }
+        });
+        return addLobbyButton;
+    }
+    //endregion
+
+    //region Table Creation/Update
+    protected static void updateTableData(List<String[]> lobbies) {
+        // Clear existing data
+        model.setRowCount(0);
 
         for (int i = 0; i < lobbies.size(); i++) {
-            String[] lobby = lobbies.get(i).split(";");
-            data[i] = new Object[]{i + 1, lobby[0], lobby[1] + "/2", "Join", "Delete"};
-
-            /*
-            TODO: lobby[2] is the UID of the lobby owner and if it is not null and matches the UID of the current user, the "Delete" button should be enabled.
-
-            if (!lobby[2].equals(null) && lobby[2].equals("UID")) {
-                data[i] = new Object[]{i + 1, lobby[0], lobby[1] + "/2", "Join", "Delete"};
+            String[] lobby = lobbies.get(i);
+            if (lobby[2].equals(Connection.getInstance().getPlayerName())) {
+                model.addRow(new Object[]{i + 1, lobby[0], lobby[1] + "/2", "Join", "Delete"});
             } else {
-                data[i] = new Object[]{i + 1, lobby[0], lobby[1] + "/2", "Join", ""};
+                model.addRow(new Object[]{i + 1, lobby[0], lobby[1] + "/2", "Join", ""});
             }
-             */
         }
+    }
 
-        DefaultTableModel model = new DefaultTableModel(data, COLUMNS_NAMES) {
+    protected void createTable(List<String[]> lobbies, Object[][] data) {
+        model = new DefaultTableModel(data, COLUMNS_NAMES) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -103,51 +145,29 @@ public class LobbyPanel extends JPanel {
 
         add(buttonPanel, BorderLayout.SOUTH);
     }
+    //endregion
 
-    private JPanel getButtonPanel(DefaultTableModel model) {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+    //region Get data for table
+    protected static List<String[]> getDataForTable(String request) {
 
-        // Add a new lobby
-        JButton addLobbyButton = new JButton("Add Lobby");
-        addLobbyButton.addActionListener(e -> {
-            String lobbyName = JOptionPane.showInputDialog("Enter lobby name:");
-            if (lobbyName != null) {
-                // TEMP: Add new lobby to the table
-                /* TODO: Add new lobby to the server */
-                //model.addRow(new Object[]{model.getRowCount() + 1, lobbyName, 0 + "/2", "Join", "Delete"});
+        Object[] received = Connection.getInstance().makeConnection(request);
 
-                Connection connection = Connection.getInstance();
-                connection.makeConnection(Messeges.CREATE_LOBBY + connection.getPlayerName() + ":" + lobbyName);
+        List<String[]> lobbies = new ArrayList<>();
 
-                /* TODO: Get lobbies from server */
-                Window window = (Window) SwingUtilities.getWindowAncestor(LobbyPanel.this);
-                window.showScene("Lobby");
+        if ((boolean) received[0]) {
+            String information = (String) received[1];
+            String[] lobbiesData = information.split(";");
+
+            for (String lobbyData : lobbiesData) {
+                String[] lobbyDetails = lobbyData.split(":");
+                lobbies.add(lobbyDetails);
             }
-        });
-        buttonPanel.add(addLobbyButton);
-
-        // Logout button
-        JButton logoutButton = new JButton("Logout");
-        logoutButton.addActionListener(e -> {
-            Connection connection = Connection.getInstance();
-            connection.makeConnection(Messeges.LOGOUT + connection.getPlayerName());
-
-            Window window = (Window) SwingUtilities.getWindowAncestor(LobbyPanel.this);
-            window.showScene("Login");
-        });
-        buttonPanel.add(logoutButton);
-
-        // Refresh button
-        JButton refreshButton = new JButton("Refresh");
-        refreshButton.addActionListener(e -> {
-            Window window = (Window) SwingUtilities.getWindowAncestor(LobbyPanel.this);
-            window.showScene("Lobby");
-        });
-        buttonPanel.add(refreshButton);
-
-        return buttonPanel;
+        } else {
+            System.out.println("Failed to retrieve lobbies.");
+        }
+        return lobbies;
     }
+    //endregion
 
     //region Table style
     // Adjust column widths

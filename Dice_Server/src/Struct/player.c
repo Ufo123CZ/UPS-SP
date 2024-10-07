@@ -11,7 +11,7 @@ void add_player(Player **head, const char *name) {
     if (new_player == NULL) {
         return;
     }
-    new_player->name = strdup(name);
+    new_player->name = strncpy(malloc(strlen(name) + 1), name, strlen(name) + 1);
     new_player->next = *head;
     *head = new_player;
 }
@@ -63,7 +63,7 @@ bool player_exists(const Player *head, const char *name) {
 
 void print_players(const Player *head) {
     const Player *current = head;
-    printf("Players: ");
+    printf("Players:\n");
     while (current != NULL) {
         printf("%s ", current->name);
         current = current->next;

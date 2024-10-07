@@ -38,11 +38,11 @@ public class Connection {
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
             // Send a message to the server
-            out.println("Client:" + playerName + " -> " + "Server;" +  information);
+            out.println("Client -> Server;" +  information);
 
             // Read the response from the server
             String response = in.readLine();
-            System.out.println(response);
+//            System.out.println(response);
             return new Object[] {true, response};
 
         } catch (IOException e) {

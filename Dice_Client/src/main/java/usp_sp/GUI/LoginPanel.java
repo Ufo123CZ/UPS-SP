@@ -17,6 +17,7 @@ public class LoginPanel extends JPanel {
     private JTextField ipField;
     private JTextField portField;
     private JButton connectButton;
+    private LobbyPanel lobbyPanel;
 
     public LoginPanel(Window window) {
         setLayout(new GridBagLayout());
@@ -92,17 +93,14 @@ public class LoginPanel extends JPanel {
                 // Connect to server
                 Connection connection = Connection.getInstance();
                 connection.setServerDetails(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText());
-                if (connection.makeConnection(Messeges.LOGIN + nameField.getText())[0].equals(false)) {
+                Object[] response = connection.makeConnection(Messeges.LOGIN + connection.getPlayerName());
+                if (response[0].equals(false)) {
                     JOptionPane.showMessageDialog(window, "Connection failed", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(window, "Connection successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                     window.showScene("Lobby");
+                    LobbyPanel.updateTableData(LobbyPanel.getDataForTable(Messeges.FETCH_LOBBY));
                 }
-                // Show loading screen
-                //window.showScene("Queue");
-
-                // Switch to game screen
-//                window.showScene("Game");
             }
         });
         gbc.gridx = 0;

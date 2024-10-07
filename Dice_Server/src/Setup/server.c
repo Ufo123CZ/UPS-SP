@@ -12,8 +12,10 @@
 #include "server.h"
 #include "../Worker/procces.h"
 #include "../Struct/player.h"
+#include "../Struct/lobby.h"
 
 extern Player *player_list;
+extern Lobby *lobby_list;
 
 /**
 * @brief The server thread function that handles incoming connections
@@ -81,7 +83,7 @@ void set_up_server() {
 void handle_client_connection(int server_fd, struct sockaddr_in *address, int *addrlen) {
     int new_socket;
     char buffer[BUFFER_SIZE] = {0};
-    char *hello = "Hello from server";
+    char output[BUFFER_SIZE] = {0};
 
     // Accepting an incoming connection
     if ((new_socket = accept(server_fd, (struct sockaddr *)address, (socklen_t *)addrlen)) < 0) {
@@ -92,11 +94,18 @@ void handle_client_connection(int server_fd, struct sockaddr_in *address, int *a
 
     // Reading data from the client
     read(new_socket, buffer, BUFFER_SIZE);
+    printf("%s\n", buffer);
+    // remove \n from the end of the buffer
+    if (buffer[strlen(buffer) - 1] == '\n' && buffer[strlen(buffer)] == '\0') {
+        buffer[strlen(buffer) - 2] = '\0';
+//      	printf("Removing \\n from the end of the buffer\n");
+    }
     proccesInput(buffer);
 
     // Sending a response to the client
-    send(new_socket, hello, strlen(hello), 0);
-    proccesOutput(hello);
+    proccesOutput(output);
+    printf("Server -> Client;%s\n", output);
+    send(new_socket, output, strlen(output), 0);
 
     // Closing the socket
     close(new_socket);
@@ -121,9 +130,30 @@ void start_server(int server_fd) {
 
         if (strcmp(input, "exit") == 0) {
           	free_players(&player_list);
+            free_lobbies(&lobby_list);
             running = false;
-        } else if (strcmp(input, "print") == 0) {
+        } else if (strcmp(input, "printP") == 0) {
         	print_players(player_list);
+    	} else if (strcmp(input, "printL") == 0) {
+        	print_lobbies(lobby_list);
+    	} else if (strcmp(input, "testing") == 0) {
+//        	char *test = "word";
+//            char *test2 = "word\n";
+//            printf("Test: %d\n", strlen(test));
+//            printf("Test2: %d\n", strlen(test2));
+//            if (test[strlen(test) - 1] == '\n') {
+//                printf("Test contains \\n\n");
+//            }
+//            if (test2[strlen(test2) - 1] == '\n') {
+//                printf("Test2 contains \\n\n");
+//            }
+//            // \0
+//            if (test[strlen(test)] == '\0') {
+//                printf("Test contains \\0\n");
+//            }
+//            if (test2[strlen(test2)] == '\0') {
+//                printf("Test2 contains \\0\n");
+//            }
     	}
     }
 
