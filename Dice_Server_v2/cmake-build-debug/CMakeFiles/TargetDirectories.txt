@@ -1,0 +1,3 @@
+/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/cmake-build-debug/CMakeFiles/Dice_Server_v2.dir
+/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/cmake-build-debug/CMakeFiles/rebuild_cache.dir

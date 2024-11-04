@@ -91,12 +91,12 @@ public class LoginPanel extends JPanel {
 
                 // Connect to server
                 // Create Socket
-                Connection.getInstance().createSocket();
                 Connection.getInstance().setServerDetails(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText());
+                Connection.getInstance().createSocket();
                 Object[] response = Connection.getInstance().testConnection();
 
                 // Temporary
-                Connection.getInstance().closeSocket();
+//                Connection.getInstance().closeSocket();
                 if (response[0].equals(false)) {
                     JOptionPane.showMessageDialog(window, "Connection failed", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
