@@ -1,5 +1,5 @@
-CMakeFiles/Dice_Server_v2.dir/src/Server/Server.cpp.o: \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Server/Server.cpp \
+CMakeFiles/Dice_Server_v2.dir/src/Server/MessageProcessing.cpp.o: \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Server/MessageProcessing.cpp \
  /usr/include/stdc-predef.h \
  /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Server/Server.h \
  /usr/include/c++/12/vector /usr/include/c++/12/bits/stl_algobase.h \
@@ -180,7 +180,6 @@ CMakeFiles/Dice_Server_v2.dir/src/Server/Server.cpp.o: \
  /usr/include/asm-generic/sockios.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
  /usr/include/netinet/in.h /usr/include/x86_64-linux-gnu/bits/in.h \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Server/../Utils/Consts.h \
  /usr/include/c++/12/iostream /usr/include/c++/12/ostream \
  /usr/include/c++/12/ios /usr/include/c++/12/bits/ios_base.h \
  /usr/include/c++/12/ext/atomicity.h \
@@ -199,16 +198,4 @@ CMakeFiles/Dice_Server_v2.dir/src/Server/Server.cpp.o: \
  /usr/include/c++/12/bits/basic_ios.tcc \
  /usr/include/c++/12/bits/ostream.tcc /usr/include/c++/12/istream \
  /usr/include/c++/12/bits/istream.tcc /usr/include/c++/12/cstring \
- /usr/include/string.h /usr/include/strings.h /usr/include/fcntl.h \
- /usr/include/x86_64-linux-gnu/bits/fcntl.h \
- /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
- /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
- /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
- /usr/include/x86_64-linux-gnu/sys/ioctl.h \
- /usr/include/x86_64-linux-gnu/bits/ioctls.h \
- /usr/include/x86_64-linux-gnu/asm/ioctls.h \
- /usr/include/asm-generic/ioctls.h /usr/include/linux/ioctl.h \
- /usr/include/x86_64-linux-gnu/asm/ioctl.h \
- /usr/include/asm-generic/ioctl.h \
- /usr/include/x86_64-linux-gnu/bits/ioctl-types.h \
- /usr/include/x86_64-linux-gnu/sys/ttydefaults.h
+ /usr/include/string.h /usr/include/strings.h

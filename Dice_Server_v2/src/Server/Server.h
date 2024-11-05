@@ -13,6 +13,12 @@
 #include <unistd.h>
 #endif
 
+#ifdef _WIN32
+typedef SOCKET socket_t;
+#else
+typedef int socket_t;
+#endif
+
 class Server {
 public:
     Server();
@@ -23,14 +29,19 @@ public:
     void stop();
 
 private:
-    void handleClient(int clientSocket);
+    void handleClient(socket_t clientSocket);
     std::atomic<bool> running;
-    int serverSocket;
-    std::vector<int> clientSockets;
+    socket_t serverSocket;
+    std::vector<socket_t> clientSockets;
 
 #ifdef _WIN32
     WSADATA wsaData;
 #endif
 };
+
+namespace MessageProcessing{
+    std::string readMessage(socket_t fd, int a2read);
+    std::string processMessage(const std::string& message);
+}
 
 #endif //SERVER_H

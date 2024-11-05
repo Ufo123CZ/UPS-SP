@@ -10,7 +10,7 @@ std::atomic<bool> runningCLI(true);
 void commandLineInterface(Server &server) {
     ServerCommands::initCommandMap();
     std::string command;
-    std::cout << "Enter a command:" << std::endl;
+    // std::cout << "Enter a command:" << std::endl;
     while (runningCLI) {
         std::string input;
         std::string command, arg1;
@@ -43,9 +43,6 @@ void commandLineInterface(Server &server) {
 int main() {
     Server server;
 
-    // std::thread cliThread(commandLineInterface, std::ref(server));
-    // cliThread.join();
-
     bool result = server.init();
     if (result == FAILURE_INIT) {
         std::cerr << "Server initialization failed" << std::endl;
@@ -53,10 +50,17 @@ int main() {
     }
     std::cout << "Server initialized" << std::endl
                 << "Listening on port " << PORT << std::endl;
+
+    std::thread cliThread(commandLineInterface, std::ref(server));
+
     server.start();
 
     // Stop the server
     server.stop();
+
+    // Join the CLI thread
+    runningCLI = false;
+    cliThread.join();
 
     return 0;
 }

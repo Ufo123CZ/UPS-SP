@@ -54,7 +54,8 @@
 			[
 				0,
 				1,
-				2
+				2,
+				3
 			]
 		}
 	],
@@ -89,16 +90,17 @@
 			[
 				0,
 				1,
-				2
+				2,
+				3
 			]
 		},
 		{
 			"name" : "Header Files",
 			"sourceIndexes" : 
 			[
-				3,
 				4,
-				5
+				5,
+				6
 			]
 		}
 	],
@@ -114,6 +116,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "src/Server/Server.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/Server/MessageProcessing.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

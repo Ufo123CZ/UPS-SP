@@ -129,6 +129,30 @@ Dice_Server_v2/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/build
 .PHONY : Dice_Server_v2/fast
 
+src/Server/MessageProcessing.o: src/Server/MessageProcessing.cpp.o
+.PHONY : src/Server/MessageProcessing.o
+
+# target to build an object file
+src/Server/MessageProcessing.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Server/MessageProcessing.cpp.o
+.PHONY : src/Server/MessageProcessing.cpp.o
+
+src/Server/MessageProcessing.i: src/Server/MessageProcessing.cpp.i
+.PHONY : src/Server/MessageProcessing.i
+
+# target to preprocess a source file
+src/Server/MessageProcessing.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Server/MessageProcessing.cpp.i
+.PHONY : src/Server/MessageProcessing.cpp.i
+
+src/Server/MessageProcessing.s: src/Server/MessageProcessing.cpp.s
+.PHONY : src/Server/MessageProcessing.s
+
+# target to generate assembly for a file
+src/Server/MessageProcessing.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Server/MessageProcessing.cpp.s
+.PHONY : src/Server/MessageProcessing.cpp.s
+
 src/Server/Server.o: src/Server/Server.cpp.o
 .PHONY : src/Server/Server.o
 
@@ -210,6 +234,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Dice_Server_v2"
+	@echo "... src/Server/MessageProcessing.o"
+	@echo "... src/Server/MessageProcessing.i"
+	@echo "... src/Server/MessageProcessing.s"
 	@echo "... src/Server/Server.o"
 	@echo "... src/Server/Server.i"
 	@echo "... src/Server/Server.s"

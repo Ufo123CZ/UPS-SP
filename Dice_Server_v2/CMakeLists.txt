@@ -9,6 +9,7 @@ add_executable(Dice_Server_v2
 
         # Server
         src/Server/Server.cpp
+        src/Server/MessageProcessing.cpp
 
         # Utils
         src/Utils/ServerCommands.cpp

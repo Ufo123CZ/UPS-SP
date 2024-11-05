@@ -3,18 +3,12 @@ package usp_sp.Server;
 public class Messeges {
 
     // Base
-    private static final String base = "dc:";
-    private static final String lobby = "lobby:";
+    private static final String BASE = "dc:";
 
     // Login
-    public static final String LOGIN = base + "login:";
-    public static final String LOGOUT = base + "logout:";
-    // Lobby
-    public static final String CREATE_LOBBY = base + lobby + "create:";
-    public static final String DELETE_LOBBY = base + lobby + "delete:";
-    public static final String FETCH_LOBBY = base + lobby + "fetch:";
-    public static final String JOIN_LOBBY = base + lobby + "join:";
-    public static final String LEAVE_LOBBY = base + lobby + "leave:";
+    public static final String LOGIN = BASE + "login:";
+    public static final String LOGOUT = BASE + "logout:";
+
 
 
 
