@@ -50,17 +50,15 @@ public class Connection {
         }
     }
 
-    public Object[] testConnection() {
+    public Object[] testConnection(String action, String information) {
         try (PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
             // Prepare the message
             // Messeage format: "<lenght>;<Action>;[<Information>]"
-            String Action = Messeges.LOGIN;
-            String Information = playerName;
-            int length = Action.length() + Information.length() + 2;
+            int length = action.length() + information.length() + 2;
             length += String.valueOf(length).length() + 1;
-            String message = length + ";" + Action + ";" + Information;
+            String message = length + ";" + action + ";" + information;
 
             // Send a message to the server
             out.println(message);

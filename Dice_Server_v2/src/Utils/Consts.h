@@ -9,4 +9,9 @@
 #define PORT 8080
 #define MAX_CLIENTS 2
 
+// MESSAGE success/failure
+#define SUCCESS "success"
+#define FAILURE "failure"
+
+
 #endif //CONSTS_H

@@ -41,7 +41,7 @@ private:
 
 namespace MessageProcessing{
     std::string readMessage(socket_t fd, int a2read);
-    std::string processMessage(const std::string& message);
+    std::string processMessage(int fd, const std::string& message);
 }
 
 #endif //SERVER_H

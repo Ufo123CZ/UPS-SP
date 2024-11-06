@@ -11,6 +11,15 @@ add_executable(Dice_Server_v2
         src/Server/Server.cpp
         src/Server/MessageProcessing.cpp
 
+        # Messages
+        src/Messages/MessageFormat.cpp
+        src/Messages/Login.cpp
+        src/Messages/Logout.cpp
+
+        # Data
+        src/Data/DataVectors.cpp
+        src/Data/Player.cpp
+
         # Utils
         src/Utils/ServerCommands.cpp
 
@@ -18,4 +27,7 @@ add_executable(Dice_Server_v2
         src/Server/Server.h
         src/Utils/ServerCommands.h
         src/Utils/Consts.h
+        src/Messages/MessageFormat.h
+        src/Data/DataVectors.h
+        src/Data/Player.h
 )

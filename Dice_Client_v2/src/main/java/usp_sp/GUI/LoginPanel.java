@@ -93,7 +93,7 @@ public class LoginPanel extends JPanel {
                 // Create Socket
                 Connection.getInstance().setServerDetails(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText());
                 Connection.getInstance().createSocket();
-                Object[] response = Connection.getInstance().testConnection();
+                Object[] response = Connection.getInstance().testConnection(Messeges.LOGIN, nameField.getText());
 
                 // Temporary
 //                Connection.getInstance().closeSocket();

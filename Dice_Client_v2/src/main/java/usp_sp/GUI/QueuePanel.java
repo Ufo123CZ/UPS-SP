@@ -1,5 +1,8 @@
 package usp_sp.GUI;
 
+import usp_sp.Server.Connection;
+import usp_sp.Server.Messeges;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -31,6 +34,8 @@ public class QueuePanel extends JPanel {
 
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> {
+            // Send on server info that someone left the Queue
+            Connection.getInstance().testConnection(Messeges.LOGOUT, Connection.getInstance().getPlayerName());
             Window window = (Window) SwingUtilities.getWindowAncestor(this);
             window.showScene("Login");
 

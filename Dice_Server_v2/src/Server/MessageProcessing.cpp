@@ -1,4 +1,5 @@
 #include "Server.h"
+#include "../Messages/MessageFormat.h"
 #include <iostream>
 #include <cstring>
 
@@ -52,9 +53,25 @@ namespace MessageProcessing {
         return "";
     }
 
-    std::string processMessage(const std::string& message) {
-        std::cout << "Processing message: " << message << std::endl;
+    std::string processMessage(int fd, const std::string& message) {
+        // split message into parts (command, information)
+        std::string command = message.substr(0, message.find(';'));
+        std::string information = message.substr(message.find(';') + 1);
 
-        return "TESTING OUT\n";
+        // based on command decide what to do
+        std::string response;
+        auto mfm = MessageFormat::messFormatMap.find(command);
+        if (mfm != MessageFormat::messFormatMap.end()) {
+            response = mfm->second(fd, information);
+        } else {
+            std::cerr << "Invalid message" << std::endl;
+        }
+
+        // Check if response is empty
+        if (response.empty()) {
+            return "";
+        }
+
+        return response;
     }
 }

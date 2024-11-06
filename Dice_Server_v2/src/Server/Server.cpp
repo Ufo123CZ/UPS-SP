@@ -1,5 +1,7 @@
 #include "Server.h"
 #include "../Utils/Consts.h"
+#include "../Messages/MessageFormat.h"
+#include "../Data/DataVectors.h"
 #include <iostream>
 #include <cstring>
 #include <fcntl.h>
@@ -60,6 +62,13 @@ void Server::start() {
     FD_ZERO(&client_socks);
     FD_SET(serverSocket, &client_socks);
 
+    // Initialize the message format
+    MessageFormat::initMessageFormat();
+
+    // Initialize data vectors
+    DataVectors::initDataVectors();
+
+    // Main loop
     while (running) {
         readfds = client_socks;
 
@@ -85,93 +94,26 @@ void Server::start() {
                     int a2read;
                     ioctl(fd, FIONREAD, &a2read);
                     if (a2read > 0) {
-
+                        // Read the message
                         std::string message = MessageProcessing::readMessage(fd, a2read);
                         if (message.empty()) {
                             std::cerr << "Failed to read message" << std::endl;
                             continue;
                         }
-                        std::string response = MessageProcessing::processMessage(message);
-                        if (response.empty()) {
-                            std::cerr << "Failed to process message" << std::endl;
-                            continue;
+                        // Process the message and generate a response
+                        std::string response = MessageProcessing::processMessage(fd, message);
+                        if (response.empty() || response == "\n") {
+                            response = MessageFormat::createFailMessage();
                         }
+                        // Send the response
                         send(fd, response.c_str(), response.size(), 0);
-                        /*
-                        //
-                        // // Variables
-                        // char buffer[12] = {};
-                        // int messageLength = 0;
-                        // std::string messFirst;
-                        // std::string message;
-                        // bool found = false;
-                        //
-                        // // Receive the first 12 bytes
-                        // recv(fd, &buffer, 12, 0);
-                        //
-                        // // Find the message length
-                        // for (const char i : buffer) {
-                        //     if (i == ';') {
-                        //         std::string sLen = buffer;
-                        //         messageLength = std::stoi(sLen.substr(0, sLen.find(';')));
-                        //         messFirst = sLen.substr(sLen.find(';') + 1);
-                        //         found = true;
-                        //         break;
-                        //     }
-                        // }
-                        // if (!found) {
-                        //     std::cerr << "Failed to get message length" << std::endl;
-                        //     continue;
-                        // }
-                        //
-                        // // Receive the rest of the message
-                        // // Clear the buffer
-                        // memset(buffer, 0, sizeof(buffer));
-                        // buffer[messageLength] = {};
-                        // recv(fd, &buffer, messageLength, 0);
-                        // // remove from messFirst \022, \023, \024
-                        // char spec[] = {'\022', '\023', '\024'};
-                        // for (char i : spec) {
-                        //     if (messFirst.find(i) != std::string::npos) {
-                        //         messFirst = messFirst.substr(0, messFirst.find(i));
-                        //         a2read--;
-                        //         messageLength--;
-                        //     }
-                        // }
-                        // message.append(messFirst).append(buffer);
-                        //
-                        // // Proccess the message and Return the response
-                        // std::string response;
-                        // if (messageLength == a2read - 1 && message.size() == messageLength - 1) {
-                        //     response = MessegProccesing::proccessMessage(message);
-                        // }
-                        // // Clear the variables
-                        // message.clear();
-                        // messFirst.clear();
-                        // messageLength = 0;
-
-                        //
-                        // char buffer[12] = {};
-                        // recv(fd, &buffer, 5, 0);
-                        // std::cout << "Received: " << buffer << std::endl;
-                        //
-                        // //find char ';' in the buffer
-                        // char *p = strchr(buffer, ';');
-                        //     lenght
-                        // }
-                        // message += buffer;
-                        // if (buffer == '\n' || buffer == '\0') {
-                        //     MessegProccesing::proccessMessage(message);
-                        //     message.clear();
-                        // }
-                        // char *response = "Message received. Hello from server!\n";
-                        // send(fd, response, strlen(response), 0);
-                        */
-                    } else {
-                        close(fd);
-                        FD_CLR(fd, &client_socks);
-                        std::cout << "Client disconnected and removed from socket set" << std::endl;
                     }
+                    // Close the socket
+                    // else {
+                    //     close(fd);
+                    //     FD_CLR(fd, &client_socks);
+                    //     std::cout << "Client disconnected and removed from socket set" << std::endl;
+                    // }
                 }
             }
         }

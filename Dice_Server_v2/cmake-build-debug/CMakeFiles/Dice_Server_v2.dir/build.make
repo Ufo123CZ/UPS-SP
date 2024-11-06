@@ -111,10 +111,80 @@ CMakeFiles/Dice_Server_v2.dir/src/Server/MessageProcessing.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Dice_Server_v2.dir/src/Server/MessageProcessing.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Server/MessageProcessing.cpp -o CMakeFiles/Dice_Server_v2.dir/src/Server/MessageProcessing.cpp.s
 
+CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.o: CMakeFiles/Dice_Server_v2.dir/flags.make
+CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageFormat.cpp
+CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.o: CMakeFiles/Dice_Server_v2.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.o -MF CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.o.d -o CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.o -c /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageFormat.cpp
+
+CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageFormat.cpp > CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.i
+
+CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageFormat.cpp -o CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.s
+
+CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.o: CMakeFiles/Dice_Server_v2.dir/flags.make
+CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/Login.cpp
+CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.o: CMakeFiles/Dice_Server_v2.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.o -MF CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.o.d -o CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.o -c /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/Login.cpp
+
+CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/Login.cpp > CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.i
+
+CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/Login.cpp -o CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.s
+
+CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.o: CMakeFiles/Dice_Server_v2.dir/flags.make
+CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/Logout.cpp
+CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.o: CMakeFiles/Dice_Server_v2.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.o -MF CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.o.d -o CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.o -c /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/Logout.cpp
+
+CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/Logout.cpp > CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.i
+
+CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/Logout.cpp -o CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.s
+
+CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.o: CMakeFiles/Dice_Server_v2.dir/flags.make
+CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/DataVectors.cpp
+CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.o: CMakeFiles/Dice_Server_v2.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.o -MF CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.o.d -o CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.o -c /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/DataVectors.cpp
+
+CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/DataVectors.cpp > CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.i
+
+CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/DataVectors.cpp -o CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.s
+
+CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.o: CMakeFiles/Dice_Server_v2.dir/flags.make
+CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/Player.cpp
+CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.o: CMakeFiles/Dice_Server_v2.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.o -MF CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.o.d -o CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.o -c /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/Player.cpp
+
+CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/Player.cpp > CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.i
+
+CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/Player.cpp -o CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.s
+
 CMakeFiles/Dice_Server_v2.dir/src/Utils/ServerCommands.cpp.o: CMakeFiles/Dice_Server_v2.dir/flags.make
 CMakeFiles/Dice_Server_v2.dir/src/Utils/ServerCommands.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Utils/ServerCommands.cpp
 CMakeFiles/Dice_Server_v2.dir/src/Utils/ServerCommands.cpp.o: CMakeFiles/Dice_Server_v2.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Dice_Server_v2.dir/src/Utils/ServerCommands.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Dice_Server_v2.dir/src/Utils/ServerCommands.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Dice_Server_v2.dir/src/Utils/ServerCommands.cpp.o -MF CMakeFiles/Dice_Server_v2.dir/src/Utils/ServerCommands.cpp.o.d -o CMakeFiles/Dice_Server_v2.dir/src/Utils/ServerCommands.cpp.o -c /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Utils/ServerCommands.cpp
 
 CMakeFiles/Dice_Server_v2.dir/src/Utils/ServerCommands.cpp.i: cmake_force
@@ -130,6 +200,11 @@ Dice_Server_v2_OBJECTS = \
 "CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o" \
 "CMakeFiles/Dice_Server_v2.dir/src/Server/Server.cpp.o" \
 "CMakeFiles/Dice_Server_v2.dir/src/Server/MessageProcessing.cpp.o" \
+"CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.o" \
+"CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.o" \
+"CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.o" \
+"CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.o" \
+"CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.o" \
 "CMakeFiles/Dice_Server_v2.dir/src/Utils/ServerCommands.cpp.o"
 
 # External object files for target Dice_Server_v2
@@ -138,10 +213,15 @@ Dice_Server_v2_EXTERNAL_OBJECTS =
 Dice_Server_v2: CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o
 Dice_Server_v2: CMakeFiles/Dice_Server_v2.dir/src/Server/Server.cpp.o
 Dice_Server_v2: CMakeFiles/Dice_Server_v2.dir/src/Server/MessageProcessing.cpp.o
+Dice_Server_v2: CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.o
+Dice_Server_v2: CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.o
+Dice_Server_v2: CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.o
+Dice_Server_v2: CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.o
+Dice_Server_v2: CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.o
 Dice_Server_v2: CMakeFiles/Dice_Server_v2.dir/src/Utils/ServerCommands.cpp.o
 Dice_Server_v2: CMakeFiles/Dice_Server_v2.dir/build.make
 Dice_Server_v2: CMakeFiles/Dice_Server_v2.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable Dice_Server_v2"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable Dice_Server_v2"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Dice_Server_v2.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
