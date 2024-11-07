@@ -1,6 +1,7 @@
 package usp_sp.Server;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,7 +16,8 @@ public class Connection {
     private int port = 0;
     @Getter
     private String playerName = "";
-    private int state = 0;
+    @Getter @Setter
+    private int status = -1;
 
     // Socket
     private Socket socket;
@@ -33,10 +35,11 @@ public class Connection {
         return instance;
     }
 
-    public void setServerDetails(String serverAddress, int port, String playerName) {
+    public void setServerDetails(String serverAddress, int port, String playerName, int status) {
         this.serverAddress = serverAddress;
         this.port = port;
         this.playerName = playerName;
+        this.status = status;
     }
 
     public void openSocket() {
@@ -59,7 +62,7 @@ public class Connection {
         }
     }
 
-    public Object[] testConnection(String action, String information) {
+    public Object[] makeContact(String action, String information) {
         try {
             // Prepare the message
             // Messeage format: "<lenght>;<Action>;[<Information>]"
@@ -80,40 +83,4 @@ public class Connection {
         }
         return new Object[] {false, ""};
     }
-
-//    public Object[] makeConnection() {
-////        try (Socket socket = new Socket(serverAddress, port);
-////             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-////             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-////
-////            // Send a message to the server
-////            out.println("Client -> Server;" +  information);
-////
-////            // Read the response from the server
-////            String response = in.readLine();
-//////            System.out.println(response);
-////            return new Object[] {true, response};
-////
-////        } catch (IOException e) {
-////            return new Object[] {false, ""};
-////        }
-//        return new Object[] {true, "Hello from client"};
-//    }
-
-//    public void connectToServer() throws IOException {
-//        try (Socket socket = new Socket(serverAddress, port);
-//             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-//             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-//
-//            // Send a message to the server
-//            out.println("Hello from client");
-//
-//            // Read the response from the server
-//            String response = in.readLine();
-//            System.out.println("Message from server: " + response);
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }

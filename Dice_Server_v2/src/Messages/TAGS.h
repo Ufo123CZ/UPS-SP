@@ -7,10 +7,22 @@
 // TAGS OUT
 #define BASE_OUT "ds:"
 
-// TAGS
+// TAGS GENERAL
+#define QUEUE "queue:"
+#define GAME "game:"
+
+// TAGS FAIL
 #define FAIL "fail:"
+
+// TAGS LOGIN
 #define LOGIN "login:"
 #define LOGOUT "logout:"
+
+// TAGS QUEUE
+#define QUEUE_STATUS "status:"
+#define QUEUE_WAIT_INFO "wait"
+#define QUEUE_START_INFO "start"
+
 
 
 #endif //TAGS_H

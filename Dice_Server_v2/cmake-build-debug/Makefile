@@ -153,6 +153,30 @@ src/Data/DataVectors.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.s
 .PHONY : src/Data/DataVectors.cpp.s
 
+src/Data/Game.o: src/Data/Game.cpp.o
+.PHONY : src/Data/Game.o
+
+# target to build an object file
+src/Data/Game.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Data/Game.cpp.o
+.PHONY : src/Data/Game.cpp.o
+
+src/Data/Game.i: src/Data/Game.cpp.i
+.PHONY : src/Data/Game.i
+
+# target to preprocess a source file
+src/Data/Game.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Data/Game.cpp.i
+.PHONY : src/Data/Game.cpp.i
+
+src/Data/Game.s: src/Data/Game.cpp.s
+.PHONY : src/Data/Game.s
+
+# target to generate assembly for a file
+src/Data/Game.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Data/Game.cpp.s
+.PHONY : src/Data/Game.cpp.s
+
 src/Data/Player.o: src/Data/Player.cpp.o
 .PHONY : src/Data/Player.o
 
@@ -177,54 +201,6 @@ src/Data/Player.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.s
 .PHONY : src/Data/Player.cpp.s
 
-src/Messages/Login.o: src/Messages/Login.cpp.o
-.PHONY : src/Messages/Login.o
-
-# target to build an object file
-src/Messages/Login.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.o
-.PHONY : src/Messages/Login.cpp.o
-
-src/Messages/Login.i: src/Messages/Login.cpp.i
-.PHONY : src/Messages/Login.i
-
-# target to preprocess a source file
-src/Messages/Login.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.i
-.PHONY : src/Messages/Login.cpp.i
-
-src/Messages/Login.s: src/Messages/Login.cpp.s
-.PHONY : src/Messages/Login.s
-
-# target to generate assembly for a file
-src/Messages/Login.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.s
-.PHONY : src/Messages/Login.cpp.s
-
-src/Messages/Logout.o: src/Messages/Logout.cpp.o
-.PHONY : src/Messages/Logout.o
-
-# target to build an object file
-src/Messages/Logout.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.o
-.PHONY : src/Messages/Logout.cpp.o
-
-src/Messages/Logout.i: src/Messages/Logout.cpp.i
-.PHONY : src/Messages/Logout.i
-
-# target to preprocess a source file
-src/Messages/Logout.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.i
-.PHONY : src/Messages/Logout.cpp.i
-
-src/Messages/Logout.s: src/Messages/Logout.cpp.s
-.PHONY : src/Messages/Logout.s
-
-# target to generate assembly for a file
-src/Messages/Logout.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/Logout.cpp.s
-.PHONY : src/Messages/Logout.cpp.s
-
 src/Messages/MessageFormat.o: src/Messages/MessageFormat.cpp.o
 .PHONY : src/Messages/MessageFormat.o
 
@@ -248,6 +224,78 @@ src/Messages/MessageFormat.s: src/Messages/MessageFormat.cpp.s
 src/Messages/MessageFormat.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.s
 .PHONY : src/Messages/MessageFormat.cpp.s
+
+src/Messages/MessageTypes/Login.o: src/Messages/MessageTypes/Login.cpp.o
+.PHONY : src/Messages/MessageTypes/Login.o
+
+# target to build an object file
+src/Messages/MessageTypes/Login.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Login.cpp.o
+.PHONY : src/Messages/MessageTypes/Login.cpp.o
+
+src/Messages/MessageTypes/Login.i: src/Messages/MessageTypes/Login.cpp.i
+.PHONY : src/Messages/MessageTypes/Login.i
+
+# target to preprocess a source file
+src/Messages/MessageTypes/Login.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Login.cpp.i
+.PHONY : src/Messages/MessageTypes/Login.cpp.i
+
+src/Messages/MessageTypes/Login.s: src/Messages/MessageTypes/Login.cpp.s
+.PHONY : src/Messages/MessageTypes/Login.s
+
+# target to generate assembly for a file
+src/Messages/MessageTypes/Login.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Login.cpp.s
+.PHONY : src/Messages/MessageTypes/Login.cpp.s
+
+src/Messages/MessageTypes/Logout.o: src/Messages/MessageTypes/Logout.cpp.o
+.PHONY : src/Messages/MessageTypes/Logout.o
+
+# target to build an object file
+src/Messages/MessageTypes/Logout.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Logout.cpp.o
+.PHONY : src/Messages/MessageTypes/Logout.cpp.o
+
+src/Messages/MessageTypes/Logout.i: src/Messages/MessageTypes/Logout.cpp.i
+.PHONY : src/Messages/MessageTypes/Logout.i
+
+# target to preprocess a source file
+src/Messages/MessageTypes/Logout.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Logout.cpp.i
+.PHONY : src/Messages/MessageTypes/Logout.cpp.i
+
+src/Messages/MessageTypes/Logout.s: src/Messages/MessageTypes/Logout.cpp.s
+.PHONY : src/Messages/MessageTypes/Logout.s
+
+# target to generate assembly for a file
+src/Messages/MessageTypes/Logout.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Logout.cpp.s
+.PHONY : src/Messages/MessageTypes/Logout.cpp.s
+
+src/Messages/MessageTypes/Queue.o: src/Messages/MessageTypes/Queue.cpp.o
+.PHONY : src/Messages/MessageTypes/Queue.o
+
+# target to build an object file
+src/Messages/MessageTypes/Queue.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Queue.cpp.o
+.PHONY : src/Messages/MessageTypes/Queue.cpp.o
+
+src/Messages/MessageTypes/Queue.i: src/Messages/MessageTypes/Queue.cpp.i
+.PHONY : src/Messages/MessageTypes/Queue.i
+
+# target to preprocess a source file
+src/Messages/MessageTypes/Queue.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Queue.cpp.i
+.PHONY : src/Messages/MessageTypes/Queue.cpp.i
+
+src/Messages/MessageTypes/Queue.s: src/Messages/MessageTypes/Queue.cpp.s
+.PHONY : src/Messages/MessageTypes/Queue.s
+
+# target to generate assembly for a file
+src/Messages/MessageTypes/Queue.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Queue.cpp.s
+.PHONY : src/Messages/MessageTypes/Queue.cpp.s
 
 src/Server/MessageProcessing.o: src/Server/MessageProcessing.cpp.o
 .PHONY : src/Server/MessageProcessing.o
@@ -357,18 +405,24 @@ help:
 	@echo "... src/Data/DataVectors.o"
 	@echo "... src/Data/DataVectors.i"
 	@echo "... src/Data/DataVectors.s"
+	@echo "... src/Data/Game.o"
+	@echo "... src/Data/Game.i"
+	@echo "... src/Data/Game.s"
 	@echo "... src/Data/Player.o"
 	@echo "... src/Data/Player.i"
 	@echo "... src/Data/Player.s"
-	@echo "... src/Messages/Login.o"
-	@echo "... src/Messages/Login.i"
-	@echo "... src/Messages/Login.s"
-	@echo "... src/Messages/Logout.o"
-	@echo "... src/Messages/Logout.i"
-	@echo "... src/Messages/Logout.s"
 	@echo "... src/Messages/MessageFormat.o"
 	@echo "... src/Messages/MessageFormat.i"
 	@echo "... src/Messages/MessageFormat.s"
+	@echo "... src/Messages/MessageTypes/Login.o"
+	@echo "... src/Messages/MessageTypes/Login.i"
+	@echo "... src/Messages/MessageTypes/Login.s"
+	@echo "... src/Messages/MessageTypes/Logout.o"
+	@echo "... src/Messages/MessageTypes/Logout.i"
+	@echo "... src/Messages/MessageTypes/Logout.s"
+	@echo "... src/Messages/MessageTypes/Queue.o"
+	@echo "... src/Messages/MessageTypes/Queue.i"
+	@echo "... src/Messages/MessageTypes/Queue.s"
 	@echo "... src/Server/MessageProcessing.o"
 	@echo "... src/Server/MessageProcessing.i"
 	@echo "... src/Server/MessageProcessing.s"

@@ -13,6 +13,10 @@ void ServerCommands::initCommandMap() {
     commandMap = {
         {"players", [](Server &server, std::string&) {
             // Print all players
+            if (DataVectors::players.empty()) {
+                std::cout << "No players are logged in." << std::endl;
+                return;
+            }
             int i = 0;
             for (const Player &player : DataVectors::players) {
                 std::cout << "Player " << ++i << ": " << std::endl
@@ -21,6 +25,21 @@ void ServerCommands::initCommandMap() {
                 << "Status: " << player.status << std::endl
                 << "Socket: " << player.fd << std::endl;
             }
+        }},
+        {"game", [](Server &server, std::string&) {
+            // Print the game
+            if (DataVectors::game != nullptr) {
+                std::cout << "Game exists." << std::endl;
+                std::cout << "Players: " << std::endl;
+                for (const Player &player : DataVectors::game->gamePlayers) {
+                    std::cout << "Name: " << player.name << std::endl;
+                }
+            } else {
+                std::cout << "No game exists." << std::endl;
+            }
+        }},
+        {"stop", [](Server &server, std::string&) {
+            server.stop();
         }},
         {"exit", [](Server &server, std::string&) {
             server.stop();

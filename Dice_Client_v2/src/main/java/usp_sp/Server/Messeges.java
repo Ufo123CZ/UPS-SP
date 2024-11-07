@@ -4,6 +4,7 @@ public class Messeges {
 
     // Base
     private static final String BASE = "dc:";
+    private static final String BASE_QUEUE = "queue:";
     private static final String BASE_GAME = "game:";
 
     // Login
@@ -11,7 +12,7 @@ public class Messeges {
     public static final String LOGOUT = BASE + "logout:";
 
     // Game
-    public static final String GAME_STATUS = BASE + BASE_GAME + "status:";
+    public static final String QUEUE_STATUS = BASE + BASE_QUEUE + "status:";
 
 
 

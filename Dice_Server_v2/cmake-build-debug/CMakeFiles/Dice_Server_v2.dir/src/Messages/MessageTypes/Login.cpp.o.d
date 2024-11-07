@@ -1,7 +1,7 @@
-CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.o: \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/Login.cpp \
+CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Login.cpp.o: \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/Login.cpp \
  /usr/include/stdc-predef.h \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageFormat.h \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../MessageFormat.h \
  /usr/include/c++/12/unordered_map /usr/include/c++/12/type_traits \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/os_defines.h \
@@ -176,9 +176,9 @@ CMakeFiles/Dice_Server_v2.dir/src/Messages/Login.cpp.o: \
  /usr/include/c++/12/bits/basic_ios.tcc \
  /usr/include/c++/12/bits/ostream.tcc /usr/include/c++/12/istream \
  /usr/include/c++/12/bits/istream.tcc \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/../Data/Player.h \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/../Data/DataVectors.h \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/../Data/Player.h \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/../Data/Game.h \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/../Messages/TAGS.h \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/../Utils/Consts.h
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Data/Player.h \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Data/DataVectors.h \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Data/Player.h \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Data/Game.h \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Messages/TAGS.h \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Utils/Consts.h

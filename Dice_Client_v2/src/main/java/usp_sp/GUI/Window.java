@@ -27,5 +27,11 @@ public class Window extends JFrame {
 
     public void showScene(String sceneName) {
         cardLayout.show(mainPanel, sceneName);
+
+        if (sceneName.equals("Queue")) {
+            QueuePanel queuePanel = (QueuePanel) mainPanel.getComponent(1);
+            queuePanel.getTimer().start();
+        }
+
     }
 }

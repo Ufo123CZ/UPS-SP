@@ -8,6 +8,7 @@ Player::Player(const int fd, const std::string &name, const int status, const in
     this->score = score;
 }
 
-Player::~Player() {
-    std::cout << "Player " << name << " has been deleted." << std::endl;
-}
+// Destructor
+// Player::~Player() {
+//     std::cout << "Player " << this->name << " has been deleted." << std::endl;
+// }

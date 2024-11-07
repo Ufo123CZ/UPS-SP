@@ -11,6 +11,8 @@ void MessageFormat::initMessageFormat() {
     tagLogin.append(BASE_IN).append(LOGIN);
     std::string tagLogout;
     tagLogout.append(BASE_IN).append(LOGOUT);
+    std::string tagQueueStatus;
+    tagQueueStatus.append(BASE_IN).append(QUEUE).append(QUEUE_STATUS);
 
     messFormatMap = {
         {tagLogin, [](int fd, std::string& information) -> std::string {
@@ -18,6 +20,9 @@ void MessageFormat::initMessageFormat() {
         }},
         {tagLogout, [](int fd, std::string& information) -> std::string {
             return Logout::logout(fd, information);
+        }},
+        {tagQueueStatus, [](int fd, std::string&) -> std::string {
+            return Queue::status(fd);
         }}
     };
 }

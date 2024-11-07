@@ -11,7 +11,7 @@ public:
     int status; // -1 = disconnected, 0 = queue, 1 = playing
     int score;
 
-    ~Player();
+    // ~Player();
 };
 
 

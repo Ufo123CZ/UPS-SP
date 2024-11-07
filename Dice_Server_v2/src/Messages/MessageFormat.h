@@ -21,5 +21,8 @@ namespace Login {
 namespace Logout {
     std::string logout(int fd, std::string& information);
 }
+namespace Queue {
+    std::string status(int fd);
+}
 
 #endif //MESSAGEFORMAT_H

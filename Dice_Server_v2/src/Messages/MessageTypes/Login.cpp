@@ -1,8 +1,8 @@
-#include "MessageFormat.h"
-#include "../Data/Player.h"
-#include "../Data/DataVectors.h"
-#include "../Messages/TAGS.h"
-#include "../Utils/Consts.h"
+#include "../MessageFormat.h"
+#include "../../Data/Player.h"
+#include "../../Data/DataVectors.h"
+#include "../../Messages/TAGS.h"
+#include "../../Utils/Consts.h"
 
 namespace Login {
     std::string login(const int fd, std::string& information) {
@@ -17,8 +17,9 @@ namespace Login {
             name = name.substr(0, name.find('\r'));
         }
 
-        Player* player = new Player(fd, name, 0, 0);
+        auto *player = new Player(fd, name, 0, 0);
         DataVectors::players.push_back(*player);
+
 
         std::cout << "Player " << name << " has logged in." << std::endl;
 
@@ -26,7 +27,9 @@ namespace Login {
         const std::string tag1 = BASE_OUT;
         const std::string tag2 = LOGIN;
         const std::string info = SUCCESS;
-        std::string tag = tag.append(tag1).append(tag2);
+        std::string tag;
+        tag.append(tag1).append(tag2);
+
         return MessageFormat::prepareResponse(info, tag);
     }
 }

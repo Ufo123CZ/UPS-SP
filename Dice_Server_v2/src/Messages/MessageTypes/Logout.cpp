@@ -1,13 +1,12 @@
-#include "MessageFormat.h"
-#include "TAGS.h"
-#include "../Utils/Consts.h"
-#include "../Data/DataVectors.h"
-#include "../Data/Player.h"
+#include "../MessageFormat.h"
+#include "../TAGS.h"
+#include "../../Utils/Consts.h"
+#include "../../Data/DataVectors.h"
+#include "../../Data/Player.h"
 
 
 namespace Logout {
     std::string logout(int fd, std::string& information) {
-
         // Process the logout information
         std::string name = information.substr(0, information.find(';'));
 
@@ -21,7 +20,8 @@ namespace Logout {
 
         // Remove player from the vector
         for (int i = 0; i < DataVectors::players.size(); i++) {
-            if (DataVectors::players[i].name == name) {
+            if (DataVectors::players[i].fd == fd) {
+                // Remove the pointer from the vector
                 DataVectors::players.erase(DataVectors::players.begin() + i);
                 break;
             }
@@ -34,7 +34,8 @@ namespace Logout {
         const std::string tag1 = BASE_OUT;
         const std::string tag2 = LOGOUT;
         const std::string info = SUCCESS;
-        std::string tag = tag.append(tag1).append(tag2);
+        std::string tag;
+        tag.append(tag1).append(tag2);
 
         return MessageFormat::prepareResponse(info, tag);
     }
