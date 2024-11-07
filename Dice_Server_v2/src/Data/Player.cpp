@@ -9,5 +9,5 @@ Player::Player(const int fd, const std::string &name, const int status, const in
 }
 
 Player::~Player() {
-    std::cout << "Player " << name << " has been destroyed." << std::endl;
+    std::cout << "Player " << name << " has been deleted." << std::endl;
 }

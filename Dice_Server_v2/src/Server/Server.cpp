@@ -2,6 +2,7 @@
 #include "../Utils/Consts.h"
 #include "../Messages/MessageFormat.h"
 #include "../Data/DataVectors.h"
+#include "../Messages/TAGS.h"
 #include <iostream>
 #include <cstring>
 #include <fcntl.h>
@@ -105,15 +106,15 @@ void Server::start() {
                         if (response.empty() || response == "\n") {
                             response = MessageFormat::createFailMessage();
                         }
+                        // Message contains the command logout close the socket
+                        if (message.find(LOGOUT) != std::string::npos) {
+                            close(fd);
+                            FD_CLR(fd, &client_socks);
+                            std::cout << "Client disconnected and removed from socket set" << std::endl;
+                        }
                         // Send the response
                         send(fd, response.c_str(), response.size(), 0);
                     }
-                    // Close the socket
-                    // else {
-                    //     close(fd);
-                    //     FD_CLR(fd, &client_socks);
-                    //     std::cout << "Client disconnected and removed from socket set" << std::endl;
-                    // }
                 }
             }
         }

@@ -35,7 +35,9 @@ public class QueuePanel extends JPanel {
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> {
             // Send on server info that someone left the Queue
+//            Connection.getInstance().openSocket();
             Connection.getInstance().testConnection(Messeges.LOGOUT, Connection.getInstance().getPlayerName());
+            Connection.getInstance().closeSocket();
             Window window = (Window) SwingUtilities.getWindowAncestor(this);
             window.showScene("Login");
 

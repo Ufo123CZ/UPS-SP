@@ -11,10 +11,17 @@ namespace Logout {
         // Process the logout information
         std::string name = information.substr(0, information.find(';'));
 
+        // Trim name of \n and \r
+        if (name.find('\n') != std::string::npos) {
+            name = name.substr(0, name.find('\n'));
+        }
+        if (name.find('\r') != std::string::npos) {
+            name = name.substr(0, name.find('\r'));
+        }
+
         // Remove player from the vector
         for (int i = 0; i < DataVectors::players.size(); i++) {
-            if (DataVectors::players[i].fd == fd) {
-                DataVectors::players[i].~Player();
+            if (DataVectors::players[i].name == name) {
                 DataVectors::players.erase(DataVectors::players.begin() + i);
                 break;
             }
@@ -25,9 +32,10 @@ namespace Logout {
 
         // prepare response and return
         const std::string tag1 = BASE_OUT;
-        const std::string tag2 = LOGIN;
+        const std::string tag2 = LOGOUT;
+        const std::string info = SUCCESS;
         std::string tag = tag.append(tag1).append(tag2);
 
-        return MessageFormat::prepareResponse(LOGOUT, tag);
+        return MessageFormat::prepareResponse(info, tag);
     }
 }

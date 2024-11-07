@@ -10,13 +10,17 @@ import java.net.Socket;
 
 public class Connection {
 
+    // Server details
     private String serverAddress = "";
     private int port = 0;
     @Getter
     private String playerName = "";
+    private int state = 0;
 
     // Socket
     private Socket socket;
+    private PrintWriter out;
+    private BufferedReader in;
 
     // Singleton
     private static Connection instance = null;
@@ -35,25 +39,28 @@ public class Connection {
         this.playerName = playerName;
     }
 
-    public void createSocket() {
+    public void openSocket() {
         try {
             socket = new Socket(serverAddress, port);
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public void closeSocket() {
         try {
-            socket.close();
+            if (out != null) out.close();
+            if (in != null) in.close();
+            if (socket != null) socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public Object[] testConnection(String action, String information) {
-        try (PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-
+        try {
             // Prepare the message
             // Messeage format: "<lenght>;<Action>;[<Information>]"
             int length = action.length() + information.length() + 2;
