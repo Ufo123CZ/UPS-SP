@@ -24,12 +24,9 @@ namespace Login {
         std::cout << "Player " << name << " has logged in." << std::endl;
 
         // prepare response and return
-        const std::string tag1 = BASE_OUT;
-        const std::string tag2 = LOGIN;
-        const std::string info = SUCCESS;
         std::string tag;
-        tag.append(tag1).append(tag2);
+        tag.append(BASE_LOGIN).append(LOGIN);
 
-        return MessageFormat::prepareResponse(info, tag);
+        return MessageFormat::prepareResponse(SUCCESS, tag);
     }
 }

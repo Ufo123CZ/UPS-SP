@@ -1,28 +1,34 @@
 #include "Server.h"
 #include "../Messages/MessageFormat.h"
+#include "../Utils/Consts.h"
 #include <iostream>
 #include <cstring>
 
 namespace MessageProcessing {
     std::string readMessage(const socket_t fd, int a2read) {
         // Variables
-        char buffer[12] = {};
+        char buffer[INIT_BUFFER_SIZE] = {};
         int messageLength = 0;
         std::string messFirst;
         std::string message;
         bool found = false;
 
-        // Receive the first 12 bytes
-        recv(fd, &buffer, 12, 0);
+        // Receive the first 8 bytes
+        recv(fd, &buffer, 8, 0);
 
         // Find the message length
+        int required = 0;
         for (const char i : buffer) {
+            // Check if there is 2 times ';'
             if (i == ';') {
-                std::string sLen = buffer;
-                messageLength = std::stoi(sLen.substr(0, sLen.find(';')));
-                messFirst = sLen.substr(sLen.find(';') + 1);
-                found = true;
-                break;
+                required++;
+                if (required == 2) {
+                    std::string temp(buffer);
+                    std::string messLenStr = temp.substr(temp.find(';') + 1, temp.find_last_of(';') - temp.find(';') - 1);
+                    messageLength = std::stoi(messLenStr);
+                    found = true;
+                    break;
+                }
             }
         }
         if (!found) {
@@ -35,22 +41,20 @@ namespace MessageProcessing {
         memset(buffer, 0, sizeof(buffer));
         buffer[messageLength] = {};
         recv(fd, &buffer, messageLength, 0);
-        // remove from messFirst \022, \023, \024
-        char spec[] = {'\022', '\023', '\024'};
-        for (char i : spec) {
-            if (messFirst.find(i) != std::string::npos) {
-                messFirst = messFirst.substr(0, messFirst.find(i));
-                a2read--;
-                messageLength--;
-            }
-        }
-        message.append(messFirst).append(buffer);
+        message.append(buffer);
 
-        // Process the message and Return
-        if (messageLength == a2read - 1) {
-            return message;
+        // remove /n from the end
+        if (message[message.length() - 1] == '\n') {
+            message = message.substr(0, message.length() - 1);
         }
-        return "";
+        // remove /r from the end
+        if (message[message.length() - 1] == '\r') {
+            message = message.substr(0, message.length() - 1);
+        }
+
+        if (message.empty()) return "";
+
+        return message;
     }
 
     std::string processMessage(int fd, const std::string& message) {

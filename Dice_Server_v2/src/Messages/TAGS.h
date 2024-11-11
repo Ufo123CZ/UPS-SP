@@ -2,21 +2,25 @@
 #define TAGS_H
 
 // TAGS IN
-#define BASE_IN "dc:"
+#define BASE_IN "dc"
 
 // TAGS OUT
-#define BASE_OUT "ds:"
+#define BASE_OUT "ds"
 
 // TAGS GENERAL
 #define QUEUE "queue:"
 #define GAME "game:"
 
+// TAGS
+#define PING "ping:"
+
 // TAGS FAIL
 #define FAIL "fail:"
 
 // TAGS LOGIN
-#define LOGIN "login:"
-#define LOGOUT "logout:"
+#define BASE_LOGIN "log:"
+#define LOGIN "in:"
+#define LOGOUT "out:"
 
 // TAGS QUEUE
 #define QUEUE_STATUS "status:"

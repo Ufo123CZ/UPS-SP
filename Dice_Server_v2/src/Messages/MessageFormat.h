@@ -9,10 +9,11 @@
 
 class MessageFormat {
 public:
-    static void initMessageFormat();
+    static void initMessageFormatMap();
     static std::unordered_map<std::string, std::function<std::string(int fd, std::string&)>> messFormatMap;
     static std::string prepareResponse(const std::string& information, const std::string& tag);
     static std::string createFailMessage();
+    static std::string createPingMessage(const std::string& information, const std::string& tag);
 };
 
 namespace Login {

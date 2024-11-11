@@ -26,6 +26,7 @@ public:
 
     bool init();
     void start();
+    void pingClients();
     void stop();
 
 private:

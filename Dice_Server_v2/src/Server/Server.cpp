@@ -64,7 +64,7 @@ void Server::start() {
     FD_SET(serverSocket, &client_socks);
 
     // Initialize the message format
-    MessageFormat::initMessageFormat();
+    MessageFormat::initMessageFormatMap();
 
     // Initialize data vectors
     DataVectors::initDataVectors();
@@ -79,6 +79,7 @@ void Server::start() {
             continue;
         }
 
+        bool doNotPing = false;
         for (int fd = 3; fd < FD_SETSIZE; fd++) {
             if (FD_ISSET(fd, &readfds)) {
                 if (fd == serverSocket) {
@@ -95,6 +96,7 @@ void Server::start() {
                     int a2read;
                     ioctl(fd, FIONREAD, &a2read);
                     if (a2read > 0) {
+                        doNotPing = true;
                         // Read the message
                         std::string message = MessageProcessing::readMessage(fd, a2read);
                         if (message.empty()) {
@@ -113,10 +115,24 @@ void Server::start() {
                             std::cout << "Client disconnected and removed from socket set" << std::endl;
                         }
                         message.clear();
+                        a2read = 0;
                         // Send the response
                         send(fd, response.c_str(), response.size(), 0);
                     }
                 }
+            } else {
+
+            }
+        }
+        if (!DataVectors::players.empty()) {
+            if (doNotPing) {
+                continue;
+            }
+            sleep(1);
+            for (Player& player : DataVectors::players) {
+                std::cout << "PING: " << player.name << std::endl;
+                std::string pingMessage = MessageFormat::createPingMessage("", PING);
+                send(player.fd, pingMessage.c_str(), pingMessage.size(), 0);
             }
         }
     }
