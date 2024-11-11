@@ -98,7 +98,7 @@ void Server::start() {
                     if (a2read > 0) {
                         doNotPing = true;
                         // Read the message
-                        std::string message = MessageProcessing::readMessage(fd, a2read);
+                        std::string message = MessageProcessing::readMessage(fd);
                         if (message.empty()) {
                             std::cerr << "Failed to read message" << std::endl;
                             continue;

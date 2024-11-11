@@ -1,18 +1,17 @@
 #include "Server.h"
 #include "../Messages/MessageFormat.h"
+#include "../Messages/TAGS.h"
 #include "../Utils/Consts.h"
 #include <iostream>
 #include <cstring>
 
 namespace MessageProcessing {
-    std::string readMessage(const socket_t fd, int a2read) {
+    std::string readMessage(const socket_t fd) {
         // Variables
         char buffer[INIT_BUFFER_SIZE] = {};
         int messageLength = 0;
-        std::string messFirst;
         std::string message;
         bool found = false;
-
         // Receive the first 8 bytes
         recv(fd, &buffer, 8, 0);
 
@@ -24,6 +23,15 @@ namespace MessageProcessing {
                 required++;
                 if (required == 2) {
                     std::string temp(buffer);
+
+                    // Get Message prefix
+                    std::string prefix = temp.substr(0, temp.find(';'));
+                    if (prefix != BASE_IN) {
+                        std::cerr << "Invalid message prefix" << std::endl;
+                        return "";
+                    }
+
+                    // Get message length
                     std::string messLenStr = temp.substr(temp.find(';') + 1, temp.find_last_of(';') - temp.find(';') - 1);
                     messageLength = std::stoi(messLenStr);
                     found = true;
