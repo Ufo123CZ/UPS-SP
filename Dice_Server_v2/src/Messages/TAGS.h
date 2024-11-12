@@ -13,6 +13,7 @@
 
 // TAGS
 #define PING "ping:"
+#define PONG "pong:"
 
 // TAGS FAIL
 #define FAIL "fail:"

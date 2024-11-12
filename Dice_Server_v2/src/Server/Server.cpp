@@ -79,7 +79,9 @@ void Server::start() {
             continue;
         }
 
-        bool doNotPing = false;
+        // bool doNotPing = false;
+        std::vector<int> currentPings = {};
+        sleep(1);
         for (int fd = 3; fd < FD_SETSIZE; fd++) {
             if (FD_ISSET(fd, &readfds)) {
                 if (fd == serverSocket) {
@@ -96,13 +98,23 @@ void Server::start() {
                     int a2read;
                     ioctl(fd, FIONREAD, &a2read);
                     if (a2read > 0) {
-                        doNotPing = true;
+                        // Find name of the player
+                        for (Player& player : DataVectors::players) {
+                            if (player.fd == fd) {
+                                std::cout << "Player " << player.name << ":" << std::endl;
+                            }
+                        }
+
                         // Read the message
                         std::string message = MessageProcessing::readMessage(fd);
                         if (message.empty()) {
                             std::cerr << "Failed to read message" << std::endl;
                             continue;
                         }
+
+                        // Add the client to the current pings
+                        currentPings.push_back(fd);
+
                         // Process the message and generate a response
                         std::string response = MessageProcessing::processMessage(fd, message);
                         if (response.empty() || response == "\n") {
@@ -110,31 +122,49 @@ void Server::start() {
                         }
                         // Message contains the command logout close the socket
                         if (message.find(LOGOUT) != std::string::npos) {
+                            std::erase(currentPings, fd);
                             close(fd);
                             FD_CLR(fd, &client_socks);
                             std::cout << "Client disconnected and removed from socket set" << std::endl;
                         }
-                        message.clear();
-                        a2read = 0;
                         // Send the response
                         send(fd, response.c_str(), response.size(), 0);
                     }
                 }
-            } else {
-
             }
         }
-        if (!DataVectors::players.empty()) {
-            if (doNotPing) {
-                continue;
-            }
-            sleep(1);
-            for (Player& player : DataVectors::players) {
-                std::cout << "PING: " << player.name << std::endl;
-                std::string pingMessage = MessageFormat::createPingMessage("", PING);
-                send(player.fd, pingMessage.c_str(), pingMessage.size(), 0);
-            }
-        }
+        // TODO: uncomment this code for lost connection with the client
+        // Check who send some message comparing the current pings and the data vectors
+        // if (DataVectors::players.empty()) {
+        //     currentPings.clear();
+        //     continue;
+        // }
+        // for (int i = 0; i < DataVectors::players.size(); i++) {
+        //     for (int currentPing : currentPings) {
+        //         if (DataVectors::players[i].fd == currentPing) {
+        //             DataVectors::players[i].ping = DataVectors::players[i].ping--;
+        //             // If the player has a ping less than 0, remove it from the data vectors and log him out
+        //             if (DataVectors::players[i].ping <= 0) {
+        //                 std::cout << "Player " << DataVectors::players[i].name << " has been disconnected" << std::endl;
+        //                 DataVectors::players.erase(DataVectors::players.begin() + i);
+        //                 close(DataVectors::players[i].fd);
+        //                 FD_CLR(DataVectors::players[i].fd, &client_socks);
+        //             }
+        //         }
+        //     }
+        // }
+        currentPings.clear();
+        // if (!DataVectors::players.empty()) {
+        //     if (doNotPing) {
+        //         continue;
+        //     }
+        //     sleep(1);
+        //     for (Player& player : DataVectors::players) {
+        //         std::cout << "PING: " << player.name << std::endl;
+        //         std::string pingMessage = MessageFormat::createPingMessage();
+        //         send(player.fd, pingMessage.c_str(), pingMessage.size(), 0);
+        //     }
+        // }
     }
 }
 

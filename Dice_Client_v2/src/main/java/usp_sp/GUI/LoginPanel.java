@@ -90,15 +90,17 @@ public class LoginPanel extends JPanel {
                 }
 
                 // Connect to server
-                // Create Socket
                 Connection.getInstance().setServerDetails(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText(), 0);
-                Connection.getInstance().openSocket();
-                Object[] response = Connection.getInstance().makeContact(Messages.LOGIN, nameField.getText());
+                if (!Connection.getInstance().openSocket()) {
+                    JOptionPane.showMessageDialog(window, "Cannot connect to the server.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                String response = Connection.getInstance().makeContact(Messages.LOGIN, nameField.getText());
 
-                if (response[0].equals(false)) {
-                    JOptionPane.showMessageDialog(window, "Connection failed", "Error", JOptionPane.ERROR_MESSAGE);
+                if (response.contains("ERROR")) {
+                    JOptionPane.showMessageDialog(window, "Connection failed.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(window, "Connection successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(window, "Connection successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
                     window.showScene("Queue");
                 }
             }

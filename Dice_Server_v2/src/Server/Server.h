@@ -40,8 +40,8 @@ private:
 #endif
 };
 
-namespace MessageProcessing{
-    std::string readMessage(socket_t fd);
+namespace MessageProcessing {
+    std::string readMessage(int fd);
     std::string processMessage(int fd, const std::string& message);
 }
 

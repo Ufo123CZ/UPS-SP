@@ -23,7 +23,8 @@ void ServerCommands::initCommandMap() {
                 << "Name: " << player.name << std::endl
                 << "Score: " << player.score << std::endl
                 << "Status: " << player.status << std::endl
-                << "Socket: " << player.fd << std::endl;
+                << "Socket: " << player.fd << std::endl
+                << "Ping: " << player.ping << "/5" << std::endl;
             }
         }},
         {"game", [](Server &server, std::string&) {

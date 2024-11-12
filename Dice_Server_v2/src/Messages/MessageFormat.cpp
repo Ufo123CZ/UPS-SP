@@ -1,5 +1,6 @@
 #include "MessageFormat.h"
 #include "../Messages/TAGS.h"
+
 #include "../Utils/Consts.h"
 
 // Initialize the message format map
@@ -11,6 +12,8 @@ void MessageFormat::initMessageFormatMap() {
     tagLogin.append(BASE_LOGIN).append(LOGIN);
     std::string tagLogout;
     tagLogout.append(BASE_LOGIN).append(LOGOUT);
+    std::string tagPing;
+    tagPing.append(PONG);
 
     messFormatMap = {
         {tagLogin, [](int fd, std::string& information) -> std::string {
@@ -18,6 +21,9 @@ void MessageFormat::initMessageFormatMap() {
         }},
         {tagLogout, [](int fd, std::string& information) -> std::string {
             return Logout::logout(fd, information);
+        }},
+        {tagPing, [](int, std::string&) -> std::string {
+            return createPingMessage();
         }}
     };
 }
@@ -53,27 +59,32 @@ std::string MessageFormat::createFailMessage() {
     return response;
 }
 
-std::string MessageFormat::createPingMessage(const std::string& information, const std::string& tag) {
+std::string MessageFormat::createPingMessage() {
     // Response is based on the information
-    std::string responseHeader, response;
-    int messLen = 0;
-    if (information.empty()) {
-        messLen = tag.length() + 2;
-    } else {
-        messLen = information.length() + tag.length() + 3;
-    }
+    std::string response;
+    response.append("ds;0007;").append(PING).append(";\n");
 
-    // Make Header
-    std::string messLenStr = std::to_string(messLen);
-    for (int i = 0; messLenStr.length() < 4; i++) {
-        messLenStr.insert(0, "0");
-    }
-    responseHeader.append(BASE_OUT).append(";").append(messLenStr).append(";");
-    response.append(responseHeader).append(tag).append(";");
-    if (information.empty()) {
-        response.append("\n");
-    } else {
-        response.append(information).append("\n");
-    }
     return response;
+
+    // std::string responseHeader, response;
+    // int messLen = 0;
+    // if (information.empty()) {
+    //     messLen = tag.length() + 2;
+    // } else {
+    //     messLen = information.length() + tag.length() + 3;
+    // }
+    //
+    // // Make Header
+    // std::string messLenStr = std::to_string(messLen);
+    // for (int i = 0; messLenStr.length() < 4; i++) {
+    //     messLenStr.insert(0, "0");
+    // }
+    // responseHeader.append(BASE_OUT).append(";").append(messLenStr).append(";");
+    // response.append(responseHeader).append(tag).append(";");
+    // if (information.empty()) {
+    //     response.append("\n");
+    // } else {
+    //     response.append(information).append("\n");
+    // }
+
 }

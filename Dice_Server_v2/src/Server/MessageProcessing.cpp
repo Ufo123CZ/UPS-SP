@@ -6,14 +6,15 @@
 #include <cstring>
 
 namespace MessageProcessing {
-    std::string readMessage(const socket_t fd) {
+    std::string readMessage(const int fd) {
         // Variables
         char buffer[INIT_BUFFER_SIZE] = {};
         int messageLength = 0;
-        std::string message;
+        std::string message, information;
         bool found = false;
         // Receive the first 8 bytes
         recv(fd, &buffer, 8, 0);
+
 
         // Find the message length
         int required = 0;
@@ -23,7 +24,7 @@ namespace MessageProcessing {
                 required++;
                 if (required == 2) {
                     std::string temp(buffer);
-
+                    information = temp;
                     // Get Message prefix
                     std::string prefix = temp.substr(0, temp.find(';'));
                     if (prefix != BASE_IN) {
@@ -62,6 +63,10 @@ namespace MessageProcessing {
 
         if (message.empty()) return "";
 
+        // Print the received message
+        std::cout << "Received message: " << information << message << std::endl;
+
+
         return message;
     }
 
@@ -83,6 +88,9 @@ namespace MessageProcessing {
         if (response.empty()) {
             return "";
         }
+
+        std::cout << "Response: " << response
+                  << "---------------------------" << std::endl;
 
         return response;
     }
