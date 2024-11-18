@@ -153,6 +153,30 @@ src/Data/DataVectors.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.s
 .PHONY : src/Data/DataVectors.cpp.s
 
+src/Data/Dice.o: src/Data/Dice.cpp.o
+.PHONY : src/Data/Dice.o
+
+# target to build an object file
+src/Data/Dice.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Data/Dice.cpp.o
+.PHONY : src/Data/Dice.cpp.o
+
+src/Data/Dice.i: src/Data/Dice.cpp.i
+.PHONY : src/Data/Dice.i
+
+# target to preprocess a source file
+src/Data/Dice.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Data/Dice.cpp.i
+.PHONY : src/Data/Dice.cpp.i
+
+src/Data/Dice.s: src/Data/Dice.cpp.s
+.PHONY : src/Data/Dice.s
+
+# target to generate assembly for a file
+src/Data/Dice.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Data/Dice.cpp.s
+.PHONY : src/Data/Dice.cpp.s
+
 src/Data/Game.o: src/Data/Game.cpp.o
 .PHONY : src/Data/Game.o
 
@@ -200,6 +224,30 @@ src/Data/Player.s: src/Data/Player.cpp.s
 src/Data/Player.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.s
 .PHONY : src/Data/Player.cpp.s
+
+src/Events/Events.o: src/Events/Events.cpp.o
+.PHONY : src/Events/Events.o
+
+# target to build an object file
+src/Events/Events.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Events/Events.cpp.o
+.PHONY : src/Events/Events.cpp.o
+
+src/Events/Events.i: src/Events/Events.cpp.i
+.PHONY : src/Events/Events.i
+
+# target to preprocess a source file
+src/Events/Events.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Events/Events.cpp.i
+.PHONY : src/Events/Events.cpp.i
+
+src/Events/Events.s: src/Events/Events.cpp.s
+.PHONY : src/Events/Events.s
+
+# target to generate assembly for a file
+src/Events/Events.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Events/Events.cpp.s
+.PHONY : src/Events/Events.cpp.s
 
 src/Messages/MessageFormat.o: src/Messages/MessageFormat.cpp.o
 .PHONY : src/Messages/MessageFormat.o
@@ -405,12 +453,18 @@ help:
 	@echo "... src/Data/DataVectors.o"
 	@echo "... src/Data/DataVectors.i"
 	@echo "... src/Data/DataVectors.s"
+	@echo "... src/Data/Dice.o"
+	@echo "... src/Data/Dice.i"
+	@echo "... src/Data/Dice.s"
 	@echo "... src/Data/Game.o"
 	@echo "... src/Data/Game.i"
 	@echo "... src/Data/Game.s"
 	@echo "... src/Data/Player.o"
 	@echo "... src/Data/Player.i"
 	@echo "... src/Data/Player.s"
+	@echo "... src/Events/Events.o"
+	@echo "... src/Events/Events.i"
+	@echo "... src/Events/Events.s"
 	@echo "... src/Messages/MessageFormat.o"
 	@echo "... src/Messages/MessageFormat.i"
 	@echo "... src/Messages/MessageFormat.s"

@@ -21,7 +21,6 @@ void ServerCommands::initCommandMap() {
             for (const Player &player : DataVectors::players) {
                 std::cout << "Player " << ++i << ": " << std::endl
                 << "Name: " << player.name << std::endl
-                << "Score: " << player.score << std::endl
                 << "Status: " << player.status << std::endl
                 << "Socket: " << player.fd << std::endl
                 << "Ping: " << player.ping << "/5" << std::endl;
@@ -29,14 +28,28 @@ void ServerCommands::initCommandMap() {
         }},
         {"game", [](Server &server, std::string&) {
             // Print the game
-            if (DataVectors::game != nullptr) {
-                std::cout << "Game exists." << std::endl;
-                std::cout << "Players: " << std::endl;
-                for (const Player &player : DataVectors::game->gamePlayers) {
-                    std::cout << "Name: " << player.name << std::endl;
+            if (DataVectors::games.empty()) {
+                std::cout << "No games are created." << std::endl;
+                return;
+            }
+            int i = 0;
+            for (const Game &game : DataVectors::games) {
+                std::cout << "Game " << ++i << ": " << std::endl
+                << "Player 1: " << game.playerNames[0] << std::endl
+                << "Player 2: " << game.playerNames[1] << std::endl
+                << "On move: " << game.onMove << std::endl
+                << "Scores: " << std::endl
+                << "Player 1: " << game.scoresP1[0] << " (total), " << game.scoresP1[1] << " (round), " << game.scoresP1[2] << " (throw)" << std::endl
+                << "Player 2: " << game.scoresP2[0] << " (total), " << game.scoresP2[1] << " (round), " << game.scoresP2[2] << " (throw)" << std::endl
+                << "Dices: " << std::endl
+                << "Player 1: " << std::endl;
+                for (const Dice &dice : game.dicesP1) {
+                    std::cout << "ID: " << dice.id << ", Value: " << dice.value << ", Selected: " << dice.selected << ", Hold: " << dice.hold << std::endl;
                 }
-            } else {
-                std::cout << "No game exists." << std::endl;
+                std::cout << "Player 2: " << std::endl;
+                for (const Dice &dice : game.dicesP2) {
+                    std::cout << "ID: " << dice.id << ", Value: " << dice.value << ", Selected: " << dice.selected << ", Hold: " << dice.hold << std::endl;
+                }
             }
         }},
         {"stop", [](Server &server, std::string&) {

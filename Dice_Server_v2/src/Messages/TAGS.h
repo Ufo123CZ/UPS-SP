@@ -9,7 +9,6 @@
 
 // TAGS GENERAL
 #define QUEUE "queue:"
-#define GAME "game:"
 
 // TAGS
 #define PING "ping:"
@@ -22,6 +21,10 @@
 #define BASE_LOGIN "log:"
 #define LOGIN "in:"
 #define LOGOUT "out:"
+
+// TAGS GAME
+#define BASE_GAME "game:"
+#define GAME_CREATE "create:"
 
 // TAGS QUEUE
 #define QUEUE_STATUS "status:"

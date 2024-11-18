@@ -181,4 +181,5 @@ CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Logout.cpp.o: \
  /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Data/DataVectors.h \
  /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Data/Player.h \
  /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Data/Game.h \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Data/Dice.h \
  /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Data/Player.h

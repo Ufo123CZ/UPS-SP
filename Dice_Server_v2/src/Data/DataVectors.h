@@ -9,7 +9,7 @@ class DataVectors {
 public:
     static void initDataVectors();
     static std::vector<Player> players;
-    static Game* game;
+    static std::vector<Game> games;
 };
 
 #endif //DATAVECTORS_H

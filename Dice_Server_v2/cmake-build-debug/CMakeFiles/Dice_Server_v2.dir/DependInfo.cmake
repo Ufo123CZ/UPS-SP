@@ -9,8 +9,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/DataVectors.cpp" "CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.o" "gcc" "CMakeFiles/Dice_Server_v2.dir/src/Data/DataVectors.cpp.o.d"
+  "/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/Dice.cpp" "CMakeFiles/Dice_Server_v2.dir/src/Data/Dice.cpp.o" "gcc" "CMakeFiles/Dice_Server_v2.dir/src/Data/Dice.cpp.o.d"
   "/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/Game.cpp" "CMakeFiles/Dice_Server_v2.dir/src/Data/Game.cpp.o" "gcc" "CMakeFiles/Dice_Server_v2.dir/src/Data/Game.cpp.o.d"
   "/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/Player.cpp" "CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.o" "gcc" "CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.o.d"
+  "/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Events/Events.cpp" "CMakeFiles/Dice_Server_v2.dir/src/Events/Events.cpp.o" "gcc" "CMakeFiles/Dice_Server_v2.dir/src/Events/Events.cpp.o.d"
   "/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageFormat.cpp" "CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.o" "gcc" "CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageFormat.cpp.o.d"
   "/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/Login.cpp" "CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Login.cpp.o" "gcc" "CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Login.cpp.o.d"
   "/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/Logout.cpp" "CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Logout.cpp.o" "gcc" "CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Logout.cpp.o.d"

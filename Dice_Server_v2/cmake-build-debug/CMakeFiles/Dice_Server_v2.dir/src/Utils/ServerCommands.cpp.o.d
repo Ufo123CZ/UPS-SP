@@ -202,6 +202,7 @@ CMakeFiles/Dice_Server_v2.dir/src/Utils/ServerCommands.cpp.o: \
  /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Utils/../Data/DataVectors.h \
  /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Utils/../Data/Player.h \
  /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Utils/../Data/Game.h \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Utils/../Data/Dice.h \
  /usr/include/c++/12/iostream /usr/include/c++/12/ostream \
  /usr/include/c++/12/ios /usr/include/c++/12/bits/ios_base.h \
  /usr/include/c++/12/ext/atomicity.h \

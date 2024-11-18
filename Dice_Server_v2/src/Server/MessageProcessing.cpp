@@ -89,8 +89,7 @@ namespace MessageProcessing {
             return "";
         }
 
-        std::cout << "Response: " << response
-                  << "---------------------------" << std::endl;
+        std::cout << "Response: " << response;
 
         return response;
     }

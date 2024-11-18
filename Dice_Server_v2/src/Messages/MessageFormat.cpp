@@ -65,26 +65,4 @@ std::string MessageFormat::createPingMessage() {
     response.append("ds;0007;").append(PING).append(";\n");
 
     return response;
-
-    // std::string responseHeader, response;
-    // int messLen = 0;
-    // if (information.empty()) {
-    //     messLen = tag.length() + 2;
-    // } else {
-    //     messLen = information.length() + tag.length() + 3;
-    // }
-    //
-    // // Make Header
-    // std::string messLenStr = std::to_string(messLen);
-    // for (int i = 0; messLenStr.length() < 4; i++) {
-    //     messLenStr.insert(0, "0");
-    // }
-    // responseHeader.append(BASE_OUT).append(";").append(messLenStr).append(";");
-    // response.append(responseHeader).append(tag).append(";");
-    // if (information.empty()) {
-    //     response.append("\n");
-    // } else {
-    //     response.append(information).append("\n");
-    // }
-
 }

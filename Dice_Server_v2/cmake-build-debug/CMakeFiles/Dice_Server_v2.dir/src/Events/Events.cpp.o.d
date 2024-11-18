@@ -1,8 +1,7 @@
-CMakeFiles/Dice_Server_v2.dir/src/Data/Game.cpp.o: \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/Game.cpp \
+CMakeFiles/Dice_Server_v2.dir/src/Events/Events.cpp.o: \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Events/Events.cpp \
  /usr/include/stdc-predef.h \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/Game.h \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/Player.h \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Events/Events.h \
  /usr/include/c++/12/string \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/os_defines.h \
@@ -121,15 +120,38 @@ CMakeFiles/Dice_Server_v2.dir/src/Data/Game.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/c++/12/bits/charconv.h \
  /usr/include/c++/12/bits/basic_string.tcc \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/Dice.h \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Events/../Data/Player.h \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Events/../Data/Game.h \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Events/../Data/Player.h \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Events/../Data/Dice.h \
  /usr/include/c++/12/vector /usr/include/c++/12/bits/stl_uninitialized.h \
  /usr/include/c++/12/bits/stl_vector.h \
  /usr/include/c++/12/bits/stl_bvector.h \
- /usr/include/c++/12/bits/vector.tcc /usr/include/c++/12/iostream \
+ /usr/include/c++/12/bits/vector.tcc \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Events/../Data/DataVectors.h \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Events/../Data/Game.h \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Events/../Messages/MessageFormat.h \
+ /usr/include/c++/12/unordered_map \
+ /usr/include/c++/12/ext/aligned_buffer.h \
+ /usr/include/c++/12/bits/hashtable.h \
+ /usr/include/c++/12/bits/hashtable_policy.h /usr/include/c++/12/tuple \
+ /usr/include/c++/12/bits/uses_allocator.h \
+ /usr/include/c++/12/bits/enable_special_members.h \
+ /usr/include/c++/12/bits/node_handle.h \
+ /usr/include/c++/12/bits/unordered_map.h \
+ /usr/include/c++/12/bits/erase_if.h /usr/include/c++/12/functional \
+ /usr/include/c++/12/bits/std_function.h /usr/include/c++/12/typeinfo \
+ /usr/include/c++/12/array /usr/include/c++/12/bits/stl_algo.h \
+ /usr/include/c++/12/bits/algorithmfwd.h \
+ /usr/include/c++/12/bits/stl_heap.h \
+ /usr/include/c++/12/bits/stl_tempbuf.h \
+ /usr/include/c++/12/bits/uniform_int_dist.h \
+ /usr/include/c++/12/bits/move_only_function.h \
+ /usr/include/c++/12/bits/mofunc_impl.h /usr/include/c++/12/iostream \
  /usr/include/c++/12/ostream /usr/include/c++/12/ios \
  /usr/include/c++/12/exception /usr/include/c++/12/bits/exception_ptr.h \
  /usr/include/c++/12/bits/cxxabi_init_exception.h \
- /usr/include/c++/12/typeinfo /usr/include/c++/12/bits/nested_exception.h \
+ /usr/include/c++/12/bits/nested_exception.h \
  /usr/include/c++/12/bits/ios_base.h /usr/include/c++/12/ext/atomicity.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/gthr.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/gthr-default.h \
@@ -161,4 +183,5 @@ CMakeFiles/Dice_Server_v2.dir/src/Data/Game.cpp.o: \
  /usr/include/c++/12/bits/locale_facets.tcc \
  /usr/include/c++/12/bits/basic_ios.tcc \
  /usr/include/c++/12/bits/ostream.tcc /usr/include/c++/12/istream \
- /usr/include/c++/12/bits/istream.tcc
+ /usr/include/c++/12/bits/istream.tcc \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Events/../Messages/TAGS.h

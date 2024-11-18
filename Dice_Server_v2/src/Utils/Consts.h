@@ -16,5 +16,4 @@
 #define SUCCESS "success"
 #define FAILURE "failure"
 
-
 #endif //CONSTS_H

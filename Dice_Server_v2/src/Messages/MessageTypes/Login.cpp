@@ -17,7 +17,7 @@ namespace Login {
             name = name.substr(0, name.find('\r'));
         }
 
-        auto *player = new Player(fd, name, 0, 0, 5);
+        auto *player = new Player(fd, name, 0, 5);
         DataVectors::players.push_back(*player);
 
 

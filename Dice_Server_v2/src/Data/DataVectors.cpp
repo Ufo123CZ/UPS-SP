@@ -1,9 +1,9 @@
 #include "DataVectors.h"
 
 std::vector<Player> DataVectors::players;
-Game* DataVectors::game;
+std::vector<Game> DataVectors::games;
 
 void DataVectors::initDataVectors() {
     players = std::vector<Player>();
-    game = nullptr;
+    games = std::vector<Game>();
 }

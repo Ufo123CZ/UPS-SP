@@ -23,6 +23,10 @@ add_executable(Dice_Server_v2
         src/Data/DataVectors.cpp
         src/Data/Player.cpp
         src/Data/Game.cpp
+        src/Data/Dice.cpp
+
+        # Events
+        src/Events/Events.cpp
 
         # Utils
         src/Utils/ServerCommands.cpp
@@ -35,4 +39,6 @@ add_executable(Dice_Server_v2
         src/Data/DataVectors.h
         src/Data/Player.h
         src/Data/Game.h
+        src/Data/Dice.h
+        src/Events/Events.h
 )

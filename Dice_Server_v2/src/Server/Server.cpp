@@ -3,6 +3,7 @@
 #include "../Messages/MessageFormat.h"
 #include "../Data/DataVectors.h"
 #include "../Messages/TAGS.h"
+#include "../Events/Events.h"
 #include <iostream>
 #include <cstring>
 #include <fcntl.h>
@@ -81,7 +82,7 @@ void Server::start() {
 
         // bool doNotPing = false;
         std::vector<int> currentPings = {};
-        sleep(1);
+        // sleep(1);
         for (int fd = 3; fd < FD_SETSIZE; fd++) {
             if (FD_ISSET(fd, &readfds)) {
                 if (fd == serverSocket) {
@@ -120,6 +121,15 @@ void Server::start() {
                         if (response.empty() || response == "\n") {
                             response = MessageFormat::createFailMessage();
                         }
+
+                        // Special Events
+                        // Init Game
+                        // Create new game and change response to the game message
+                        // This event can occur only when there is more than 2 players in players vector
+                        if (DataVectors::players.size() >= 2) {
+                            response = Events::createGame();
+                        }
+
                         // Message contains the command logout close the socket
                         if (message.find(LOGOUT) != std::string::npos) {
                             std::erase(currentPings, fd);
@@ -127,6 +137,10 @@ void Server::start() {
                             FD_CLR(fd, &client_socks);
                             std::cout << "Client disconnected and removed from socket set" << std::endl;
                         }
+
+                        std::cout << "---------------------------" << std::endl;
+
+
                         // Send the response
                         send(fd, response.c_str(), response.size(), 0);
                     }
