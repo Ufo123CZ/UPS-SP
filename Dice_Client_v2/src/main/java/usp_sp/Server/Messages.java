@@ -21,7 +21,7 @@ public class Messages {
     public static final String LOGOUT = BASE_LOGIN + "out:";
 
     // Game
-//    public static final String QUEUE_STATUS = BASE + BASE_QUEUE + "status:";
+    public static final String GAME_CREATED = BASE_GAME + "create:";
 
 
 

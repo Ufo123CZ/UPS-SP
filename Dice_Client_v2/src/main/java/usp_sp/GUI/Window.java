@@ -19,9 +19,12 @@ public class Window extends JFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
+        GamePanel gamePanel = new GamePanel();
+        QueuePanel queuePanel = new QueuePanel(gamePanel);
+
         mainPanel.add(new LoginPanel(this), "Login");
-        mainPanel.add(new QueuePanel(), "Queue");
-        mainPanel.add(new GamePanel(), "Game");
+        mainPanel.add(queuePanel, "Queue");
+        mainPanel.add(gamePanel, "Game");
 
         add(mainPanel);
         setTitle("KCD Dice Client");

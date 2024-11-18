@@ -1,14 +1,22 @@
 package usp_sp.GUI;
 
+import usp_sp.GameObjects.PlayerStats;
 import usp_sp.Server.Connection;
 import usp_sp.Server.Messages;
 
 import javax.swing.*;
 import java.awt.*;
+
+import static java.lang.Thread.sleep;
+import static usp_sp.Server.Messages.GAME_CREATED;
 import static usp_sp.Utils.Const.ASSETS_GIF;
 
-public class QueuePanel extends JPanel {
-    public QueuePanel() {
+public class QueuePanel extends JPanel implements Connection.EventListener {
+
+    private GamePanel gamePanel;
+
+    public QueuePanel(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -40,5 +48,57 @@ public class QueuePanel extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 2;
         add(cancelButton, gbc);
+
+        // Register this panel as an event listener
+        Connection.getInstance().setEventListener(this);
+    }
+
+    @Override
+    public void onMessageReceived(String message) {
+        new Thread(() -> {
+            try {
+                sleep(1000);
+                if (message.contains(GAME_CREATED)) {
+                    Connection.getInstance().setStatus(1);
+
+                    // Parse the message to get the information
+                    String[] parts = message.split(";");
+                    for (int i = 3; i < parts.length - 1; i++) {
+                        // Player Stats
+                        PlayerStats playerStats = gamePanel.getPlayerStatsList().get(i - 3);
+
+                        String[] playerInfo = parts[i].split("\\|");
+
+                        // Name
+                        playerStats.setName(playerInfo[0]);
+
+                        // Scores
+                        String[] playerScores = playerInfo[1].split(",");
+                        playerStats.setTotalScore(Integer.parseInt(playerScores[0]));
+                        playerStats.setSubtotalScore(Integer.parseInt(playerScores[1]));
+                        playerStats.setThrowScore(Integer.parseInt(playerScores[2]));
+
+                        // Dices
+                        String[] dices = playerInfo[2].split("/");
+                        for (int j = 0; j < dices.length; j++) {
+                            String[] diceParts = dices[j].split(",");
+                            gamePanel.getDiceList().get(i - 3)[j].setDiceId(diceParts[0]);
+                            gamePanel.getDiceList().get(i - 3)[j].setDiceValue(Integer.parseInt(diceParts[1]));
+                            gamePanel.getDiceList().get(i - 3)[j].setSelected(diceParts[2].equals("1"));
+                            gamePanel.getDiceList().get(i - 3)[j].setHold(diceParts[3].equals("1"));
+                        }
+                    }
+
+                    // Set currentPlayer
+                    gamePanel.setCurrentPlayer(parts[parts.length - 1]);
+                    gamePanel.repaint();
+
+                    Window window = (Window) SwingUtilities.getWindowAncestor(this);
+                    window.showScene("Game");
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
     }
 }

@@ -21,7 +21,7 @@ Game::Game(Player player1, Player player2) {
     onMove = player1.name;
 
     // Set dices
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < dicesIds.size(); i++) {
         dicesP1.emplace_back(dicesIds[i]);
         dicesP2.emplace_back(dicesIds[i]);
     }

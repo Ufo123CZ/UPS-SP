@@ -1,5 +1,7 @@
 package usp_sp.GUI;
 
+import lombok.Getter;
+import lombok.Setter;
 import usp_sp.GameObjects.Board;
 import usp_sp.GameObjects.Dice;
 import usp_sp.GameObjects.PlayerStats;
@@ -20,13 +22,16 @@ public class GamePanel extends JPanel {
 
     private Dice[] dicesP1;
     private Dice[] dicesP2;
+    @Getter
     private List<Dice[]> diceList;
 
     private PlayerStats playerStatsP1;
     private PlayerStats playerStatsP2;
+    @Getter
     private List<PlayerStats> playerStatsList;
 
     // Player
+    @Setter
     private String currentPlayer = "P1";
     private int selectedDice = -1;
 
@@ -64,14 +69,14 @@ public class GamePanel extends JPanel {
         // Set Dices params form server
         /* TODO: Get dices from server */
         // Draw the Dices
-        String[] diceIdsP1 = {"P1K1", "P1K2", "P1K3", "P1K4", "P1K5", "P1K6"};
-        String[] diceIdsP2 = {"P2K1", "P2K2", "P2K3", "P2K4", "P2K5", "P2K6"};
-        List<String[]> idList = List.of(diceIdsP1, diceIdsP2);
+//        String[] diceIdsP1 = {"P1K1", "P1K2", "P1K3", "P1K4", "P1K5", "P1K6"};
+//        String[] diceIdsP2 = {"P2K1", "P2K2", "P2K3", "P2K4", "P2K5", "P2K6"};
+//        List<String[]> idList = List.of(diceIdsP1, diceIdsP2);
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 2; j++) {
                 diceList.get(j)[i].setG2d(g2d);
-                diceList.get(j)[i].setDiceId(idList.get(j)[i]);
-                diceList.get(j)[i].setDiceValue(6);
+//                diceList.get(j)[i].setDiceId(idList.get(j)[i]);
+//                diceList.get(j)[i].setDiceValue(6);
 //                diceList.get(j)[i].setSelected(false);
 //                diceList.get(j)[i].setHover(false);
 //                diceList.get(j)[i].setHold(false);
@@ -84,16 +89,16 @@ public class GamePanel extends JPanel {
 
         // Player Stats
         playerStatsP1.setG2d(g2d);
-        playerStatsP1.setName("Player 1");
-        playerStatsP1.setTotalScore(0);
-        playerStatsP1.setSubtotalScore(0);
-        playerStatsP1.setThrowScore(0);
-
+//        playerStatsP1.setName("Player 1");
+//        playerStatsP1.setTotalScore(0);
+//        playerStatsP1.setSubtotalScore(0);
+//        playerStatsP1.setThrowScore(0);
+//
         playerStatsP2.setG2d(g2d);
-        playerStatsP2.setName("Player 2");
-        playerStatsP2.setTotalScore(0);
-        playerStatsP2.setSubtotalScore(0);
-        playerStatsP2.setThrowScore(0);
+//        playerStatsP2.setName("Player 2");
+//        playerStatsP2.setTotalScore(0);
+//        playerStatsP2.setSubtotalScore(0);
+//        playerStatsP2.setThrowScore(0);
         for (int i = 0; i < 2; i++) {
             AffineTransform old = g2d.getTransform();
             if (i == 0) {

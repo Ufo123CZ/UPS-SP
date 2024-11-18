@@ -2,6 +2,7 @@ package usp_sp.Server;
 
 import lombok.Getter;
 import lombok.Setter;
+import usp_sp.GUI.QueuePanel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,6 +33,7 @@ public class Connection {
     private boolean listening;
 
     // Message
+    @Getter
     private String message = "";
     private String response = "";
 
@@ -40,6 +42,9 @@ public class Connection {
     // Logged in
     private boolean loggedIn = false;
 
+    // Event listener
+    @Getter @Setter
+    private EventListener eventListener;
 
     // Singleton
     private static Connection instance = null;
@@ -180,6 +185,11 @@ public class Connection {
                                 return;
                             }
                         } while (message.isEmpty());
+
+                        // Notify the event listener
+                        if (eventListener != null) {
+                            eventListener.onMessageReceived(message);
+                        }
                     } catch (InterruptedException | NullPointerException e) {
                         System.out.println("Error: Server connection lost.");
                         // TODO: Handle connection loss
@@ -215,5 +225,9 @@ public class Connection {
         if (listenerThread != null) {
             listenerThread.interrupt();
         }
+    }
+
+    public interface EventListener {
+        void onMessageReceived(String message);
     }
 }

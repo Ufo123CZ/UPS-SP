@@ -122,13 +122,7 @@ void Server::start() {
                             response = MessageFormat::createFailMessage();
                         }
 
-                        // Special Events
-                        // Init Game
-                        // Create new game and change response to the game message
-                        // This event can occur only when there is more than 2 players in players vector
-                        if (DataVectors::players.size() >= 2) {
-                            response = Events::createGame();
-                        }
+                        // PLACEHOLDER E
 
                         // Message contains the command logout close the socket
                         if (message.find(LOGOUT) != std::string::npos) {
@@ -145,6 +139,33 @@ void Server::start() {
                         send(fd, response.c_str(), response.size(), 0);
                     }
                 }
+            }
+        }
+
+        // Special Events
+        // Init Game
+        // Create new game and change response to the game message
+        // This event can occur only when there is more than 2 players in players vector
+
+        if (DataVectors::players.size() >= 2) {
+            bool allInGame = true;
+            for (Player& player : DataVectors::players) {
+                if (player.status != 1) {
+                    allInGame = false;
+                    break;
+                }
+            }
+
+            if (allInGame) {
+                continue;
+            }
+
+            std::string response = Events::createGame();
+            std::cout << response << std::endl;
+            std::cout << "---------------------------" << std::endl;
+            // send the response to all players that are in now created game
+            for (Player& player : DataVectors::games[DataVectors::games.size() - 1].gamePlayers) {
+                send(player.fd, response.c_str(), response.size(), 0);
             }
         }
         // TODO: uncomment this code for lost connection with the client
