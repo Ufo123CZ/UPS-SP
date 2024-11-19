@@ -64,7 +64,7 @@ namespace MessageProcessing {
         if (message.empty()) return "";
 
         // Print the received message
-        std::cout << "Received message: " << information << message << std::endl;
+        if (messageLength > 8) std::cout << "Received message: " << information << message << std::endl;
 
 
         return message;
@@ -89,7 +89,7 @@ namespace MessageProcessing {
             return "";
         }
 
-        std::cout << "Response: " << response;
+        if (!response.find(PONG, 0) || !response.find(PING, 0)) std::cout << "Response: " << response;
 
         return response;
     }

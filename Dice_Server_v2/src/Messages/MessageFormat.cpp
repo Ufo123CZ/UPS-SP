@@ -8,12 +8,24 @@ std::unordered_map<std::string, std::function<std::string(int fd, std::string&)>
 
 void MessageFormat::initMessageFormatMap() {
     // TAGS
+    // LOGIN LOGOUT
     std::string tagLogin;
     tagLogin.append(BASE_LOGIN).append(LOGIN);
     std::string tagLogout;
     tagLogout.append(BASE_LOGIN).append(LOGOUT);
+    // PING PONG
     std::string tagPing;
     tagPing.append(PONG);
+    // GAME
+    std::string tagGameThrow;
+    tagGameThrow.append(BASE_GAME).append(GAME_THROW_DICE);
+    std::string tagGameSelect;
+    tagGameSelect.append(BASE_GAME).append(GAME_SELECT_DICE);
+    std::string tagGameConfirm;
+    tagGameConfirm.append(BASE_GAME).append(GAME_CONFIRM_DICE);
+    std::string tagGameEndTurn;
+    tagGameEndTurn.append(BASE_GAME).append(GAME_END_TURN);
+
 
     messFormatMap = {
         {tagLogin, [](int fd, std::string& information) -> std::string {
@@ -24,7 +36,19 @@ void MessageFormat::initMessageFormatMap() {
         }},
         {tagPing, [](int, std::string&) -> std::string {
             return createPingMessage();
-        }}
+        }},
+        {tagGameThrow, [](int fd, std::string& information) -> std::string {
+            return GameM::throwDice(fd, information);
+        }},
+        {tagGameSelect, [](int fd, std::string& information) -> std::string {
+            return GameM::selectDice(fd, information);
+        }},
+        {tagGameConfirm, [](int fd, std::string& information) -> std::string {
+            return GameM::confirmDice(fd, information);
+        }},
+        {tagGameEndTurn, [](int fd, std::string& information) -> std::string {
+            return GameM::endTurn(fd, information);
+        }},
     };
 }
 

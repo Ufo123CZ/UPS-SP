@@ -25,6 +25,11 @@
 // TAGS GAME
 #define BASE_GAME "game:"
 #define GAME_CREATE "create:"
+#define GAME_THROW_DICE "throw:"
+#define GAME_SELECT_DICE "select:"
+#define GAME_CONFIRM_DICE "confirm:"
+#define GAME_END_TURN "end:"
+
 
 // TAGS QUEUE
 #define QUEUE_STATUS "status:"

@@ -6,3 +6,7 @@ Dice::Dice(const std::string &id) {
     this->selected = false;
     this->hold = false;
 }
+
+void Dice::rollDice() {
+    this->value = rand() % 6 + 1;
+}

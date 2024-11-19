@@ -23,7 +23,7 @@ namespace Login {
 
         std::cout << "Player " << name << " has logged in." << std::endl;
 
-        // prepare response and return
+        // Prepare response and return
         std::string tag;
         tag.append(BASE_LOGIN).append(LOGIN);
 

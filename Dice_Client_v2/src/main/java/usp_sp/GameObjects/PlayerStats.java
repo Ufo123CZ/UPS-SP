@@ -9,7 +9,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
-import static usp_sp.Utils.Colours.PLAYER_STATS_DIVIDER;
+import static usp_sp.Utils.Colours.*;
 import static usp_sp.Utils.Const.*;
 
 public class PlayerStats extends Materials {
@@ -33,11 +33,16 @@ public class PlayerStats extends Materials {
         textureEdge = loadTexture("dark_iron.jpg");
     }
 
-    public void drawStats() {
+    public void drawStats(String onMove) {
         // Components
         Rectangle2D.Float statsBG = new Rectangle2D.Float(
                 0, 0,
                 PLAYER_STATS_SIZE / 0.6f, PLAYER_STATS_SIZE / 1.1f
+        );
+
+        Rectangle2D.Float onMoveRect = new Rectangle2D.Float(
+                0, 0,
+                PLAYER_STATS_SIZE / 6f, PLAYER_STATS_SIZE / 6f
         );
 
         Line2D.Float divider = new Line2D.Float(0, 0, PLAYER_STATS_SIZE / 0.64f, 0);
@@ -64,6 +69,20 @@ public class PlayerStats extends Materials {
         drawDivider(divider);
         g2d.translate(0, PLAYER_STATS_SIZE / 5f);
         g2d.drawString("Hozené skóre: " + throwScore, 0, 0);
+
+        g2d.setTransform(old);
+
+        // Draw Green/Red border base on onMove
+        if (onMove.equals(name)) {
+            g2d.setPaint(PLAYER_STATS_BORDER_GREEN);
+        } else {
+            g2d.setPaint(PLAYER_STATS_BORDER_RED);
+        }
+        g2d.translate(-PLAYER_STATS_SIZE / 5f, PLAYER_STATS_SIZE / 15f);
+        g2d.fill(onMoveRect);
+        g2d.setPaint(textureEdge);
+        g2d.draw(onMoveRect);
+        g2d.setTransform(old);
 
         g2d.setTransform(old);
     }

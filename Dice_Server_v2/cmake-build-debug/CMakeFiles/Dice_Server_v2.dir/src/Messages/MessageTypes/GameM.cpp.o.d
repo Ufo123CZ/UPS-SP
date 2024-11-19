@@ -1,5 +1,5 @@
-CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Login.cpp.o: \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/Login.cpp \
+CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/GameM.cpp.o: \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/GameM.cpp \
  /usr/include/stdc-predef.h \
  /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../MessageFormat.h \
  /usr/include/c++/12/unordered_map /usr/include/c++/12/type_traits \
@@ -180,8 +180,6 @@ CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Login.cpp.o: \
  /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Data/Player.h \
  /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Data/Dice.h \
  /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Data/Player.h \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Data/Player.h \
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../TAGS.h \
  /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Data/DataVectors.h \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Data/Game.h \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Messages/TAGS.h \
- /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Utils/Consts.h
+ /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/../../Data/Game.h

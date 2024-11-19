@@ -2,7 +2,6 @@ package usp_sp.Server;
 
 import lombok.Getter;
 import lombok.Setter;
-import usp_sp.GUI.QueuePanel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,7 +43,9 @@ public class Connection {
 
     // Event listener
     @Getter @Setter
-    private EventListener eventListener;
+    private EventListenerQueue eventListener;
+    @Getter @Setter
+    private EventListenerGame eventListenerGame;
 
     // Singleton
     private static Connection instance = null;
@@ -92,31 +93,11 @@ public class Connection {
     }
 
     public String makeContact(String action, String information) {
-        /*
-//        int messageLength = action.length() + information.length() + 3;
-//        StringBuilder messageLengthStr = new StringBuilder(String.valueOf(messageLength));
-//        for (int i = messageLengthStr.length(); i < 4; i++) {
-//            messageLengthStr.insert(0, "0");
-//        }
-//
-//        String messageHeader = BASE_IN + ";" + messageLengthStr+ ";";
-//        response = messageHeader + action + ";" + information;
-//        System.out.println(response);
-
-//        System.out.println(message);
-//
-//        // Send a message to the server
-//        out.println(message);
-
-        // Read the response from the server
-//            String response = in.readLine();
-//            System.out.println(response);
-*/
         // Prepare the message
         response = messageBuilder(action, information);
 
         // Wait for the response from the server send in thread
-        while (message.isEmpty()) {
+        while (message.isEmpty() || message.contains(PING) || message.contains(PONG)) {
             try {
                 sleep(500);
             } catch (InterruptedException e) {
@@ -171,10 +152,12 @@ public class Connection {
                         int connection = 5;
                         do {
                             sleep(500);
+                            // Read the message from the server
                             receivedMessage = in.readLine();
                             if (!receivedMessage.isEmpty()) {
-                                message = receivedMessage;
-                                connection = 5;
+                                StringBuilder messageBuilder = exludePartsOfMessage(receivedMessage);
+                                message = messageBuilder.toString();
+                                break;
                             }
                             connection--;
                             if (connection == 0) {
@@ -188,7 +171,10 @@ public class Connection {
 
                         // Notify the event listener
                         if (eventListener != null) {
-                            eventListener.onMessageReceived(message);
+                            eventListener.onMessageReceivedQueue(message);
+                        }
+                        if (eventListenerGame != null) {
+                            eventListenerGame.onMessageReceivedGame(message);
                         }
                     } catch (InterruptedException | NullPointerException e) {
                         System.out.println("Error: Server connection lost.");
@@ -199,13 +185,13 @@ public class Connection {
                         return;
                     }
                     // Read the message from the server
-                    System.out.println("Received: " + message);
+//                    System.out.println("Received: " + message);
 
                     // Send the message to the server
                     if (response.isEmpty() || response.equals("\n")) {
                         response = pongMessage;
                     }
-                    System.out.println("Sent: " + response);
+//                    System.out.println("Sent: " + response);
                     out.println(response);
                     response = "";
                     // TODO: Handle ping messages - probably just respond with a pong
@@ -219,6 +205,19 @@ public class Connection {
         listenerThread.start();
     }
 
+    private static StringBuilder exludePartsOfMessage(String receivedMessage) {
+        String[] parts = receivedMessage.split(";");
+        // Chain all parts except the first two
+        StringBuilder messageBuilder = new StringBuilder();
+        for (int i = 2; i < parts.length; i++) {
+            messageBuilder.append(parts[i]);
+            if (i < parts.length - 1) {
+                messageBuilder.append(";");
+            }
+        }
+        return messageBuilder;
+    }
+
     private void stopListening() throws InterruptedException {
         listening = false;
         sleep(2000);
@@ -227,7 +226,11 @@ public class Connection {
         }
     }
 
-    public interface EventListener {
-        void onMessageReceived(String message);
+    public interface EventListenerQueue {
+        void onMessageReceivedQueue(String message);
+    }
+
+    public interface EventListenerGame {
+        void onMessageReceivedGame(String message);
     }
 }

@@ -5,17 +5,19 @@ import lombok.Setter;
 import usp_sp.GameObjects.Board;
 import usp_sp.GameObjects.Dice;
 import usp_sp.GameObjects.PlayerStats;
+import usp_sp.Server.Connection;
+import usp_sp.Server.Messages;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.RoundRectangle2D;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
 import static usp_sp.Utils.Const.*;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements Connection.EventListenerGame {
 
     // Globals
     private Board board;
@@ -32,7 +34,7 @@ public class GamePanel extends JPanel {
 
     // Player
     @Setter
-    private String currentPlayer = "P1";
+    private String onMove = "P1";
     private int selectedDice = -1;
 
     public GamePanel() {
@@ -50,6 +52,9 @@ public class GamePanel extends JPanel {
         playerStatsP2 = new PlayerStats();
         playerStatsList = List.of(playerStatsP1, playerStatsP2);
 
+        // Register this panel as an event listener
+        Connection.getInstance().setEventListenerGame(this);
+
         controls();
     }
 
@@ -66,39 +71,19 @@ public class GamePanel extends JPanel {
         board.drawBoard();
         board.drawBoardText();
 
-        // Set Dices params form server
-        /* TODO: Get dices from server */
         // Draw the Dices
-//        String[] diceIdsP1 = {"P1K1", "P1K2", "P1K3", "P1K4", "P1K5", "P1K6"};
-//        String[] diceIdsP2 = {"P2K1", "P2K2", "P2K3", "P2K4", "P2K5", "P2K6"};
-//        List<String[]> idList = List.of(diceIdsP1, diceIdsP2);
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 2; j++) {
                 diceList.get(j)[i].setG2d(g2d);
-//                diceList.get(j)[i].setDiceId(idList.get(j)[i]);
-//                diceList.get(j)[i].setDiceValue(6);
-//                diceList.get(j)[i].setSelected(false);
-//                diceList.get(j)[i].setHover(false);
-//                diceList.get(j)[i].setHold(false);
             }
-            /* TODO: ^^^ Server preparation ^^^ */
         }
 
         // Draw the Dices
         board.drawDices(diceList);
 
-        // Player Stats
+        // Player Stats Graphics
         playerStatsP1.setG2d(g2d);
-//        playerStatsP1.setName("Player 1");
-//        playerStatsP1.setTotalScore(0);
-//        playerStatsP1.setSubtotalScore(0);
-//        playerStatsP1.setThrowScore(0);
-//
         playerStatsP2.setG2d(g2d);
-//        playerStatsP2.setName("Player 2");
-//        playerStatsP2.setTotalScore(0);
-//        playerStatsP2.setSubtotalScore(0);
-//        playerStatsP2.setThrowScore(0);
         for (int i = 0; i < 2; i++) {
             AffineTransform old = g2d.getTransform();
             if (i == 0) {
@@ -106,7 +91,7 @@ public class GamePanel extends JPanel {
             } else {
                 g2d.translate(BOARD_SIZE / 2f - PLAYER_STATS_SIZE / 0.6f, BOARD_SIZE / 25f);
             }
-            playerStatsList.get(i).drawStats();
+            playerStatsList.get(i).drawStats(onMove);
             g2d.setTransform(old);
         }
     }
@@ -230,7 +215,11 @@ public class GamePanel extends JPanel {
         actionMap.put("ThrowDices", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Pressed SPACE");
+                String result = "";
+                if (Connection.getInstance().getPlayerName().equals(onMove)) {
+                    result = Connection.getInstance().makeContact(Messages.GAME_THROW_DICE, "");
+                }
+                if (!result.isEmpty()) updateGame(result);
             }
         });
     }
@@ -238,7 +227,7 @@ public class GamePanel extends JPanel {
 
     //region Controls Functions
     private int whoIsPlaying() {
-        return currentPlayer.equals("P1") ? 0 : 1;
+        return onMove.equals("P1") ? 0 : 1;
     }
 
     private int getTheLeftest() {
@@ -262,5 +251,46 @@ public class GamePanel extends JPanel {
         }
         return rightest;
     }
+
+    void updateGame(String information) {
+        // Parse the message to get the information
+        String[] parts = information.split(";");
+        // parts[0] is tag GAME_<UPDATE>
+        // parts[1] is the player who changed
+        int who = 0;
+        for (PlayerStats playerStats : playerStatsList) {
+            if (playerStats.name.equals(parts[1])) {
+                for (int i = 2; i < parts.length - 1; i++) {
+                    String[] dice = parts[i].split(",");
+                    // Find dice to update
+                    for (int j = 0; j < 6; j++) {
+                        if (diceList.get(who)[j].getDiceId().equals(dice[0])) {
+                            diceList.get(who)[j].setDiceValue(Integer.parseInt(dice[1]));
+                            diceList.get(who)[j].setSelected(dice[2].equals("1"));
+                            diceList.get(who)[j].setHold(dice[3].equals("1"));
+                            break;
+                        }
+                    }
+                }
+            }
+            who++;
+        }
+        repaint();
+    }
     //endregion
+
+    @Override
+    public void onMessageReceivedGame(String message) {
+        new Thread(() -> {
+            try {
+                sleep(500);
+                if (message.contains(Messages.GAME_THROW_DICE)) {
+                    System.out.println("Update Game with message: " + message);
+                    updateGame(message);
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+    }
 }

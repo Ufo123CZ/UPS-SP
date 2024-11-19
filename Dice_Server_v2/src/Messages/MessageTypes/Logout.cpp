@@ -30,11 +30,10 @@ namespace Logout {
         // Print the logout message
         std::cout << "Player " << name << " has logged out." << std::endl;
 
-        // prepare response and return
+        // Prepare response and return
         std::string tag;
         tag.append(BASE_LOGIN).append(LOGOUT);
-        std::string info = SUCCESS;
 
-        return MessageFormat::prepareResponse(info, tag);
+        return MessageFormat::prepareResponse(SUCCESS, tag);
     }
 }

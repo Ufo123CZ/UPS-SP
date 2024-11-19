@@ -17,7 +17,7 @@ add_executable(Dice_Server_v2
         # Message Types
         src/Messages/MessageTypes/Login.cpp
         src/Messages/MessageTypes/Logout.cpp
-        src/Messages/MessageTypes/Queue.cpp
+        src/Messages/MessageTypes/GameM.cpp
 
         # Data
         src/Data/DataVectors.cpp

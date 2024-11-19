@@ -5,6 +5,8 @@
 #include <functional>
 #include <string>
 #include <iostream>
+#include "../Data/Game.h"
+#include "../Data/Player.h"
 
 
 class MessageFormat {
@@ -22,8 +24,13 @@ namespace Login {
 namespace Logout {
     std::string logout(int fd, std::string& information);
 }
-namespace Queue {
-    std::string status(int fd);
+namespace GameM {
+    std::string throwDice(int fd, std::string& information);
+    std::string selectDice(int fd, std::string& information);
+    std::string confirmDice(int fd, std::string& information);
+    std::string endTurn(int fd, std::string& information);
+
+    std::pair<Game, Player> whereAndWho(int fd);
 }
 
 #endif //MESSAGEFORMAT_H

@@ -11,7 +11,7 @@ import static java.lang.Thread.sleep;
 import static usp_sp.Server.Messages.GAME_CREATED;
 import static usp_sp.Utils.Const.ASSETS_GIF;
 
-public class QueuePanel extends JPanel implements Connection.EventListener {
+public class QueuePanel extends JPanel implements Connection.EventListenerQueue {
 
     private GamePanel gamePanel;
 
@@ -54,18 +54,19 @@ public class QueuePanel extends JPanel implements Connection.EventListener {
     }
 
     @Override
-    public void onMessageReceived(String message) {
+    public void onMessageReceivedQueue(String message) {
         new Thread(() -> {
             try {
-                sleep(1000);
+                sleep(500);
                 if (message.contains(GAME_CREATED)) {
                     Connection.getInstance().setStatus(1);
 
                     // Parse the message to get the information
                     String[] parts = message.split(";");
-                    for (int i = 3; i < parts.length - 1; i++) {
+                    // parts[0] is tag GAME_CREATED
+                    for (int i = 1; i < parts.length - 1; i++) {
                         // Player Stats
-                        PlayerStats playerStats = gamePanel.getPlayerStatsList().get(i - 3);
+                        PlayerStats playerStats = gamePanel.getPlayerStatsList().get(i - 1);
 
                         String[] playerInfo = parts[i].split("\\|");
 
@@ -82,15 +83,15 @@ public class QueuePanel extends JPanel implements Connection.EventListener {
                         String[] dices = playerInfo[2].split("/");
                         for (int j = 0; j < dices.length; j++) {
                             String[] diceParts = dices[j].split(",");
-                            gamePanel.getDiceList().get(i - 3)[j].setDiceId(diceParts[0]);
-                            gamePanel.getDiceList().get(i - 3)[j].setDiceValue(Integer.parseInt(diceParts[1]));
-                            gamePanel.getDiceList().get(i - 3)[j].setSelected(diceParts[2].equals("1"));
-                            gamePanel.getDiceList().get(i - 3)[j].setHold(diceParts[3].equals("1"));
+                            gamePanel.getDiceList().get(i - 1)[j].setDiceId(diceParts[0]);
+                            gamePanel.getDiceList().get(i - 1)[j].setDiceValue(Integer.parseInt(diceParts[1]));
+                            gamePanel.getDiceList().get(i - 1)[j].setSelected(diceParts[2].equals("1"));
+                            gamePanel.getDiceList().get(i - 1)[j].setHold(diceParts[3].equals("1"));
                         }
                     }
 
                     // Set currentPlayer
-                    gamePanel.setCurrentPlayer(parts[parts.length - 1]);
+                    gamePanel.setOnMove(parts[parts.length - 1]);
                     gamePanel.repaint();
 
                     Window window = (Window) SwingUtilities.getWindowAncestor(this);

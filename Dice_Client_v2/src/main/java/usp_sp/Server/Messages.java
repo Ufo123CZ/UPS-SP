@@ -22,6 +22,7 @@ public class Messages {
 
     // Game
     public static final String GAME_CREATED = BASE_GAME + "create:";
+    public static final String GAME_THROW_DICE = BASE_GAME + "throw:";
 
 
 

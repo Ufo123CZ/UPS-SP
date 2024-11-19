@@ -8,7 +8,7 @@ public:
     Dice(const std::string &id);
     // ~Dice();
 
-    int rollDice();
+    void rollDice();
     int getDiceValue();
 
     std::string id;

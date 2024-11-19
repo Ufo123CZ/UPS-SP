@@ -82,6 +82,7 @@ void Server::start() {
 
         // bool doNotPing = false;
         std::vector<int> currentPings = {};
+        std::vector<std::pair<int, std::string>> update = {};
         // sleep(1);
         for (int fd = 3; fd < FD_SETSIZE; fd++) {
             if (FD_ISSET(fd, &readfds)) {
@@ -122,7 +123,19 @@ void Server::start() {
                             response = MessageFormat::createFailMessage();
                         }
 
-                        // PLACEHOLDER E
+                        // Update for all in players in modified game
+                        if (message.find(BASE_GAME) != std::string::npos) {
+                            // Get the game and player
+                            std::pair<Game, Player> finder = GameM::whereAndWho(fd);
+                            for (Player& player : finder.first.gamePlayers) {
+                                if (player.fd != fd) {
+                                    std::cout << "Update ready for player: " << player.name << std::endl;
+                                    update.emplace_back(player.fd, response);
+                                    // send(player.fd, response.c_str(), response.size(), 0);
+                                }
+                            }
+
+                        }
 
                         // Message contains the command logout close the socket
                         if (message.find(LOGOUT) != std::string::npos) {
@@ -143,10 +156,21 @@ void Server::start() {
         }
 
         // Special Events
+        // Update players
+        for (std::pair<int, std::string> pair : update) {
+            for (Player& player : DataVectors::players) {
+                if (player.fd == pair.first) {
+                    std::cout << "Update player: " << player.name << std::endl;
+                    std::cout << "Response: " << pair.second << std::endl;
+                    send(pair.first, pair.second.c_str(), pair.second.size(), 0);
+                    std::erase(update, pair);
+                }
+            }
+        }
+
         // Init Game
         // Create new game and change response to the game message
         // This event can occur only when there is more than 2 players in players vector
-
         if (DataVectors::players.size() >= 2) {
             bool allInGame = true;
             for (Player& player : DataVectors::players) {
@@ -161,6 +185,8 @@ void Server::start() {
             }
 
             std::string response = Events::createGame();
+            std::cout << "Players: " << DataVectors::games[DataVectors::games.size() - 1].gamePlayers[0].name
+            << " and " <<  DataVectors::games[DataVectors::games.size() - 1].gamePlayers[1].name  << std::endl;
             std::cout << response << std::endl;
             std::cout << "---------------------------" << std::endl;
             // send the response to all players that are in now created game
@@ -168,6 +194,7 @@ void Server::start() {
                 send(player.fd, response.c_str(), response.size(), 0);
             }
         }
+
         // TODO: uncomment this code for lost connection with the client
         // Check who send some message comparing the current pings and the data vectors
         // if (DataVectors::players.empty()) {
