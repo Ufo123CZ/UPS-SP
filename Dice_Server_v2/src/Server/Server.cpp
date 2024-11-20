@@ -101,11 +101,11 @@ void Server::start() {
                     ioctl(fd, FIONREAD, &a2read);
                     if (a2read > 0) {
                         // Find name of the player
-                        for (Player& player : DataVectors::players) {
-                            if (player.fd == fd) {
-                                std::cout << "Player " << player.name << ":" << std::endl;
-                            }
-                        }
+                        // for (Player& player : DataVectors::players) {
+                        //     if (player.fd == fd) {
+                        //         std::cout << "Player " << player.name << ":" << std::endl;
+                        //     }
+                        // }
 
                         // Read the message
                         std::string message = MessageProcessing::readMessage(fd);
@@ -131,7 +131,6 @@ void Server::start() {
                                 if (player.fd != fd) {
                                     std::cout << "Update ready for player: " << player.name << std::endl;
                                     update.emplace_back(player.fd, response);
-                                    // send(player.fd, response.c_str(), response.size(), 0);
                                 }
                             }
 
@@ -139,13 +138,14 @@ void Server::start() {
 
                         // Message contains the command logout close the socket
                         if (message.find(LOGOUT) != std::string::npos) {
+                            send(fd, response.c_str(), response.size(), 0);
                             std::erase(currentPings, fd);
                             close(fd);
                             FD_CLR(fd, &client_socks);
                             std::cout << "Client disconnected and removed from socket set" << std::endl;
                         }
 
-                        std::cout << "---------------------------" << std::endl;
+                        // std::cout << "---------------------------" << std::endl;
 
 
                         // Send the response

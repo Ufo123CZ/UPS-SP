@@ -10,7 +10,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
-import static usp_sp.Utils.Colours.DICE_HOLD;
+import static usp_sp.Utils.Colours.DICE_SELECTED;
 import static usp_sp.Utils.Colours.DICE_HOVER;
 import static usp_sp.Utils.Const.*;
 
@@ -168,27 +168,35 @@ public class Board extends Materials {
 
     public void drawDices(List<Dice[]> diceList) {
         AffineTransform old = g2d.getTransform();
+        g2d.setColor(Color.RED);
+        g2d.fill(new Rectangle2D.Float(-10, -10, 20, 20));
         for (int i = 0; i < 2; i++) {
             g2d.translate(-BOARD_SIZE / 1.9f, (i == 0) ? -BOARD_SIZE / 2.5f : BOARD_SIZE / 7.5f);
 
+            // Draw the dices
             for (int j = 0; j < 6; j++) {
                 g2d.translate(DICE_SIZE / 0.9f, 0);
                 AffineTransform old2 = g2d.getTransform();
-                g2d.translate(0, diceList.get(i)[j].isSelected() ? DICE_SIZE / 2f : DICE_SIZE / 0.3f);
+                // If dice is hold, translate it to the top
+                g2d.translate(0, diceList.get(i)[j].isHold() ? DICE_SIZE / 2f : DICE_SIZE / 0.3f);
                 diceList.get(i)[j].drawDice();
+//                System.out.println(diceList.get(i)[j].getDiceId() + " " + i);
                 g2d.setTransform(old2);
             }
             g2d.setTransform(old);
-
-            g2d.translate(-BOARD_SIZE / 1.9f, -BOARD_SIZE / 2.5f + DICE_SIZE / 0.3f);
+        }
+        // Draw the dices hover, and selected
+        for (int i = 0; i < 2; i++) {
+//            g2d.translate(-BOARD_SIZE / 1.9f, -BOARD_SIZE / 2.5f + DICE_SIZE / 0.3f);
+            g2d.translate(-BOARD_SIZE / 1.9f, (i == 0) ? -BOARD_SIZE / 2.5f + DICE_SIZE / 0.3f : BOARD_SIZE / 7.5f + DICE_SIZE / 0.3f);
             for (int j = 0; j < 6; j++) {
                 g2d.translate(DICE_SIZE / 0.9f, 0);
-                if (diceList.get(i)[j].isHover() && diceList.get(i)[j].isHold()) {
-                    diceList.get(i)[j].markEllipse(new Color[] {DICE_HOLD, DICE_HOVER});
+                if (diceList.get(i)[j].isHover() && diceList.get(i)[j].isSelected()) {
+                    diceList.get(i)[j].markEllipse(new Color[] {DICE_SELECTED, DICE_HOVER});
                 } else if (diceList.get(i)[j].isHover()) {
                     diceList.get(i)[j].markEllipse(new Color[] {DICE_HOVER});
-                } else if (diceList.get(i)[j].isHold()) {
-                    diceList.get(i)[j].markEllipse(new Color[] {DICE_HOLD});
+                } else if (diceList.get(i)[j].isSelected()) {
+                    diceList.get(i)[j].markEllipse(new Color[] {DICE_SELECTED});
                 }
             }
             g2d.setTransform(old);

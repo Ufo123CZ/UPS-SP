@@ -111,7 +111,7 @@ public class Dice extends Materials {
             g2d.scale(0.9f, 0.9f);
             g2d.setPaint(color[0]);
             g2d.draw(dice);
-        } else if (color[0] == DICE_HOLD) {
+        } else if (color[0] == DICE_SELECTED) {
             g2d.setStroke(new BasicStroke(3));
             g2d.scale(0.9f, 0.9f);
             g2d.setPaint(color[0]);

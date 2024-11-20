@@ -11,7 +11,7 @@ public class Colours {
     // GameObjects
     public static final Color DICE_EDGES = new Color(0xFFD2B48C, true);
     public static final Color DICE_HOVER = new Color(0xFF08F57E, true);
-    public static final Color DICE_HOLD = new Color(0xFFA40404, true);
+    public static final Color DICE_SELECTED = new Color(0xFFA40404, true);
     public static final Color PLAYER_STATS_DIVIDER = new Color(0xFFB71B1B, true);
     public static final Color PLAYER_STATS_BORDER_GREEN = new Color(0xFF00FF00, true);
     public static final Color PLAYER_STATS_BORDER_RED = new Color(0xFFFF0000, true);

@@ -25,7 +25,7 @@ namespace Logout {
     std::string logout(int fd, std::string& information);
 }
 namespace GameM {
-    std::string throwDice(int fd, std::string& information);
+    std::string throwDice(int fd);
     std::string selectDice(int fd, std::string& information);
     std::string confirmDice(int fd, std::string& information);
     std::string endTurn(int fd, std::string& information);

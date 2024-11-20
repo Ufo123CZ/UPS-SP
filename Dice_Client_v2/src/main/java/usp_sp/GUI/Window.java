@@ -37,9 +37,10 @@ public class Window extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 if (Connection.getInstance().getStatus() > -1) {
-                    Connection.getInstance().makeContact(Messages.LOGOUT, Connection.getInstance().getPlayerName());
-                    Connection.getInstance().setStatus(-1);
+                    Connection.getInstance().lastContact(Messages.LOGOUT, Connection.getInstance().getPlayerName());
                     Connection.getInstance().closeSocket();
+                    // Close the window
+                    System.exit(0);
                 }
             }
         });
@@ -47,10 +48,5 @@ public class Window extends JFrame {
 
     public void showScene(String sceneName) {
         cardLayout.show(mainPanel, sceneName);
-
-        if (sceneName.equals("Queue")) {
-            QueuePanel queuePanel = (QueuePanel) mainPanel.getComponent(1);
-        }
-
     }
 }

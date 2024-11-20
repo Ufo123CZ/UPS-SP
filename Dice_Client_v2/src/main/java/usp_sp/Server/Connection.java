@@ -2,6 +2,7 @@ package usp_sp.Server;
 
 import lombok.Getter;
 import lombok.Setter;
+import usp_sp.GUI.Window;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,9 +43,9 @@ public class Connection {
     private boolean loggedIn = false;
 
     // Event listener
-    @Getter @Setter
+    @Setter
     private EventListenerQueue eventListener;
-    @Getter @Setter
+    @Setter
     private EventListenerGame eventListenerGame;
 
     // Singleton
@@ -87,6 +88,7 @@ public class Connection {
             if (out != null) out.close();
             if (in != null) in.close();
             if (socket != null) socket.close();
+            this.playerName = "";
             this.status = -1;
             this.loggedIn = false;
         } catch (IOException | InterruptedException ignored) {}
@@ -106,6 +108,11 @@ public class Connection {
         }
 
         return message;
+    }
+
+    public void lastContact(String action, String information) {
+        // Prepare the message
+        response = messageBuilder(action, information);
     }
 
     private String messageBuilder(String action, String information) {
@@ -161,9 +168,8 @@ public class Connection {
                             }
                             connection--;
                             if (connection == 0) {
-                                status = -1;
-                                loggedIn = false;
                                 // TODO: Handle connection loss
+                                System.out.println("Disconnected from server.");
                                 closeSocket();
                                 return;
                             }
@@ -182,7 +188,6 @@ public class Connection {
                         status = -1;
                         loggedIn = false;
                         closeSocket();
-                        return;
                     }
                     // Read the message from the server
 //                    System.out.println("Received: " + message);

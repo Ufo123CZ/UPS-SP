@@ -37,8 +37,8 @@ void MessageFormat::initMessageFormatMap() {
         {tagPing, [](int, std::string&) -> std::string {
             return createPingMessage();
         }},
-        {tagGameThrow, [](int fd, std::string& information) -> std::string {
-            return GameM::throwDice(fd, information);
+        {tagGameThrow, [](int fd, std::string&) -> std::string {
+            return GameM::throwDice(fd);
         }},
         {tagGameSelect, [](int fd, std::string& information) -> std::string {
             return GameM::selectDice(fd, information);

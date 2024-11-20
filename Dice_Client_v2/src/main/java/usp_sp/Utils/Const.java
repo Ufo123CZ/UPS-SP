@@ -25,8 +25,4 @@ public class Const {
     public static final String GAME_TEXT_TH = "Hozené kostky";
     public static final String GAME_TEXT_SEL = "Kostky v mezisoučtu";
 
-    // Lobby
-    public static final String[] COLUMNS_NAMES = {"No.", "Jmeno", "Pocet Hráčů", "Join", "Delete"};
-    public static final double[] COLUMNS_WIDTH = {0.05, 0.45, 0.1, 0.2, 0.2}; // percentage of the table width
-
 }

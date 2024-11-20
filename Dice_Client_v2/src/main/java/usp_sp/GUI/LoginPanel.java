@@ -100,8 +100,9 @@ public class LoginPanel extends JPanel {
                 if (response.contains("ERROR")) {
                     JOptionPane.showMessageDialog(window, "Connection failed.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    window.showScene("Queue");
                     Connection.getInstance().setStatus(0);
+                    window.showScene("Queue");
+                    JOptionPane.showMessageDialog(window, "Connected to the server.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });
