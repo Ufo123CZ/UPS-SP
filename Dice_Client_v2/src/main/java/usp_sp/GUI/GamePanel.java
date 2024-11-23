@@ -35,6 +35,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
     // Player
     @Setter
     private String onMove = "P1";
+    private boolean firstMoveInRound = false;
     private int selectedDice = -1;
 
     public GamePanel() {
@@ -126,7 +127,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
 
         inputMap.put(KeyStroke.getKeyStroke("A"), "MoveLeft");
         inputMap.put(KeyStroke.getKeyStroke("D"), "MoveRight");
-        inputMap.put(KeyStroke.getKeyStroke("E"), "HoldDice");
+        inputMap.put(KeyStroke.getKeyStroke("E"), "SelectDice");
         inputMap.put(KeyStroke.getKeyStroke("F"), "NextThrow");
         inputMap.put(KeyStroke.getKeyStroke("Q"), "EndTurn");
         inputMap.put(KeyStroke.getKeyStroke("T"), "Help");
@@ -135,23 +136,25 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("MoveLeft", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Connection.getInstance().getPlayerName().equals(onMove)) {
-                    int who = whoIsPlaying();
-                    int leftest = getTheLeftest();
-                    if (selectedDice == -1 || selectedDice == leftest) {
-                        if (selectedDice != -1) {
+                if (firstMoveInRound) {
+                    if (Connection.getInstance().getPlayerName().equals(onMove)) {
+                        int who = whoIsPlaying();
+                        int leftest = getTheLeftest();
+                        if (selectedDice == -1 || selectedDice == leftest) {
+                            if (selectedDice != -1) {
+                                diceList.get(who)[selectedDice].setHover(false);
+                            }
+                            selectedDice = leftest;
+                            diceList.get(who)[selectedDice].setHover(true);
+                        } else {
                             diceList.get(who)[selectedDice].setHover(false);
+                            do {
+                                selectedDice--;
+                            } while (selectedDice >= leftest && diceList.get(who)[selectedDice].isHold());
+                            diceList.get(who)[selectedDice].setHover(true);
                         }
-                        selectedDice = leftest;
-                        diceList.get(who)[selectedDice].setHover(true);
-                    } else {
-                        diceList.get(who)[selectedDice].setHover(false);
-                        do {
-                            selectedDice--;
-                        } while (selectedDice >= leftest && diceList.get(who)[selectedDice].isHold());
-                        diceList.get(who)[selectedDice].setHover(true);
+                        repaint();
                     }
-                    repaint();
                 }
             }
         });
@@ -159,39 +162,43 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("MoveRight", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Connection.getInstance().getPlayerName().equals(onMove)) {
-                    int who = whoIsPlaying();
-                    int rightest = getTheRightest();
-                    if (selectedDice == -1 || selectedDice == rightest) {
-                        if (selectedDice != -1) {
+                if (firstMoveInRound) {
+                    if (Connection.getInstance().getPlayerName().equals(onMove)) {
+                        int who = whoIsPlaying();
+                        int rightest = getTheRightest();
+                        if (selectedDice == -1 || selectedDice == rightest) {
+                            if (selectedDice != -1) {
+                                diceList.get(who)[selectedDice].setHover(false);
+                            }
+                            selectedDice = rightest;
+                            diceList.get(who)[selectedDice].setHover(true);
+                        } else {
                             diceList.get(who)[selectedDice].setHover(false);
+                            do {
+                                selectedDice++;
+                            } while (selectedDice <= rightest && diceList.get(who)[selectedDice].isHold());
+                            diceList.get(who)[selectedDice].setHover(true);
                         }
-                        selectedDice = rightest;
-                        diceList.get(who)[selectedDice].setHover(true);
-                    } else {
-                        diceList.get(who)[selectedDice].setHover(false);
-                        do {
-                            selectedDice++;
-                        } while (selectedDice <= rightest && diceList.get(who)[selectedDice].isHold());
-                        diceList.get(who)[selectedDice].setHover(true);
+                        repaint();
                     }
-                    repaint();
                 }
             }
         });
 
-        actionMap.put("HoldDice", new AbstractAction() {
+        actionMap.put("SelectDice", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int who = whoIsPlaying();
-                if (selectedDice != -1 && diceList.get(who)[selectedDice].isSelected()) {
-                    diceList.get(who)[selectedDice].setSelected(false);
-                } else if (selectedDice != -1 && !diceList.get(who)[selectedDice].isSelected()) {
-                    diceList.get(who)[selectedDice].setSelected(true);
+                if (firstMoveInRound) {
+                    if (Connection.getInstance().getPlayerName().equals(onMove)) {
+                        int who = whoIsPlaying();
+                        if (selectedDice != -1 && diceList.get(who)[selectedDice].isSelected()) {
+                            diceList.get(who)[selectedDice].setSelected(false);
+                        } else if (selectedDice != -1 && !diceList.get(who)[selectedDice].isSelected()) {
+                            diceList.get(who)[selectedDice].setSelected(true);
+                        }
+                        repaint();
+                    }
                 }
-
-                /* TODO: Send holded dices to server and check if they give player some score */
-                repaint();
             }
         });
 
@@ -199,18 +206,18 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Pressed F");
-                /* TODO: Send all holded dices to server after checking that the holded ones have value */
             }
         });
 
         actionMap.put("EndTurn", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String result = "";
-                if (Connection.getInstance().getPlayerName().equals(onMove)) {
-                    result = Connection.getInstance().makeContact(Messages.GAME_END_TURN, "");
+                if (firstMoveInRound) {
+                    if (Connection.getInstance().getPlayerName().equals(onMove)) {
+                        String result = Connection.getInstance().makeContact(Messages.GAME_END_TURN, "");
+                        if (!result.isEmpty()) updateGame(result);
+                    }
                 }
-                if (!result.isEmpty()) updateGame(result);
             }
         });
 
@@ -224,11 +231,15 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("ThrowDices", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String result = "";
-                if (Connection.getInstance().getPlayerName().equals(onMove)) {
-                    result = Connection.getInstance().makeContact(Messages.GAME_THROW_DICE, "");
+                if (!firstMoveInRound) {
+                    if (Connection.getInstance().getPlayerName().equals(onMove)) {
+                        String result = Connection.getInstance().makeContact(Messages.GAME_THROW_DICE, "");
+                        if (!result.isEmpty()) {
+                            updateGame(result);
+                            firstMoveInRound = true;
+                        }
+                    }
                 }
-                if (!result.isEmpty()) updateGame(result);
             }
         });
     }
@@ -305,6 +316,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
                 // Switch Player
                 if (!parts[4].equals(" ")) {
                     onMove = parts[4];
+                    firstMoveInRound = false;
                 }
 
                 // Reset selected dice
