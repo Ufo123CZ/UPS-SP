@@ -496,7 +496,21 @@ CMakeFiles/Dice_Server_v2.dir/src/Data/Game.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/S
   /usr/include/c++/12/bits/basic_ios.tcc \
   /usr/include/c++/12/bits/ostream.tcc \
   /usr/include/c++/12/istream \
-  /usr/include/c++/12/bits/istream.tcc
+  /usr/include/c++/12/bits/istream.tcc \
+  /usr/include/c++/12/algorithm \
+  /usr/include/c++/12/bits/stl_algo.h \
+  /usr/include/c++/12/bits/algorithmfwd.h \
+  /usr/include/c++/12/bits/stl_heap.h \
+  /usr/include/c++/12/bits/stl_tempbuf.h \
+  /usr/include/c++/12/bits/uniform_int_dist.h \
+  /usr/include/c++/12/bits/ranges_algo.h \
+  /usr/include/c++/12/bits/ranges_algobase.h \
+  /usr/include/c++/12/bits/ranges_util.h \
+  /usr/include/c++/12/pstl/glue_algorithm_defs.h \
+  /usr/include/c++/12/pstl/execution_defs.h \
+  /usr/include/c++/12/cstring \
+  /usr/include/string.h \
+  /usr/include/strings.h
 
 CMakeFiles/Dice_Server_v2.dir/src/Data/Player.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/Player.cpp \
   /usr/include/stdc-predef.h \
@@ -2985,10 +2999,6 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/fcntl.h:
 
-/usr/include/strings.h:
-
-/usr/include/string.h:
-
 /usr/include/linux/falloc.h:
 
 /usr/include/x86_64-linux-gnu/bits/in.h:
@@ -3018,6 +3028,18 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/x86_64-linux-gnu/bits/syscall.h:
 
 /usr/include/x86_64-linux-gnu/asm/unistd_64.h:
+
+/usr/include/x86_64-linux-gnu/sys/syscall.h:
+
+/usr/include/linux/close_range.h:
+
+/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
+
+/usr/include/x86_64-linux-gnu/bits/confname.h:
+
+/usr/include/x86_64-linux-gnu/bits/environments.h:
+
+/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
 
@@ -3051,11 +3073,7 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/c++/12/cerrno:
 
-/usr/include/x86_64-linux-gnu/sys/syscall.h:
-
 /usr/include/x86_64-linux-gnu/bits/locale.h:
-
-/usr/include/c++/12/bits/localefwd.h:
 
 /usr/include/locale.h:
 
@@ -3125,6 +3143,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
 
+/usr/include/c++/12/algorithm:
+
 /usr/include/c++/12/bits/move.h:
 
 /usr/include/stdc-predef.h:
@@ -3165,6 +3185,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/c++/12/bits/stl_function.h:
 
+/usr/include/c++/12/bits/ranges_util.h:
+
 /usr/include/c++/12/bits/std_function.h:
 
 /usr/include/linux/ioctl.h:
@@ -3190,10 +3212,6 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
-
-/usr/include/c++/12/cstring:
-
-/usr/include/ctype.h:
 
 /usr/include/c++/12/bits/stl_algobase.h:
 
@@ -3293,9 +3311,11 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/x86_64-linux-gnu/c++/12/bits/c++allocator.h:
 
-/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
-
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
+
+/usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
+
+/usr/include/c++/12/bits/new_allocator.h:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
@@ -3305,11 +3325,11 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/c++/12/concepts:
 
-/usr/include/x86_64-linux-gnu/bits/confname.h:
-
 /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
 
 /usr/include/c++/12/bits/stl_uninitialized.h:
+
+/usr/include/string.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
 
@@ -3340,6 +3360,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/x86_64-linux-gnu/asm/errno.h:
 
 /usr/include/x86_64-linux-gnu/c++/12/bits/atomic_word.h:
+
+/usr/include/strings.h:
 
 /usr/include/c++/12/initializer_list:
 
@@ -3373,6 +3395,14 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
 
+/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
+
+/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Utils/Consts.h:
+
+/usr/include/time.h:
+
+/usr/include/x86_64-linux-gnu/bits/setjmp.h:
+
 /usr/include/x86_64-linux-gnu/sys/ttydefaults.h:
 
 /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/Player.h:
@@ -3391,6 +3421,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
 
+/usr/include/c++/12/bits/ranges_algo.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
 
 /usr/include/c++/12/bits/charconv.h:
@@ -3406,14 +3438,6 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/x86_64-linux-gnu/sys/cdefs.h:
 
 /usr/include/c++/12/streambuf:
-
-/mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Utils/Consts.h:
-
-/usr/include/time.h:
-
-/usr/include/x86_64-linux-gnu/bits/setjmp.h:
-
-/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
 
 /usr/include/wctype.h:
 
@@ -3483,6 +3507,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/c++/12/bits/basic_ios.h:
 
+/usr/include/c++/12/pstl/execution_defs.h:
+
 /usr/include/c++/12/string_view:
 
 /usr/include/c++/12/bits/locale_facets.h:
@@ -3497,6 +3523,14 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/c++/12/bits/basic_ios.tcc:
 
+/usr/include/c++/12/bits/stl_algo.h:
+
+/usr/include/c++/12/atomic:
+
+/usr/include/x86_64-linux-gnu/bits/floatn-common.h:
+
+/usr/include/c++/12/bits/algorithmfwd.h:
+
 /usr/include/asm-generic/bitsperlong.h:
 
 /usr/include/c++/12/ext/type_traits.h:
@@ -3505,9 +3539,21 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageFormat.h:
 
-/usr/include/x86_64-linux-gnu/bits/floatn-common.h:
+/usr/include/asm-generic/posix_types.h:
 
-/usr/include/c++/12/bits/algorithmfwd.h:
+/usr/include/c++/12/bits/stl_heap.h:
+
+/usr/include/c++/12/bits/stl_tempbuf.h:
+
+/usr/include/c++/12/bits/ranges_algobase.h:
+
+/usr/include/c++/12/bits/localefwd.h:
+
+/usr/include/c++/12/pstl/glue_algorithm_defs.h:
+
+/usr/include/ctype.h:
+
+/usr/include/c++/12/cstring:
 
 /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Server/MessageProcessing.cpp:
 
@@ -3528,16 +3574,6 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
 
 /usr/include/c++/12/functional:
-
-/usr/include/c++/12/bits/stl_algo.h:
-
-/usr/include/c++/12/atomic:
-
-/usr/include/asm-generic/posix_types.h:
-
-/usr/include/c++/12/bits/stl_heap.h:
-
-/usr/include/c++/12/bits/stl_tempbuf.h:
 
 /usr/include/x86_64-linux-gnu/sys/ioctl.h:
 
@@ -3568,13 +3604,3 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Server/Server.h:
 
 /usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
-
-/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
-
-/usr/include/x86_64-linux-gnu/bits/environments.h:
-
-/usr/include/c++/12/bits/new_allocator.h:
-
-/usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
-
-/usr/include/linux/close_range.h:

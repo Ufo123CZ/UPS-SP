@@ -39,15 +39,15 @@ void ServerCommands::initCommandMap() {
                 << "Player 2: " << game.playerNames[1] << std::endl
                 << "On move: " << game.onMove << std::endl
                 << "Scores: " << std::endl
-                << "Player 1: " << game.scoresP1[0] << " (total), " << game.scoresP1[1] << " (round), " << game.scoresP1[2] << " (throw)" << std::endl
-                << "Player 2: " << game.scoresP2[0] << " (total), " << game.scoresP2[1] << " (round), " << game.scoresP2[2] << " (throw)" << std::endl
+                << "Player 1: " << game.scores[0][0] << " (total), " << game.scores[0][1] << " (round), " << game.scores[0][2] << " (throw)" << std::endl
+                << "Player 2: " << game.scores[1][0] << " (total), " << game.scores[1][1] << " (round), " << game.scores[1][2] << " (throw)" << std::endl
                 << "Dices: " << std::endl
                 << "Player 1: " << std::endl;
-                for (const Dice &dice : game.dicesP1) {
+                for (const Dice &dice : game.dices[0]) {
                     std::cout << "ID: " << dice.id << ", Value: " << dice.value << ", Selected: " << dice.selected << ", Hold: " << dice.hold << std::endl;
                 }
                 std::cout << "Player 2: " << std::endl;
-                for (const Dice &dice : game.dicesP2) {
+                for (const Dice &dice : game.dices[1]) {
                     std::cout << "ID: " << dice.id << ", Value: " << dice.value << ", Selected: " << dice.selected << ", Hold: " << dice.hold << std::endl;
                 }
             }

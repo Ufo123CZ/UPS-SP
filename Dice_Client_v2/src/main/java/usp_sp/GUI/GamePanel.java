@@ -193,8 +193,12 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
                         int who = whoIsPlaying();
                         if (selectedDice != -1 && diceList.get(who)[selectedDice].isSelected()) {
                             diceList.get(who)[selectedDice].setSelected(false);
+                            String result = Connection.getInstance().makeContact(Messages.GAME_SELECT_DICE, diceList.get(who)[selectedDice].getDiceId());
+                            if (!result.isEmpty()) updateGame(result);
                         } else if (selectedDice != -1 && !diceList.get(who)[selectedDice].isSelected()) {
                             diceList.get(who)[selectedDice].setSelected(true);
+                            String result = Connection.getInstance().makeContact(Messages.GAME_SELECT_DICE, diceList.get(who)[selectedDice].getDiceId());
+                            if (!result.isEmpty()) updateGame(result);
                         }
                         repaint();
                     }

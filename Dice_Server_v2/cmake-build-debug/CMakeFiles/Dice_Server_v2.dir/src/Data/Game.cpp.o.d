@@ -161,4 +161,15 @@ CMakeFiles/Dice_Server_v2.dir/src/Data/Game.cpp.o: \
  /usr/include/c++/12/bits/locale_facets.tcc \
  /usr/include/c++/12/bits/basic_ios.tcc \
  /usr/include/c++/12/bits/ostream.tcc /usr/include/c++/12/istream \
- /usr/include/c++/12/bits/istream.tcc
+ /usr/include/c++/12/bits/istream.tcc /usr/include/c++/12/algorithm \
+ /usr/include/c++/12/bits/stl_algo.h \
+ /usr/include/c++/12/bits/algorithmfwd.h \
+ /usr/include/c++/12/bits/stl_heap.h \
+ /usr/include/c++/12/bits/stl_tempbuf.h \
+ /usr/include/c++/12/bits/uniform_int_dist.h \
+ /usr/include/c++/12/bits/ranges_algo.h \
+ /usr/include/c++/12/bits/ranges_algobase.h \
+ /usr/include/c++/12/bits/ranges_util.h \
+ /usr/include/c++/12/pstl/glue_algorithm_defs.h \
+ /usr/include/c++/12/pstl/execution_defs.h /usr/include/c++/12/cstring \
+ /usr/include/string.h /usr/include/strings.h

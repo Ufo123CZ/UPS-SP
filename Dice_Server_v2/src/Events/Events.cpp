@@ -53,50 +53,34 @@ namespace Events {
 
         // Make information
         std::string information;
-        // Player1
-        information.append(game.playerNames[0]).append("|");
-        for (int i = 0; i < game.scoresP1.size(); i++) {
-            information.append(std::to_string(game.scoresP1[i]));
-            if (i != game.scoresP1.size() - 1) {
-                information.append(",");
-            } else {
-                information.append("|");
+
+        // Player names
+        for (int i = 0; i < game.playerNames.size(); i++) {
+            information.append(game.playerNames[i]).append("|");
+            // Scores
+            for (int j = 0; j < game.scores[i].size(); j++) {
+                information.append(std::to_string(game.scores[i][j]));
+                if (j != game.scores[i].size() - 1) {
+                    information.append(",");
+                } else {
+                    information.append("|");
+                }
             }
-        }
-        for (int i = 0; i < game.dicesP1.size(); i++) {
-            information.append(game.dicesP1[i].id).append(",")
-            .append(std::to_string(game.dicesP1[i].value)).append(",")
-            .append(std::to_string(game.dicesP1[i].selected)).append(",")
-            .append(std::to_string(game.dicesP1[i].hold));
-            if (i != game.dicesP1.size() - 1) {
-                information.append("/");
-            } else {
-                information.append("|");
+            // Dices
+            for (int j = 0; j < game.dices[i].size(); j++) {
+                information.append(game.dices[i][j].id).append(",")
+                .append(std::to_string(game.dices[i][j].value)).append(",")
+                .append(std::to_string(game.dices[i][j].selected)).append(",")
+                .append(std::to_string(game.dices[i][j].hold));
+                if (j != game.dices[i].size() - 1) {
+                    information.append("/");
+                } else {
+                    information.append("|");
+                }
             }
+            information.append(";");
         }
-        information.append(";");
-        // Player2
-        information.append(game.playerNames[1]).append("|");
-        for (int i = 0; i < game.scoresP2.size(); i++) {
-            information.append(std::to_string(game.scoresP2[i]));
-            if (i != game.scoresP2.size() - 1) {
-                information.append(",");
-            } else {
-                information.append("|");
-            }
-        }
-        for (int i = 0; i < game.dicesP2.size(); i++) {
-            information.append(game.dicesP2[i].id).append(",")
-            .append(std::to_string(game.dicesP2[i].value)).append(",")
-            .append(std::to_string(game.dicesP2[i].selected)).append(",")
-            .append(std::to_string(game.dicesP2[i].hold));
-            if (i != game.dicesP2.size() - 1) {
-                information.append("/");
-            } else {
-                information.append("|");
-            }
-        }
-        information.append(";");
+
         // On move
         information.append(game.onMove).append(";");
 

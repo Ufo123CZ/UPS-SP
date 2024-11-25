@@ -168,8 +168,6 @@ public class Board extends Materials {
 
     public void drawDices(List<Dice[]> diceList) {
         AffineTransform old = g2d.getTransform();
-        g2d.setColor(Color.RED);
-        g2d.fill(new Rectangle2D.Float(-10, -10, 20, 20));
         for (int i = 0; i < 2; i++) {
             g2d.translate(-BOARD_SIZE / 1.9f, (i == 0) ? -BOARD_SIZE / 2.5f : BOARD_SIZE / 7.5f);
 
