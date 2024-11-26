@@ -27,7 +27,7 @@
 #define GAME_CREATE "create:"
 #define GAME_THROW_DICE "throw:"
 #define GAME_SELECT_DICE "select:"
-#define GAME_CONFIRM_DICE "confirm:"
+#define GAME_NEXT_TURN "next:"
 #define GAME_END_TURN "end:"
 
 

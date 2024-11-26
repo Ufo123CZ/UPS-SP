@@ -192,11 +192,9 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         int who = whoIsPlaying();
                         if (selectedDice != -1 && diceList.get(who)[selectedDice].isSelected()) {
-                            diceList.get(who)[selectedDice].setSelected(false);
                             String result = Connection.getInstance().makeContact(Messages.GAME_SELECT_DICE, diceList.get(who)[selectedDice].getDiceId());
                             if (!result.isEmpty()) updateGame(result);
                         } else if (selectedDice != -1 && !diceList.get(who)[selectedDice].isSelected()) {
-                            diceList.get(who)[selectedDice].setSelected(true);
                             String result = Connection.getInstance().makeContact(Messages.GAME_SELECT_DICE, diceList.get(who)[selectedDice].getDiceId());
                             if (!result.isEmpty()) updateGame(result);
                         }
@@ -209,7 +207,12 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("NextThrow", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Pressed F");
+                if (firstMoveInRound) {
+                    if (Connection.getInstance().getPlayerName().equals(onMove)) {
+                        String result = Connection.getInstance().makeContact(Messages.GAME_NEXT_TURN, "");
+                        if (!result.isEmpty()) updateGame(result);
+                    }
+                }
             }
         });
 
@@ -263,7 +266,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
     private int getTheLeftest() {
         int leftest = 0;
         for (int i = 0; i < 6; i++) {
-            if (!diceList.get(whoIsPlaying())[i].isSelected()) {
+            if (!diceList.get(whoIsPlaying())[i].isHold()) {
                 leftest = i;
                 break;
             }
@@ -274,7 +277,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
     private int getTheRightest() {
         int rightest = 5;
         for (int i = 5; i >= 0; i--) {
-            if (!diceList.get(whoIsPlaying())[i].isSelected()) {
+            if (!diceList.get(whoIsPlaying())[i].isHold()) {
                 rightest = i;
                 break;
             }
@@ -322,9 +325,6 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
                     onMove = parts[4];
                     firstMoveInRound = false;
                 }
-
-                // Reset selected dice
-                selectedDice = -1;
             }
         }
         repaint();
@@ -335,6 +335,16 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
     public void onMessageReceivedGame(String message) {
         new Thread(() -> {
             if (message.contains(Messages.GAME_THROW_DICE)) {
+                System.out.println("Update Game with message: " + message);
+                updateGame(message);
+            }
+
+            if (message.contains(Messages.GAME_SELECT_DICE)) {
+                System.out.println("Update Game with message: " + message);
+                updateGame(message);
+            }
+
+            if (message.contains(Messages.GAME_NEXT_TURN)) {
                 System.out.println("Update Game with message: " + message);
                 updateGame(message);
             }

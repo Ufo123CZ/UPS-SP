@@ -30,15 +30,18 @@ add_executable(Dice_Server_v2
 
         # Utils
         src/Utils/ServerCommands.cpp
+        src/Utils/ScoreCalculation.cpp
 
         # Headers
         src/Server/Server.h
         src/Utils/ServerCommands.h
         src/Utils/Consts.h
+        src/Utils/ScoreCalculation.h
         src/Messages/MessageFormat.h
         src/Data/DataVectors.h
         src/Data/Player.h
         src/Data/Game.h
         src/Data/Dice.h
         src/Events/Events.h
+
 )

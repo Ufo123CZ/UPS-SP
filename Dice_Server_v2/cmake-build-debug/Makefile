@@ -393,6 +393,30 @@ src/Server/Server.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Server/Server.cpp.s
 .PHONY : src/Server/Server.cpp.s
 
+src/Utils/ScoreCalculation.o: src/Utils/ScoreCalculation.cpp.o
+.PHONY : src/Utils/ScoreCalculation.o
+
+# target to build an object file
+src/Utils/ScoreCalculation.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Utils/ScoreCalculation.cpp.o
+.PHONY : src/Utils/ScoreCalculation.cpp.o
+
+src/Utils/ScoreCalculation.i: src/Utils/ScoreCalculation.cpp.i
+.PHONY : src/Utils/ScoreCalculation.i
+
+# target to preprocess a source file
+src/Utils/ScoreCalculation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Utils/ScoreCalculation.cpp.i
+.PHONY : src/Utils/ScoreCalculation.cpp.i
+
+src/Utils/ScoreCalculation.s: src/Utils/ScoreCalculation.cpp.s
+.PHONY : src/Utils/ScoreCalculation.s
+
+# target to generate assembly for a file
+src/Utils/ScoreCalculation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Utils/ScoreCalculation.cpp.s
+.PHONY : src/Utils/ScoreCalculation.cpp.s
+
 src/Utils/ServerCommands.o: src/Utils/ServerCommands.cpp.o
 .PHONY : src/Utils/ServerCommands.o
 
@@ -483,6 +507,9 @@ help:
 	@echo "... src/Server/Server.o"
 	@echo "... src/Server/Server.i"
 	@echo "... src/Server/Server.s"
+	@echo "... src/Utils/ScoreCalculation.o"
+	@echo "... src/Utils/ScoreCalculation.i"
+	@echo "... src/Utils/ScoreCalculation.s"
 	@echo "... src/Utils/ServerCommands.o"
 	@echo "... src/Utils/ServerCommands.i"
 	@echo "... src/Utils/ServerCommands.s"

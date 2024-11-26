@@ -42,6 +42,7 @@ void commandLineInterface(Server &server) {
 
 int main() {
     Server server;
+    srand(time(0));
 
     bool result = server.init();
     if (result == FAILURE_INIT) {

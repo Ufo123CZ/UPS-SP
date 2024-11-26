@@ -27,9 +27,10 @@ namespace Logout {
 namespace GameM {
     std::string throwDice(int fd);
     std::string selectDice(int fd, std::string& information);
-    std::string confirmDice(int fd, std::string& information);
+    std::string nextTurn(int fd, std::string& information);
     std::string endTurn(int fd, std::string& information);
 
+    void updateGame(Game& game);
     std::pair<Game, Player> whereAndWho(int fd);
 }
 

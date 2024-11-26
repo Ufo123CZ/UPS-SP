@@ -98,15 +98,17 @@ public class Connection {
         // Prepare the message
         response = messageBuilder(action, information);
 
+        System.out.println("Sent: " + response);
+
         // Wait for the response from the server send in thread
         while (message.isEmpty() || message.contains(PING) || message.contains(PONG)) {
             try {
-                sleep(500);
+                sleep(200);
             } catch (InterruptedException e) {
                 return ERROR;
             }
         }
-
+        System.out.println("Received: " + message);
         return message;
     }
 
@@ -144,7 +146,7 @@ public class Connection {
                     // First message is login message
                     try {
                         if (!loggedIn) {
-                            sleep(500);
+                            sleep(200);
                             if (!response.isEmpty()) {
                                 out.println(response);
                                 System.out.println("Sent: " + response);
@@ -158,7 +160,7 @@ public class Connection {
                     try {
                         int connection = 5;
                         do {
-                            sleep(500);
+                            sleep(200);
                             // Read the message from the server
                             receivedMessage = in.readLine();
                             if (!receivedMessage.isEmpty()) {

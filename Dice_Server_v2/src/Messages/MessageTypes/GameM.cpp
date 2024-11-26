@@ -11,23 +11,18 @@ namespace GameM {
         const std::string name = finder.second.name;
 
         // Which player is throwing the dices
-        std::vector<std::string> results;
+        std::pair<std::string, std::string> results;
         if (name == finder.first.playerNames[0]) {
             results = finder.first.rollDices(0);
         } else {
             results = finder.first.rollDices(1);
         }
 
-        std::string throwedDices = results[0];
-        std::string switchPlayer = results[1];
+        std::string throwedDices = results.first;
+        std::string switchPlayer = results.second;
 
         // Update the game in the vector
-        for (Game& g : DataVectors::games) {
-            if (g.playerNames[0] == finder.first.playerNames[0]) {
-                g = finder.first;
-                break;
-            }
-        }
+        updateGame(finder.first);
 
         // Prepare response and return
         std::string tag;
@@ -47,28 +42,22 @@ namespace GameM {
 
         // Strings for the response
         const std::string name = finder.second.name;
+        std::string changedDice, score;
+
         // Which player is throwing the dices
-        std::string score;
         if (name == finder.first.playerNames[0]) {
-            finder.first.selectDice(0, information);
-            for (Game& g : DataVectors::games) {
-                if (g.playerNames[0] == finder.first.playerNames[0]) {
-                    g = finder.first;
-                    break;
-                }
-            }
+            std::string response = finder.first.selectDices(0, information);
+            changedDice.append(response);
+
             finder.first.calculateThrow(0);
             score.append(std::to_string(finder.first.scores[0][0])).append(",")
             .append(std::to_string(finder.first.scores[0][1])).append(",")
             .append(std::to_string(finder.first.scores[0][2]));
+
         } else {
-            finder.first.selectDice(1, information);
-            for (Game& g : DataVectors::games) {
-                if (g.playerNames[0] == finder.first.playerNames[0]) {
-                    g = finder.first;
-                    break;
-                }
-            }
+            std::string response = finder.first.selectDices(1, information);
+            changedDice.append(response);
+
             finder.first.calculateThrow(1);
             score.append(std::to_string(finder.first.scores[1][0])).append(",")
             .append(std::to_string(finder.first.scores[1][1])).append(",")
@@ -76,12 +65,7 @@ namespace GameM {
         }
 
         // Update the game in the vector
-        for (Game& g : DataVectors::games) {
-            if (g.playerNames[0] == finder.first.playerNames[0]) {
-                g = finder.first;
-                break;
-            }
-        }
+        updateGame(finder.first);
 
         // Prepare response and return
         std::string tag;
@@ -89,69 +73,51 @@ namespace GameM {
         std::string respInfo;
         respInfo.append(name).append(";"); // Player Name
         respInfo.append(score).append(";"); // Score - null here
-        respInfo.append(" ").append(";"); // Dices
+        respInfo.append(changedDice).append(";"); // Dices
         respInfo.append(" ").append(";"); // Switch - null here
 
         return MessageFormat::prepareResponse(respInfo, tag);
-
-        //
-        // // Select or un-Select the dice in the set
-        // for (Dice& dice : selectedDices) {
-        //     if (dice.id == information) {
-        //         dice.selected = !dice.selected;
-        //     }
-        // }
-
-        // // Count the score from currently selected dices
-        // for (Dice& dice : selectedDices) {
-        //     if (dice.selected) {
-        //         if (dice.value == 1) {
-        //             score += 100;
-        //         } else if (dice.value == 5) {
-        //             score += 50;
-        //         } else {
-        //             score = 0;
-        //         }
-        //     }
-        // }
-
-        // // Count the occurrences of each dice value
-        // std::unordered_map<int, int> diceCount;
-        // for (Dice& dice : selectedDices) {
-        //     if (dice.selected) {
-        //         diceCount[dice.value]++;
-        //     }
-        // }
-        //
-        // // Check for straight combinations
-        // bool isStraight1To5 = diceCount[1] > 0 && diceCount[2] > 0 && diceCount[3] > 0 && diceCount[4] > 0 && diceCount[5] > 0;
-        // bool isStraight2To6 = diceCount[2] > 0 && diceCount[3] > 0 && diceCount[4] > 0 && diceCount[5] > 0 && diceCount[6] > 0;
-        //
-        // if (isStraight1To5 && isStraight2To6) {
-        //     score += 1500;
-        // } else if (isStraight1To5) {
-        //     score += 500;
-        // } else if (isStraight2To6) {
-        //     score += 750;
-        // } else {
-        //     for (auto& pair : diceCount) {
-        //         int value = pair.first;
-        //         int count = pair.second;
-        //         if (value == 1) {
-        //             score += count * 100;
-        //         } else if (value == 5) {
-        //             score += count * 50;
-        //         } else if (count >= 3) {
-        //             score += value * 100;
-        //         }
-        //     }
-        // }
-
-        return "";
-
     }
-    std::string confirmDice(int fd, std::string& information) {
+    std::string nextTurn(int fd, std::string& information) {
+        // Get the game and player
+        std::pair<Game, Player> finder = whereAndWho(fd);
 
+        // Strings for the response
+        const std::string name = finder.second.name;
+
+        // Which player is throwing the dices
+        std::string score, throwedDices, switchPlayer;
+        if (name == finder.first.playerNames[0]) {
+            finder.first.nextRound(0);
+            std::pair<std::string, std::string> results = finder.first.rollDices(0);
+            throwedDices = results.first;
+            switchPlayer = results.second;
+            score.append(std::to_string(finder.first.scores[0][0])).append(",")
+            .append(std::to_string(finder.first.scores[0][1])).append(",")
+            .append(std::to_string(finder.first.scores[0][2]));
+        } else {
+            finder.first.nextRound(1);
+            std::pair<std::string, std::string> results = finder.first.rollDices(1);
+            throwedDices = results.first;
+            switchPlayer = results.second;
+            score.append(std::to_string(finder.first.scores[1][0])).append(",")
+            .append(std::to_string(finder.first.scores[1][1])).append(",")
+            .append(std::to_string(finder.first.scores[1][2]));
+        }
+
+        // Update the game in the vector
+        updateGame(finder.first);
+
+        // Prepare response and return
+        std::string tag;
+        tag.append(BASE_GAME).append(GAME_NEXT_TURN);
+        std::string respInfo;
+        respInfo.append(name).append(";"); // Player Name
+        respInfo.append(score).append(";"); // Score - null here
+        respInfo.append(throwedDices).append(";"); // Dices
+        respInfo.append(switchPlayer).append(";"); // Switch
+
+        return MessageFormat::prepareResponse(respInfo, tag);
     }
     std::string endTurn(int fd, std::string& information) {
         // Get the game and player
@@ -174,12 +140,7 @@ namespace GameM {
         finder.first.onMove = secondPlayer;
 
         // Update the game in the vector
-        for (Game& g : DataVectors::games) {
-            if (g.playerNames[0] == finder.first.playerNames[0]) {
-                g = finder.first;
-                break;
-            }
-        }
+        updateGame(finder.first);
 
         // Prepare response and return
         std::string tag;
@@ -188,7 +149,7 @@ namespace GameM {
         respInfo.append(name).append(";"); // Player Name
         respInfo.append(" ").append(";"); // Score - null here
         respInfo.append(" ").append(";"); // Dices
-        respInfo.append(secondPlayer).append(";"); // Switch - null here
+        respInfo.append(secondPlayer).append(";"); // Switch
 
         return MessageFormat::prepareResponse(respInfo, tag);
     }
@@ -215,5 +176,14 @@ namespace GameM {
         }
 
         return std::make_pair(*game, *player);
+    }
+
+    void updateGame(Game& game) {
+        for (Game& g : DataVectors::games) {
+            if (g.playerNames[0] == game.playerNames[0]) {
+                g = game;
+                break;
+            }
+        }
     }
 }

@@ -22,7 +22,7 @@ void MessageFormat::initMessageFormatMap() {
     std::string tagGameSelect;
     tagGameSelect.append(BASE_GAME).append(GAME_SELECT_DICE);
     std::string tagGameConfirm;
-    tagGameConfirm.append(BASE_GAME).append(GAME_CONFIRM_DICE);
+    tagGameConfirm.append(BASE_GAME).append(GAME_NEXT_TURN);
     std::string tagGameEndTurn;
     tagGameEndTurn.append(BASE_GAME).append(GAME_END_TURN);
 
@@ -44,7 +44,7 @@ void MessageFormat::initMessageFormatMap() {
             return GameM::selectDice(fd, information);
         }},
         {tagGameConfirm, [](int fd, std::string& information) -> std::string {
-            return GameM::confirmDice(fd, information);
+            return GameM::nextTurn(fd, information);
         }},
         {tagGameEndTurn, [](int fd, std::string& information) -> std::string {
             return GameM::endTurn(fd, information);

@@ -3,13 +3,15 @@
 
 #include <string>
 
+
 class Dice {
 public:
     Dice(const std::string &id);
     // ~Dice();
 
     void rollDice();
-    int getDiceValue();
+    void selectDice();
+    void holdDice();
 
     std::string id;
     int value;

@@ -9,10 +9,11 @@ class Game {
 public:
     Game(Player player1, Player player2);
 
-    std::vector<std::string> rollDices(int who);
-    void selectDice(int who, std::string& information);
+    std::pair<std::string, std::string> rollDices(int who);
+    std::string selectDices(int who, std::string& information);
+    void holdDices(int who);
     int calculateThrow(int who);
-    int calculateRound(int who);
+    void nextRound(int who);
     std::string endRound(int who);
 
     // ~Game();
@@ -28,7 +29,7 @@ public:
     std::vector<std::vector<int>> scores;
 
 private:
-    int calculateSelected(int diceVals[]);
+    int calculateSelected(const int diceVals[]);
 };
 
 
