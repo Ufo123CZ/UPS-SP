@@ -97,7 +97,6 @@ public class Connection {
     public String makeContact(String action, String information) {
         // Prepare the message
         response = messageBuilder(action, information);
-
         System.out.println("Sent: " + response);
 
         // Wait for the response from the server send in thread
@@ -140,69 +139,125 @@ public class Connection {
 
     private void startListening() {
         listening = true;
+        /*
+//        listenerThread = new Thread(() -> {
+//            while (listening) {
+//                try {
+//                    // First message is login message
+//                    try {
+//                        if (!loggedIn) {
+//                            sleep(200);
+//                            if (!response.isEmpty()) {
+//                                out.println(response);
+//                                System.out.println("Sent: " + response);
+//                                loggedIn = true;
+//                            }
+//                            response = "";
+//                            continue;
+//                        }
+//                    } catch (InterruptedException ignored) {}
+//                    String receivedMessage;
+//                    try {
+//                        int connection = 5;
+//                        do {
+//                            sleep(200);
+//                            // Read the message from the server
+//                            receivedMessage = in.readLine();
+//                            if (!receivedMessage.isEmpty()) {
+//                                StringBuilder messageBuilder = exludePartsOfMessage(receivedMessage);
+//                                message = messageBuilder.toString();
+//                                break;
+//                            }
+//                            connection--;
+//                            if (connection == 0) {
+//                                // TODO: Handle connection loss
+//                                System.out.println("Disconnected from server.");
+//                                closeSocket();
+//                                return;
+//                            }
+//                        } while (message.isEmpty());
+//
+//                        // Notify the event listener
+//                        if (eventListener != null) {
+//                            eventListener.onMessageReceivedQueue(message);
+//                        }
+//                        if (eventListenerGame != null) {
+//                            eventListenerGame.onMessageReceivedGame(message);
+//                        }
+//                    } catch (InterruptedException | NullPointerException e) {
+//                        System.out.println("Error: Server connection lost.");
+//                        // TODO: Handle connection loss
+//                        status = -1;
+//                        loggedIn = false;
+//                        closeSocket();
+//                    }
+//                    // Read the message from the server
+////                    System.out.println("Received: " + message);
+//
+//                    // Send the message to the server
+//                    if (response.isEmpty() || response.equals("\n")) {
+//                        response = pongMessage;
+//                    }
+////                    System.out.println("Sent: " + response);
+//                    out.println(response);
+//                    response = "";
+//                    // TODO: Handle ping messages - probably just respond with a pong
+//                } catch (IOException e) {
+//                    if (!listening) {
+//                        System.out.println("Socket closed, stopping listener thread.");
+//                    }
+//                }
+//            }
+//        });
+//        listenerThread.start();
+*/
         listenerThread = new Thread(() -> {
             while (listening) {
                 try {
-                    // First message is login message
-                    try {
-                        if (!loggedIn) {
-                            sleep(200);
-                            if (!response.isEmpty()) {
-                                out.println(response);
-                                System.out.println("Sent: " + response);
-                                loggedIn = true;
-                            }
-                            response = "";
-                            continue;
+                    if (!loggedIn) {
+                        sleep(200);
+                        if (!response.isEmpty()) {
+                            out.println(response);
+                            System.out.println("Sent: " + response);
+                            loggedIn = true;
                         }
-                    } catch (InterruptedException ignored) {}
-                    String receivedMessage;
-                    try {
-                        int connection = 5;
-                        do {
-                            sleep(200);
-                            // Read the message from the server
-                            receivedMessage = in.readLine();
-                            if (!receivedMessage.isEmpty()) {
-                                StringBuilder messageBuilder = exludePartsOfMessage(receivedMessage);
-                                message = messageBuilder.toString();
-                                break;
-                            }
-                            connection--;
-                            if (connection == 0) {
-                                // TODO: Handle connection loss
-                                System.out.println("Disconnected from server.");
-                                closeSocket();
-                                return;
-                            }
-                        } while (message.isEmpty());
-
-                        // Notify the event listener
-                        if (eventListener != null) {
-                            eventListener.onMessageReceivedQueue(message);
-                        }
-                        if (eventListenerGame != null) {
-                            eventListenerGame.onMessageReceivedGame(message);
-                        }
-                    } catch (InterruptedException | NullPointerException e) {
-                        System.out.println("Error: Server connection lost.");
-                        // TODO: Handle connection loss
-                        status = -1;
-                        loggedIn = false;
-                        closeSocket();
+                        response = "";
+                        continue;
                     }
-                    // Read the message from the server
-//                    System.out.println("Received: " + message);
 
-                    // Send the message to the server
+                    String receivedMessage;
+                    int connectionAttempts = 5;
+                    while (connectionAttempts > 0) {
+                        sleep(200);
+                        receivedMessage = in.readLine();
+                        if (!receivedMessage.isEmpty()) {
+                            message = exludePartsOfMessage(receivedMessage).toString();
+                            break;
+                        }
+                        connectionAttempts--;
+                    }
+
+                    if (connectionAttempts == 0) {
+                        System.out.println("Disconnected from server.");
+                        // TODO: Handle connection loss
+                        closeSocket();
+                        return;
+                    }
+
+                    if (eventListener != null) {
+                        eventListener.onMessageReceivedQueue(message);
+                    }
+                    if (eventListenerGame != null) {
+                        eventListenerGame.onMessageReceivedGame(message);
+                    }
+
                     if (response.isEmpty() || response.equals("\n")) {
                         response = pongMessage;
                     }
-//                    System.out.println("Sent: " + response);
                     out.println(response);
                     response = "";
-                    // TODO: Handle ping messages - probably just respond with a pong
-                } catch (IOException e) {
+
+                } catch (InterruptedException | IOException e) {
                     if (!listening) {
                         System.out.println("Socket closed, stopping listener thread.");
                     }
