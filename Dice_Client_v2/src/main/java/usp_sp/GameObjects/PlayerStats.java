@@ -94,5 +94,4 @@ public class PlayerStats extends Materials {
         g2d.draw(divider);
         g2d.setTransform(old2);
     }
-
 }

@@ -175,7 +175,7 @@ namespace ScoreCalculator {
         // Check if the dices are correct
         for (int i = 0; i < 6; i++) {
             if (kindOf - 1 != i && count[i] > 0) {
-                if (i == 1) {
+                if (i == 0) {
                     score += count[i] * ONE;
                 } else if (i == 4) {
                     score += count[i] * FIVE;

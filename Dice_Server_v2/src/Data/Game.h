@@ -11,10 +11,12 @@ public:
 
     std::pair<std::string, std::string> rollDices(int who);
     std::string selectDices(int who, std::string& information);
-    void holdDices(int who);
-    int calculateThrow(int who);
-    void nextRound(int who);
+    std::string holdDices(int who);
+    std::string nextRound(int who);
     std::string endRound(int who);
+    std::string updateDiceEnd(int who);
+    void scoreRestart(int who);
+    int calculateThrow(int who);
 
     // ~Game();
 
@@ -22,6 +24,7 @@ public:
     std::vector<std::string> playerNames;
 
     std::string onMove;
+    bool lastSwitch;
 
     std::vector<std::vector<Dice>> dices;
 
@@ -29,7 +32,7 @@ public:
     std::vector<std::vector<int>> scores;
 
 private:
-    int calculateSelected(const int diceVals[]);
+    static int calculateSelected(const int diceVals[]);
 };
 
 

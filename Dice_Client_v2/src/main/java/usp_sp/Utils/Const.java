@@ -24,5 +24,6 @@ public class Const {
     // Text content
     public static final String GAME_TEXT_TH = "Hozené kostky";
     public static final String GAME_TEXT_SEL = "Kostky v mezisoučtu";
+    public static final String GAME_TEXT_STATE = "Házej";
 
 }

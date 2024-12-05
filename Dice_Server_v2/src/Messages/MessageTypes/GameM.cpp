@@ -21,6 +21,11 @@ namespace GameM {
         std::string throwedDices = results.first;
         std::string switchPlayer = results.second;
 
+        // Last switch
+        if (switchPlayer != " ") {
+            finder.first.lastSwitch = true;
+        }
+
         // Update the game in the vector
         updateGame(finder.first);
 
@@ -31,11 +36,12 @@ namespace GameM {
         respInfo.append(name).append(";"); // Player Name
         respInfo.append(" ").append(";"); // Score - null here
         respInfo.append(throwedDices).append(";"); // Dices
-        respInfo.append(switchPlayer).append(";"); // Switch - null here
+        respInfo.append(switchPlayer).append(";"); // Switch
 
         return MessageFormat::prepareResponse(respInfo, tag);
 
     }
+
     std::string selectDice(int fd, std::string& information) {
         // Get the game and player
         std::pair<Game, Player> finder = whereAndWho(fd);
@@ -72,13 +78,14 @@ namespace GameM {
         tag.append(BASE_GAME).append(GAME_SELECT_DICE);
         std::string respInfo;
         respInfo.append(name).append(";"); // Player Name
-        respInfo.append(score).append(";"); // Score - null here
+        respInfo.append(score).append(";"); // Score
         respInfo.append(changedDice).append(";"); // Dices
         respInfo.append(" ").append(";"); // Switch - null here
 
         return MessageFormat::prepareResponse(respInfo, tag);
     }
-    std::string nextTurn(int fd, std::string& information) {
+
+    std::string nextTurn(int fd) {
         // Get the game and player
         std::pair<Game, Player> finder = whereAndWho(fd);
 
@@ -86,9 +93,9 @@ namespace GameM {
         const std::string name = finder.second.name;
 
         // Which player is throwing the dices
-        std::string score, throwedDices, switchPlayer;
+        std::string holdedDices, score, throwedDices, switchPlayer;
         if (name == finder.first.playerNames[0]) {
-            finder.first.nextRound(0);
+            holdedDices = finder.first.nextRound(0);
             std::pair<std::string, std::string> results = finder.first.rollDices(0);
             throwedDices = results.first;
             switchPlayer = results.second;
@@ -96,13 +103,18 @@ namespace GameM {
             .append(std::to_string(finder.first.scores[0][1])).append(",")
             .append(std::to_string(finder.first.scores[0][2]));
         } else {
-            finder.first.nextRound(1);
+            holdedDices = finder.first.nextRound(1);
             std::pair<std::string, std::string> results = finder.first.rollDices(1);
             throwedDices = results.first;
             switchPlayer = results.second;
             score.append(std::to_string(finder.first.scores[1][0])).append(",")
             .append(std::to_string(finder.first.scores[1][1])).append(",")
             .append(std::to_string(finder.first.scores[1][2]));
+        }
+
+        // Last switch
+        if (switchPlayer != " ") {
+            finder.first.lastSwitch = true;
         }
 
         // Update the game in the vector
@@ -113,31 +125,48 @@ namespace GameM {
         tag.append(BASE_GAME).append(GAME_NEXT_TURN);
         std::string respInfo;
         respInfo.append(name).append(";"); // Player Name
-        respInfo.append(score).append(";"); // Score - null here
-        respInfo.append(throwedDices).append(";"); // Dices
+        respInfo.append(score).append(";"); // Score
+        respInfo.append(holdedDices + throwedDices).append(";"); // Dices
         respInfo.append(switchPlayer).append(";"); // Switch
 
         return MessageFormat::prepareResponse(respInfo, tag);
     }
-    std::string endTurn(int fd, std::string& information) {
+
+    std::string endTurn(int fd) {
         // Get the game and player
         std::pair<Game, Player> finder = whereAndWho(fd);
 
         // TODO: Score handle
-
         // Strings for the response
         const std::string name = finder.second.name;
 
         // Find the second player in the game
-        std::string secondPlayer;
+        std::string updateDiceS, score, switchPlayer;
         if (name == finder.first.playerNames[0]) {
-            secondPlayer = finder.first.playerNames[1];
+            finder.first.endRound(0);
+            updateDiceS = finder.first.updateDiceEnd(0);
+            finder.first.scoreRestart(0);
+            score.append(std::to_string(finder.first.scores[0][0])).append(",")
+            .append(std::to_string(finder.first.scores[0][1])).append(",")
+            .append(std::to_string(finder.first.scores[0][2]));
+            switchPlayer = finder.first.playerNames[1];
         } else {
-            secondPlayer = finder.first.playerNames[0];
+            finder.first.endRound(1);
+            updateDiceS = finder.first.updateDiceEnd(1);
+            finder.first.scoreRestart(1);
+            score.append(std::to_string(finder.first.scores[1][0])).append(",")
+            .append(std::to_string(finder.first.scores[1][1])).append(",")
+            .append(std::to_string(finder.first.scores[1][2]));
+            switchPlayer = finder.first.playerNames[0];
         }
 
         // Switch the player on move
-        finder.first.onMove = secondPlayer;
+        finder.first.onMove = switchPlayer;
+
+        // Last switch
+        if (switchPlayer != " ") {
+            finder.first.lastSwitch = true;
+        }
 
         // Update the game in the vector
         updateGame(finder.first);
@@ -147,9 +176,9 @@ namespace GameM {
         tag.append(BASE_GAME).append(GAME_END_TURN);
         std::string respInfo;
         respInfo.append(name).append(";"); // Player Name
-        respInfo.append(" ").append(";"); // Score - null here
-        respInfo.append(" ").append(";"); // Dices
-        respInfo.append(secondPlayer).append(";"); // Switch
+        respInfo.append(score).append(";"); // Score
+        respInfo.append(updateDiceS).append(";"); // Dices
+        respInfo.append(switchPlayer).append(";"); // Switch
 
         return MessageFormat::prepareResponse(respInfo, tag);
     }

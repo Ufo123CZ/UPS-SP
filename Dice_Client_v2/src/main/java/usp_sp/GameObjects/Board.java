@@ -10,8 +10,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
-import static usp_sp.Utils.Colours.DICE_SELECTED;
-import static usp_sp.Utils.Colours.DICE_HOVER;
+import static usp_sp.Utils.Colours.*;
 import static usp_sp.Utils.Const.*;
 
 public class Board extends Materials {
@@ -185,7 +184,6 @@ public class Board extends Materials {
         }
         // Draw the dices hover, and selected
         for (int i = 0; i < 2; i++) {
-//            g2d.translate(-BOARD_SIZE / 1.9f, -BOARD_SIZE / 2.5f + DICE_SIZE / 0.3f);
             g2d.translate(-BOARD_SIZE / 1.9f, (i == 0) ? -BOARD_SIZE / 2.5f + DICE_SIZE / 0.3f : BOARD_SIZE / 7.5f + DICE_SIZE / 0.3f);
             for (int j = 0; j < 6; j++) {
                 g2d.translate(DICE_SIZE / 0.9f, 0);
@@ -199,5 +197,11 @@ public class Board extends Materials {
             }
             g2d.setTransform(old);
         }
+    }
+
+    public void drawStateText(String text) {
+        g2d.setFont(GAME_TEXT_FONT);
+        g2d.setPaint(textureText);
+        g2d.drawString(text, PLAYER_STATS_SIZE / 2f, PLAYER_STATS_SIZE / 0.75f);
     }
 }

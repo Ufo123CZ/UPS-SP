@@ -43,11 +43,11 @@ void MessageFormat::initMessageFormatMap() {
         {tagGameSelect, [](int fd, std::string& information) -> std::string {
             return GameM::selectDice(fd, information);
         }},
-        {tagGameConfirm, [](int fd, std::string& information) -> std::string {
-            return GameM::nextTurn(fd, information);
+        {tagGameConfirm, [](int fd, std::string&) -> std::string {
+            return GameM::nextTurn(fd);
         }},
-        {tagGameEndTurn, [](int fd, std::string& information) -> std::string {
-            return GameM::endTurn(fd, information);
+        {tagGameEndTurn, [](int fd, std::string&) -> std::string {
+            return GameM::endTurn(fd);
         }},
     };
 }

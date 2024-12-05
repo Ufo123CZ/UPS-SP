@@ -54,6 +54,14 @@ std::pair<std::string, std::string> Game::rollDices(int who) {
     // Strings for the response
     std::string throwedDices, switchPlayer;
 
+    if (this->lastSwitch) {
+        this->lastSwitch = false;
+        for (Dice& dice : this->dices[who]) {
+            dice.selected = false;
+            dice.hold = false;
+        }
+    }
+
     // Check if all dices are held
     bool allHeld = true;
     for (Dice& dice : this->dices[who]) {
@@ -79,7 +87,6 @@ std::pair<std::string, std::string> Game::rollDices(int who) {
     for (Dice& dice : this->dices[who]) {
         if (!dice.hold) {
             dice.rollDice();
-            // std::cout << "Dice: " << dice.id << " Value: " << dice.value << std::endl;
             throwedDices.append(dice.id).append(",")
             .append(std::to_string(dice.value)).append(",")
             .append(std::to_string(dice.selected)).append(",")
@@ -131,13 +138,58 @@ std::string Game::selectDices(int who, std::string& information) {
     return response;
 }
 
-void Game::holdDices(int who) {
+std::string Game::holdDices(int who) {
     // Hold the selected dices
+    std::string holdedDices;
     for (Dice& dice : this->dices[who]) {
         if (dice.selected) {
             dice.holdDice();
+            holdedDices.append(dice.id).append(",")
+            .append(std::to_string(dice.value)).append(",")
+            .append(std::to_string(dice.selected)).append(",")
+            .append(std::to_string(dice.hold)).append("|");
         }
     }
+    return holdedDices;
+}
+
+std::string Game::nextRound(int who) {
+    int throwScore = calculateThrow(who);
+    std::string change = holdDices(who);
+    this->scores[who][1] += throwScore;
+    this->scores[who][2] = 0;
+    return change;
+}
+
+std::string Game::endRound(int who) {
+    int throwD = calculateThrow(who);
+    this->scores[who][2] = throwD;
+    this->scores[who][1] += this->scores[who][2];
+    this->scores[who][0] += this->scores[who][1];
+
+    // Check if the player has 4000 points
+    // TODO: Check if the player has 4000 points
+
+    return "";
+}
+
+std::string Game::updateDiceEnd(int who) {
+    std::string change;
+    for (Dice& dice : this->dices[who]) {
+        if (dice.selected) {
+            dice.holdDice();
+            change.append(dice.id).append(",")
+            .append(std::to_string(dice.value)).append(",")
+            .append(std::to_string(dice.selected)).append(",")
+            .append(std::to_string(dice.hold)).append("|");
+        }
+    }
+    return change;
+}
+
+void Game::scoreRestart(int who) {
+    this->scores[who][1] = 0;
+    this->scores[who][2] = 0;
 }
 
 int Game::calculateThrow(int who) {
@@ -155,26 +207,6 @@ int Game::calculateThrow(int who) {
     this->scores[who][2] = throwScore;
 
     return throwScore;
-}
-
-void Game::nextRound(int who) {
-    int throwScore = calculateThrow(who);
-    holdDices(who);
-    this->scores[who][1] += throwScore;
-    this->scores[who][2] = 0;
-}
-
-std::string Game::endRound(int who) {
-    int throwD = calculateThrow(who);
-    this->scores[who][1] += throwD;
-    this->scores[who][0] += this->scores[who][1];
-    this->scores[who][1] = 0;
-    this->scores[who][2] = 0;
-
-    // Check if the player has 4000 points
-    // TODO: Check if the player has 4000 points
-
-    return "";
 }
 
 int Game::calculateSelected(const int diceVals[]) {

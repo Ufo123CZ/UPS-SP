@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.util.List;
 
-import static java.lang.Thread.sleep;
+import static usp_sp.Utils.Colours.TEXT_STATE;
 import static usp_sp.Utils.Const.*;
 
 public class GamePanel extends JPanel implements Connection.EventListenerGame {
@@ -91,6 +91,9 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
                 g2d.translate(BOARD_SIZE / 2f - PLAYER_STATS_SIZE / 0.6f, -BOARD_SIZE / 2f);
             } else {
                 g2d.translate(BOARD_SIZE / 2f - PLAYER_STATS_SIZE / 0.6f, BOARD_SIZE / 25f);
+            }
+            if (!firstMoveInRound && Connection.getInstance().getPlayerName().equals(onMove) && onMove.equals(playerStatsList.get(i).name)) {
+                board.drawStateText(GAME_TEXT_STATE);
             }
             playerStatsList.get(i).drawStats(onMove);
             g2d.setTransform(old);
@@ -207,9 +210,10 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("NextThrow", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (firstMoveInRound) {
+                if (firstMoveInRound && isAtleastOneDiceSelected() && throwScoreIsntZero()) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         String result = Connection.getInstance().makeContact(Messages.GAME_NEXT_TURN, "");
+                        disableHover();
                         if (!result.isEmpty()) updateGame(result);
                     }
                 }
@@ -219,9 +223,10 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("EndTurn", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (firstMoveInRound) {
+                if (firstMoveInRound && isAtleastOneDiceSelected() && throwScoreIsntZero()) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         String result = Connection.getInstance().makeContact(Messages.GAME_END_TURN, "");
+                        disableHover();
                         if (!result.isEmpty()) updateGame(result);
                     }
                 }
@@ -283,6 +288,33 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
             }
         }
         return rightest;
+    }
+
+    private boolean isAtleastOneDiceSelected() {
+        for (int i = 0; i < 6; i++) {
+            if (diceList.get(whoIsPlaying())[i].isSelected()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean throwScoreIsntZero() {
+        for (int i = 0; i < 2; i++) {
+            if (playerStatsList.get(i).getThrowScore() != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void disableHover() {
+        selectedDice = -1;
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 2; j++) {
+                diceList.get(j)[i].setHover(false);
+            }
+        }
     }
 
     void updateGame(String information) {
