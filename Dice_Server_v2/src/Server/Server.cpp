@@ -4,6 +4,7 @@
 #include "../Data/DataVectors.h"
 #include "../Messages/TAGS.h"
 #include "../Events/Events.h"
+#include "../Utils/ScoreCalculation.h"
 #include <iostream>
 #include <cstring>
 #include <fcntl.h>
@@ -194,6 +195,21 @@ void Server::start() {
                 send(player.fd, response.c_str(), response.size(), 0);
             }
         }
+
+        // Game state
+        // Check if game ended and send the response to all players in the game
+        // if (!DataVectors::games.empty()) {
+        //     for (Game& game : DataVectors::games) {
+        //         for (int i = 0; i < game.scores.size(); i++) {
+        //             if (game.scores[i][0] >= ENDSCORE) {
+        //                 std::string response = Events::endGame(game, i);
+        //                 for (Player& player : game.gamePlayers) {
+        //                     send(player.fd, response.c_str(), response.size(), 0);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
         // TODO: uncomment this code for lost connection with the client
         // Check who send some message comparing the current pings and the data vectors

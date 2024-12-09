@@ -30,13 +30,9 @@ namespace GameM {
         updateGame(finder.first);
 
         // Prepare response and return
-        std::string tag;
+        std::string tag, respInfo;
         tag.append(BASE_GAME).append(GAME_THROW_DICE);
-        std::string respInfo;
-        respInfo.append(name).append(";"); // Player Name
-        respInfo.append(" ").append(";"); // Score - null here
-        respInfo.append(throwedDices).append(";"); // Dices
-        respInfo.append(switchPlayer).append(";"); // Switch
+        respInfo.append(gameMessGen(name, " ", throwedDices, switchPlayer, " "));
 
         return MessageFormat::prepareResponse(respInfo, tag);
 
@@ -74,13 +70,9 @@ namespace GameM {
         updateGame(finder.first);
 
         // Prepare response and return
-        std::string tag;
+        std::string tag, respInfo;
         tag.append(BASE_GAME).append(GAME_SELECT_DICE);
-        std::string respInfo;
-        respInfo.append(name).append(";"); // Player Name
-        respInfo.append(score).append(";"); // Score
-        respInfo.append(changedDice).append(";"); // Dices
-        respInfo.append(" ").append(";"); // Switch - null here
+        respInfo.append(gameMessGen(name, score, changedDice, " ", " "));
 
         return MessageFormat::prepareResponse(respInfo, tag);
     }
@@ -121,13 +113,9 @@ namespace GameM {
         updateGame(finder.first);
 
         // Prepare response and return
-        std::string tag;
+        std::string tag, respInfo;
         tag.append(BASE_GAME).append(GAME_NEXT_TURN);
-        std::string respInfo;
-        respInfo.append(name).append(";"); // Player Name
-        respInfo.append(score).append(";"); // Score
-        respInfo.append(holdedDices + throwedDices).append(";"); // Dices
-        respInfo.append(switchPlayer).append(";"); // Switch
+        respInfo.append(gameMessGen(name, score, holdedDices + throwedDices, switchPlayer, " "));
 
         return MessageFormat::prepareResponse(respInfo, tag);
     }
@@ -136,14 +124,13 @@ namespace GameM {
         // Get the game and player
         std::pair<Game, Player> finder = whereAndWho(fd);
 
-        // TODO: Score handle
         // Strings for the response
         const std::string name = finder.second.name;
 
         // Find the second player in the game
-        std::string updateDiceS, score, switchPlayer;
+        std::string updateDiceS, score, switchPlayer, unique;
         if (name == finder.first.playerNames[0]) {
-            finder.first.endRound(0);
+            unique = finder.first.endRound(0);
             updateDiceS = finder.first.updateDiceEnd(0);
             finder.first.scoreRestart(0);
             score.append(std::to_string(finder.first.scores[0][0])).append(",")
@@ -151,13 +138,18 @@ namespace GameM {
             .append(std::to_string(finder.first.scores[0][2]));
             switchPlayer = finder.first.playerNames[1];
         } else {
-            finder.first.endRound(1);
+            unique = finder.first.endRound(1);
             updateDiceS = finder.first.updateDiceEnd(1);
             finder.first.scoreRestart(1);
             score.append(std::to_string(finder.first.scores[1][0])).append(",")
             .append(std::to_string(finder.first.scores[1][1])).append(",")
             .append(std::to_string(finder.first.scores[1][2]));
             switchPlayer = finder.first.playerNames[0];
+        }
+
+        // Check if the game is over
+        if (unique.empty()) {
+            unique = " ";
         }
 
         // Switch the player on move
@@ -172,15 +164,22 @@ namespace GameM {
         updateGame(finder.first);
 
         // Prepare response and return
-        std::string tag;
+        std::string tag, respInfo;
         tag.append(BASE_GAME).append(GAME_END_TURN);
-        std::string respInfo;
-        respInfo.append(name).append(";"); // Player Name
-        respInfo.append(score).append(";"); // Score
-        respInfo.append(updateDiceS).append(";"); // Dices
-        respInfo.append(switchPlayer).append(";"); // Switch
+        respInfo.append(gameMessGen(name, score, updateDiceS, switchPlayer, unique));
 
         return MessageFormat::prepareResponse(respInfo, tag);
+    }
+
+    std::string gameMessGen(const std::string& name, const std::string& score, const std::string& dice, const std::string& switchE, const std::string& unique) {
+        std::string info;
+        info.append(name).append(";"); // Player Name
+        info.append(score).append(";"); // Score
+        info.append(dice).append(";"); // Dices
+        info.append(switchE).append(";"); // Switch
+        info.append(unique).append(";"); // Unique state (Disconnect, Game state)
+
+        return info;
     }
 
     std::pair<Game, Player> whereAndWho(int fd) {

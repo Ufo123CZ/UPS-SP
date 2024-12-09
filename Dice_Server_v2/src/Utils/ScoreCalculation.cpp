@@ -133,10 +133,9 @@ namespace ScoreCalculator {
         return {firstThreeOfAKind, secondThreeOfAKind};
     }
 
-    std::pair<int, bool> additionalDiceWithStraight(const int diceVals[]) {
+    std::pair<int, bool> additionalDiceWithStraight(const int diceVals[], bool straight1to5, bool straight2to6, int kindOf) {
         int count[6] = {0, 0, 0, 0, 0, 0};
         int score = 0;
-        bool incorrect = false;
         // Count the dices Values
         for (int i = 0; i < 6; i++) {
             if (diceVals[i] >= 1) {
@@ -146,19 +145,27 @@ namespace ScoreCalculator {
 
         // Check if the dices are correct
         for (int i = 0; i < 6; i++) {
-            if (i != 0 && i != 4 && count[i] < 1) {
-                score = 0;
-                incorrect = true;
-                break;
+            if (straight1to5) {
+                if (i != 0 && i != 4 && count[i] > 1) {
+                    return {0, true};
+                }
+            } else if (straight2to6) {
+                if (i != 4 && count[i] > 1) {
+                    return {0, true};
+                }
+            } else if (kindOf != -1) {
+                if (i != 0 && i != 4 && count[i] > 0) {
+                    return {0, true};
+                }
             }
-            if (i == 0) {
+            if (i == 0 && count[i] != 0) {
                 score += (count[i] - 1) * ONE;
             }
-            if (i == 4) {
+            if (i == 4 && count[i] != 0) {
                 score += (count[i] - 1) * FIVE;
             }
         }
-        return {score, incorrect};
+        return {score, false};
     }
 
     std::pair<int, bool> additionalDice(const int kindOf, const int diceVals[]) {
@@ -175,9 +182,9 @@ namespace ScoreCalculator {
         // Check if the dices are correct
         for (int i = 0; i < 6; i++) {
             if (kindOf - 1 != i && count[i] > 0) {
-                if (i == 0) {
+                if (i == 0 && kindOf != 1) {
                     score += count[i] * ONE;
-                } else if (i == 4) {
+                } else if (i == 4 && kindOf != 5) {
                     score += count[i] * FIVE;
                 } else {
                     score = 0;

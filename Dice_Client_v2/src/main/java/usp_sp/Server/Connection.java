@@ -100,14 +100,14 @@ public class Connection {
         System.out.println("Sent: " + response);
 
         // Wait for the response from the server send in thread
-        while (message.isEmpty() || message.contains(PING) || message.contains(PONG)) {
-            try {
-                sleep(200);
-            } catch (InterruptedException e) {
-                return ERROR;
-            }
-        }
-        System.out.println("Received: " + message);
+//        while (message.isEmpty() || message.contains(PING) || message.contains(PONG)) {
+//            try {
+//                sleep(200);
+//            } catch (InterruptedException e) {
+//                return ERROR;
+//            }
+//        }
+//        System.out.println("Received: " + message);
         return message;
     }
 
@@ -215,7 +215,7 @@ public class Connection {
             while (listening) {
                 try {
                     if (!loggedIn) {
-                        sleep(200);
+                        sleep(10);
                         if (!response.isEmpty()) {
                             out.println(response);
                             System.out.println("Sent: " + response);
@@ -228,7 +228,7 @@ public class Connection {
                     String receivedMessage;
                     int connectionAttempts = 5;
                     while (connectionAttempts > 0) {
-                        sleep(200);
+                        sleep(10);
                         receivedMessage = in.readLine();
                         if (!receivedMessage.isEmpty()) {
                             message = exludePartsOfMessage(receivedMessage).toString();

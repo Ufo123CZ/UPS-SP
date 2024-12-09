@@ -12,8 +12,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
+import java.io.IOException;
 import java.util.List;
 
+import static usp_sp.Server.Messages.GAME_STATE_WINNER;
 import static usp_sp.Utils.Colours.TEXT_STATE;
 import static usp_sp.Utils.Const.*;
 
@@ -196,10 +198,10 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
                         int who = whoIsPlaying();
                         if (selectedDice != -1 && diceList.get(who)[selectedDice].isSelected()) {
                             String result = Connection.getInstance().makeContact(Messages.GAME_SELECT_DICE, diceList.get(who)[selectedDice].getDiceId());
-                            if (!result.isEmpty()) updateGame(result);
+//                            if (!result.isEmpty()) updateGame(result);
                         } else if (selectedDice != -1 && !diceList.get(who)[selectedDice].isSelected()) {
                             String result = Connection.getInstance().makeContact(Messages.GAME_SELECT_DICE, diceList.get(who)[selectedDice].getDiceId());
-                            if (!result.isEmpty()) updateGame(result);
+//                            if (!result.isEmpty()) updateGame(result);
                         }
                         repaint();
                     }
@@ -214,7 +216,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         String result = Connection.getInstance().makeContact(Messages.GAME_NEXT_TURN, "");
                         disableHover();
-                        if (!result.isEmpty()) updateGame(result);
+//                        if (!result.isEmpty()) updateGame(result);
                     }
                 }
             }
@@ -227,7 +229,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         String result = Connection.getInstance().makeContact(Messages.GAME_END_TURN, "");
                         disableHover();
-                        if (!result.isEmpty()) updateGame(result);
+//                        if (!result.isEmpty()) updateGame(result);
                     }
                 }
             }
@@ -247,7 +249,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         String result = Connection.getInstance().makeContact(Messages.GAME_THROW_DICE, "");
                         if (!result.isEmpty()) {
-                            updateGame(result);
+//                            updateGame(result);
                             firstMoveInRound = true;
                         }
                     }
@@ -321,6 +323,9 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
 
         // information TAG;PLAYER;SCORE_T,SCORE_ST,SCORE_TH;DICE1_id,DICE1_val, ...|DICE2|...|DICE6|;SWITCH_PLAYER;
 
+        // Information String
+        String winnerName = "";
+
         // Parse the message to get the information
         String[] parts = information.split(";");
         // parts[0] is tag GAME_<UPDATE>
@@ -357,9 +362,97 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
                     onMove = parts[4];
                     firstMoveInRound = false;
                 }
+
+                // Unique Information
+                if (!parts[5].equals(" ")) {
+//                    System.out.println(parts[5]);
+                    if (parts[5].contains(GAME_STATE_WINNER)) {
+                        String[] winner = parts[5].split(":");
+                        winnerName = winner[1];
+                    }
+                }
             }
         }
+
+        if (!winnerName.isEmpty()) {
+            gameEnd(winnerName);
+//            if (winnerName.equals(Connection.getInstance().getPlayerName())) {
+//                String message = "You won!";
+//                JOptionPane.showMessageDialog(this, message, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+//            } else {
+//                String message = "You lost!";
+//                JOptionPane.showMessageDialog(this, message, "Game Over", JOptionPane.ERROR_MESSAGE);
+//            }
+//            Connection.getInstance().lastContact(Messages.LOGOUT, Connection.getInstance().getPlayerName());
+//            Connection.getInstance().closeSocket();
+//            Window window = (Window) SwingUtilities.getWindowAncestor(this);
+//            window.showScene("Login");
+
+//            SwingUtilities.invokeLater(() -> {
+//                Object[] options = {"Return to menu", "Return to Lobby"};
+//                int option = JOptionPane.showOptionDialog(
+//                        this,
+//                        message.toUpperCase() + "! Do you want to return to menu or return to lobby?",
+//                        "Game Over",
+//                        JOptionPane.DEFAULT_OPTION,
+//                        JOptionPane.QUESTION_MESSAGE,
+//                        null,
+//                        options,
+//                        options[0]
+//                );
+//
+//                if (option == 0) {
+//                    try {
+//                        String serverMessage = "game;return-to-menu";
+//                        ServerConnection.getInstance().sendMessage(serverMessage, serverMessage.length());
+//                    } catch (IOException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                } else if (option == 1) {
+//                    try {
+//                        String serverMessage = "game;return-to-lobby";
+//                        ServerConnection.getInstance().sendMessage(serverMessage, serverMessage.length());
+//                    } catch (IOException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                }
+//            });
+        }
+
         repaint();
+    }
+
+    private void gameEnd(String winner) {
+        SwingUtilities.invokeLater(() -> {
+            String message = "YOU LOSE!";
+            if (winner.equals(Connection.getInstance().getPlayerName())) {
+                message = "YOU WON!";
+            }
+            Object[] options = {"Return to Login Screen", "Queue for another game"};
+                int option = JOptionPane.showOptionDialog(
+                        this,
+                        message + "\nDo you want to return to login or queue for another game?",
+                        "Game Over",
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]
+                );
+                if (option == 0) {
+                    //                        String serverMessage = "game;return-to-menu";
+                    Connection.getInstance().lastContact(Messages.LOGOUT, Connection.getInstance().getPlayerName());
+                    Connection.getInstance().closeSocket();
+                    Window window = (Window) SwingUtilities.getWindowAncestor(this);
+                    window.showScene("Login");
+                } else if (option == 1) {
+                    // String serverMessage = "game;return-to-lobby";
+                    // TODO - Make message to server for return to queue
+//                    Connection.getInstance().lastContact(Messages.LOGOUT, Connection.getInstance().getPlayerName());
+
+                }
+
+        });
     }
     //endregion
 

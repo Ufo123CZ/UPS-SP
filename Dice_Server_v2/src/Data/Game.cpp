@@ -78,12 +78,12 @@ std::pair<std::string, std::string> Game::rollDices(int who) {
     }
 
     // Test
-    // this->dices[who][0].value = 4;
-    // this->dices[who][1].value = 3;
+    // this->dices[who][0].value = 1;
+    // this->dices[who][1].value = 1;
     // this->dices[who][2].value = 1;
-    // this->dices[who][3].value = 5;
-    // this->dices[who][4].value = 5;
-    // this->dices[who][5].value = 5;
+    // this->dices[who][3].value = 1;
+    // this->dices[who][4].value = 1;
+    // this->dices[who][5].value = 1;
     for (Dice& dice : this->dices[who]) {
         if (!dice.hold) {
             dice.rollDice();
@@ -169,6 +169,11 @@ std::string Game::endRound(int who) {
 
     // Check if the player has 4000 points
     // TODO: Check if the player has 4000 points
+    if (this->scores[who][0] >= 4000) {
+        std::string res;
+        res.append("winner:").append(this->playerNames[who]);
+        return res;
+    }
 
     return "";
 }
@@ -246,17 +251,17 @@ int Game::calculateSelected(const int diceVals[]) {
                 score += funcScore;
             }
             funcScore = ScoreCalculator::isIncompleteStraight(2, 6, diceVals);
-            if (score == STRAIGHT2TO6) {
+            if (funcScore == STRAIGHT2TO6) {
                 s2to6 = true;
                 score += funcScore;
             }
             result = ScoreCalculator::isFourToSixOfAKind(5, diceVals);
-            if (result.first != 0) {
+            if (result.first != 0 && !s1to5 && !s2to6) {
                 score += result.first;
                 whatKind = result.second;
             }
         case 4:
-            if (whatKind == -1) {
+            if (whatKind == -1 && !s1to5 && !s2to6) {
                 result = ScoreCalculator::isFourToSixOfAKind(4, diceVals);
                 if (result.first != 0) {
                     score += result.first;
@@ -264,7 +269,7 @@ int Game::calculateSelected(const int diceVals[]) {
                 }
             }
         case 3:
-            if (whatKind == -1) {
+            if (whatKind == -1 && !s1to5 && !s2to6) {
                 std::pair<std::pair<int, int>, std::pair<int, int> > result3 = ScoreCalculator::isThreeOfAKind(diceVals);
                 if (result3.first.first != 0 && result3.second.first != 0) {
                     return result3.first.first + result3.second.first;
@@ -279,11 +284,11 @@ int Game::calculateSelected(const int diceVals[]) {
             }
         default:
             if (s1to5) {
-                result = ScoreCalculator::additionalDiceWithStraight(diceVals);
+                result = ScoreCalculator::additionalDiceWithStraight(diceVals, s1to5, s2to6, whatKind);
                 if (result.second) return 0;
                 score += result.first;
             } else if (s2to6) {
-                result = ScoreCalculator::additionalDiceWithStraight(diceVals);
+                result = ScoreCalculator::additionalDiceWithStraight(diceVals, s1to5, s2to6, whatKind);
                 if (result.second) return 0;
                 score += result.first;
             } else {

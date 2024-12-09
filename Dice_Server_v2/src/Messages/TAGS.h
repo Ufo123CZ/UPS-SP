@@ -27,8 +27,9 @@
 #define GAME_CREATE "create:"
 #define GAME_THROW_DICE "throw:"
 #define GAME_SELECT_DICE "select:"
-#define GAME_NEXT_TURN "next:"
-#define GAME_END_TURN "end:"
+#define GAME_NEXT_TURN "nextT:"
+#define GAME_END_TURN "endT:"
+#define GAME_END "endG:"
 
 
 // TAGS QUEUE

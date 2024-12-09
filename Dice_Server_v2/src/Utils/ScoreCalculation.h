@@ -3,6 +3,9 @@
 
 #include <vector>
 
+// End Score
+#define ENDSCORE 4000
+
 // Scores
 #define STRAIGHT 1500
 #define STRAIGHT1TO5 500
@@ -21,7 +24,7 @@ namespace ScoreCalculator {
     int isIncompleteStraight(int lB, int  rB, const int diceVals[]);
     std::pair<int, int> isFourToSixOfAKind(int kindOf, const int diceVals[]);
     std::pair<std::pair<int, int>, std::pair<int, int>> isThreeOfAKind(const int diceVals[]);
-    std::pair<int, bool> additionalDiceWithStraight(const int diceVals[]);
+    std::pair<int, bool> additionalDiceWithStraight(const int diceVals[], bool straight1to5, bool straight2to6, int kindOf);
     std::pair<int, bool> additionalDice(int kindOf, const int diceVals[]);
 }
 #endif //SCORECALCULATION_H

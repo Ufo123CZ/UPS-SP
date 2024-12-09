@@ -2,9 +2,11 @@
 #define EVENTS_H
 
 #include <string>
+#include "../Data/Game.h"
 
 namespace Events {
     std::string createGame();
+    std::string endGame(Game& game, int winner);
 }
 
 #endif //EVENTS_H

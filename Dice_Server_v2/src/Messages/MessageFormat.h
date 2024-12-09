@@ -30,6 +30,7 @@ namespace GameM {
     std::string nextTurn(int fd);
     std::string endTurn(int fd);
 
+    std::string gameMessGen(const std::string& name, const std::string& score, const std::string& dice, const std::string& switchE, const std::string& unique);
     void updateGame(Game& game);
     std::pair<Game, Player> whereAndWho(int fd);
 }
