@@ -433,6 +433,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         if (winnerName.isEmpty()) {
             return;
         }
+        statusLabel.setText("Status: " + winnerName + " is the winner!");
         endButton.setVisible(false);
         String message = "YOU LOSE!";
         if (winner.equals(Connection.getInstance().getPlayerName())) {

@@ -19,6 +19,19 @@ public class Board extends Materials {
     @Setter // Local
     private Graphics2D g2d;
 
+    // Graphics2D Object
+    Rectangle2D.Float edge;
+    Rectangle2D.Float hingeEdge;
+    Rectangle2D.Float board;
+    Rectangle2D.Float field;
+    Line2D.Float gap;
+    Rectangle2D.Float hinge;
+    Rectangle2D.Float hingeJoint;
+    Line2D.Float hingeLine;
+    Line2D.Float hingeJointLineL;
+    Line2D.Float hingeJointLineR;
+    Ellipse2D.Float screw;
+
     public Board() {
         // Load the textures
         textureBoard = loadTexture("oak.jpg");
@@ -27,63 +40,67 @@ public class Board extends Materials {
         screwTexture = loadTexture("steel.jpg");
         textureEdges = loadTexture("dark_iron.jpg");
         textureText = loadTexture("birch.jpg");
+
+        initGO();
     }
 
-    public void drawBoard() {
+    private void initGO() {
         // Components
-        Rectangle2D.Float edge = new Rectangle2D.Float(
+        edge = new Rectangle2D.Float(
                 -BOARD_SIZE / 1.8f, -BOARD_SIZE / 1.8f,
                 (BOARD_SIZE / 1.8f) * 2f, (BOARD_SIZE / 1.8f) * 2f
         );
 
-        Rectangle2D hingeEdge = new Rectangle2D.Float(
+        hingeEdge = new Rectangle2D.Float(
                 -BOARD_SIZE / 2f, -BOARD_SIZE / 25f,
                 BOARD_SIZE, BOARD_SIZE / 12.5f
         );
 
-        Rectangle2D.Float board = new Rectangle2D.Float(
+        board = new Rectangle2D.Float(
                 -BOARD_SIZE / 2f, -BOARD_SIZE / 2f,
                 BOARD_SIZE, BOARD_SIZE
         );
 
-        Rectangle2D field = new Rectangle2D.Float(
+        field = new Rectangle2D.Float(
                 -BOARD_SIZE / 2f, -BOARD_SIZE / 2f,
                 BOARD_SIZE, BOARD_SIZE / 2f - (BOARD_SIZE / 25f)
         );
 
-        Line2D.Float gap = new Line2D.Float(-BOARD_SIZE / 1.8f, 0, BOARD_SIZE / 1.8f, 0);
+        gap = new Line2D.Float(-BOARD_SIZE / 1.8f, 0, BOARD_SIZE / 1.8f, 0);
 
         // Hinge
-        Rectangle2D.Float hinge = new Rectangle2D.Float(
+        hinge = new Rectangle2D.Float(
                 -BOARD_SIZE / 20f, -BOARD_SIZE / 30f,
                 BOARD_SIZE / 10f, BOARD_SIZE / 15f
         );
 
-        Rectangle2D.Float hingeJoint = new Rectangle2D.Float(
+        hingeJoint = new Rectangle2D.Float(
                 -BOARD_SIZE / 30f, -BOARD_SIZE / 150f,
                 BOARD_SIZE / 40f, BOARD_SIZE / 75f
         );
 
-        Line2D.Float hingeLine = new Line2D.Float(
+        hingeLine = new Line2D.Float(
                 -BOARD_SIZE / 20f, 0,
                 BOARD_SIZE / 10f, 0
         );
 
-        Line2D.Float hingeJointLineL = new Line2D.Float(
+        hingeJointLineL = new Line2D.Float(
                 -BOARD_SIZE / 30f, -BOARD_SIZE / 150f,
                 -BOARD_SIZE / 30f, BOARD_SIZE / 150f
         );
 
-        Line2D.Float hingeJointLineR = new Line2D.Float(
+        hingeJointLineR = new Line2D.Float(
                 -BOARD_SIZE / 30f + BOARD_SIZE / 25f, -BOARD_SIZE / 150f,
                 -BOARD_SIZE / 30f + BOARD_SIZE / 25f, BOARD_SIZE / 150f
         );
 
-        Ellipse2D.Float screw = new Ellipse2D.Float(
+        screw = new Ellipse2D.Float(
                 -BOARD_SIZE / 25f, -BOARD_SIZE / 40f,
                 BOARD_SIZE / 75f, BOARD_SIZE / 75f
         );
+    }
 
+    public void drawBoard() {
         g2d.setPaint(textureBoardEdge);
         g2d.fill(edge);
         g2d.setPaint(textureBoard);

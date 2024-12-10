@@ -14,6 +14,11 @@ import static usp_sp.Utils.Const.*;
 
 public class PlayerStats extends Materials {
 
+    // Graphics2D Object
+    Rectangle2D.Float statsBG;
+    Rectangle2D.Float onMoveRect;
+    Line2D.Float divider;
+
     @Setter // Local
     Graphics2D g2d;
 
@@ -31,22 +36,27 @@ public class PlayerStats extends Materials {
     public PlayerStats() {
         textureStatsBG = loadTexture("paper.jpg");
         textureEdge = loadTexture("dark_iron.jpg");
+
+        initGO();
     }
 
-    public void drawStats(String onMove) {
+    private void initGO() {
         // Components
-        Rectangle2D.Float statsBG = new Rectangle2D.Float(
+        statsBG = new Rectangle2D.Float(
                 0, 0,
                 PLAYER_STATS_SIZE / 0.6f, PLAYER_STATS_SIZE / 1.1f
         );
 
-        Rectangle2D.Float onMoveRect = new Rectangle2D.Float(
+        onMoveRect = new Rectangle2D.Float(
                 0, 0,
                 PLAYER_STATS_SIZE / 6f, PLAYER_STATS_SIZE / 6f
         );
 
-        Line2D.Float divider = new Line2D.Float(0, 0, PLAYER_STATS_SIZE / 0.64f, 0);
+        divider = new Line2D.Float(0, 0, PLAYER_STATS_SIZE / 0.64f, 0);
 
+    }
+
+    public void drawStats(String onMove) {
         // Draw the stats
         AffineTransform old = g2d.getTransform();
         g2d.setPaint(textureStatsBG);
@@ -90,7 +100,6 @@ public class PlayerStats extends Materials {
     private void drawDivider(Line2D.Float divider) {
         AffineTransform old2 = g2d.getTransform();
         g2d.translate(-PLAYER_STATS_SIZE / 20f, PLAYER_STATS_SIZE / 10f);
-        g2d.setPaint(PLAYER_STATS_DIVIDER);
         g2d.draw(divider);
         g2d.setTransform(old2);
     }
