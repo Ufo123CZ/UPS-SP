@@ -197,11 +197,9 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         int who = whoIsPlaying();
                         if (selectedDice != -1 && diceList.get(who)[selectedDice].isSelected()) {
-                            String result = Connection.getInstance().makeContact(Messages.GAME_SELECT_DICE, diceList.get(who)[selectedDice].getDiceId());
-//                            if (!result.isEmpty()) updateGame(result);
+                            Connection.getInstance().makeContact(Messages.GAME_SELECT_DICE, diceList.get(who)[selectedDice].getDiceId());
                         } else if (selectedDice != -1 && !diceList.get(who)[selectedDice].isSelected()) {
-                            String result = Connection.getInstance().makeContact(Messages.GAME_SELECT_DICE, diceList.get(who)[selectedDice].getDiceId());
-//                            if (!result.isEmpty()) updateGame(result);
+                            Connection.getInstance().makeContact(Messages.GAME_SELECT_DICE, diceList.get(who)[selectedDice].getDiceId());
                         }
                         repaint();
                     }
@@ -214,9 +212,8 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
             public void actionPerformed(ActionEvent e) {
                 if (firstMoveInRound && isAtleastOneDiceSelected() && throwScoreIsntZero()) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
-                        String result = Connection.getInstance().makeContact(Messages.GAME_NEXT_TURN, "");
+                        Connection.getInstance().makeContact(Messages.GAME_NEXT_TURN, "");
                         disableHover();
-//                        if (!result.isEmpty()) updateGame(result);
                     }
                 }
             }
@@ -227,9 +224,8 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
             public void actionPerformed(ActionEvent e) {
                 if (firstMoveInRound && isAtleastOneDiceSelected() && throwScoreIsntZero()) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
-                        String result = Connection.getInstance().makeContact(Messages.GAME_END_TURN, "");
+                        Connection.getInstance().makeContact(Messages.GAME_END_TURN, "");
                         disableHover();
-//                        if (!result.isEmpty()) updateGame(result);
                     }
                 }
             }
@@ -247,11 +243,8 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
             public void actionPerformed(ActionEvent e) {
                 if (!firstMoveInRound) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
-                        String result = Connection.getInstance().makeContact(Messages.GAME_THROW_DICE, "");
-                        if (!result.isEmpty()) {
-//                            updateGame(result);
-                            firstMoveInRound = true;
-                        }
+                        Connection.getInstance().makeContact(Messages.GAME_THROW_DICE, "");
+                        firstMoveInRound = true;
                     }
                 }
             }
@@ -376,47 +369,6 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
 
         if (!winnerName.isEmpty()) {
             gameEnd(winnerName);
-//            if (winnerName.equals(Connection.getInstance().getPlayerName())) {
-//                String message = "You won!";
-//                JOptionPane.showMessageDialog(this, message, "Game Over", JOptionPane.INFORMATION_MESSAGE);
-//            } else {
-//                String message = "You lost!";
-//                JOptionPane.showMessageDialog(this, message, "Game Over", JOptionPane.ERROR_MESSAGE);
-//            }
-//            Connection.getInstance().lastContact(Messages.LOGOUT, Connection.getInstance().getPlayerName());
-//            Connection.getInstance().closeSocket();
-//            Window window = (Window) SwingUtilities.getWindowAncestor(this);
-//            window.showScene("Login");
-
-//            SwingUtilities.invokeLater(() -> {
-//                Object[] options = {"Return to menu", "Return to Lobby"};
-//                int option = JOptionPane.showOptionDialog(
-//                        this,
-//                        message.toUpperCase() + "! Do you want to return to menu or return to lobby?",
-//                        "Game Over",
-//                        JOptionPane.DEFAULT_OPTION,
-//                        JOptionPane.QUESTION_MESSAGE,
-//                        null,
-//                        options,
-//                        options[0]
-//                );
-//
-//                if (option == 0) {
-//                    try {
-//                        String serverMessage = "game;return-to-menu";
-//                        ServerConnection.getInstance().sendMessage(serverMessage, serverMessage.length());
-//                    } catch (IOException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                } else if (option == 1) {
-//                    try {
-//                        String serverMessage = "game;return-to-lobby";
-//                        ServerConnection.getInstance().sendMessage(serverMessage, serverMessage.length());
-//                    } catch (IOException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                }
-//            });
         }
 
         repaint();

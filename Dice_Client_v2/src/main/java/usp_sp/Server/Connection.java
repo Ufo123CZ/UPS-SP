@@ -2,7 +2,6 @@ package usp_sp.Server;
 
 import lombok.Getter;
 import lombok.Setter;
-import usp_sp.GUI.Window;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,7 +43,9 @@ public class Connection {
 
     // Event listener
     @Setter
-    private EventListenerQueue eventListener;
+    private EventListenerLogin eventListenerLogin;
+    @Setter
+    private EventListenerQueue eventListenerQueue;
     @Setter
     private EventListenerGame eventListenerGame;
 
@@ -94,21 +95,10 @@ public class Connection {
         } catch (IOException | InterruptedException ignored) {}
     }
 
-    public String makeContact(String action, String information) {
-        // Prepare the message
+    public void makeContact(String action, String information) {
+        // Prepare and send the message
         response = messageBuilder(action, information);
         System.out.println("Sent: " + response);
-
-        // Wait for the response from the server send in thread
-//        while (message.isEmpty() || message.contains(PING) || message.contains(PONG)) {
-//            try {
-//                sleep(200);
-//            } catch (InterruptedException e) {
-//                return ERROR;
-//            }
-//        }
-//        System.out.println("Received: " + message);
-        return message;
     }
 
     public void lastContact(String action, String information) {
@@ -139,78 +129,6 @@ public class Connection {
 
     private void startListening() {
         listening = true;
-        /*
-//        listenerThread = new Thread(() -> {
-//            while (listening) {
-//                try {
-//                    // First message is login message
-//                    try {
-//                        if (!loggedIn) {
-//                            sleep(200);
-//                            if (!response.isEmpty()) {
-//                                out.println(response);
-//                                System.out.println("Sent: " + response);
-//                                loggedIn = true;
-//                            }
-//                            response = "";
-//                            continue;
-//                        }
-//                    } catch (InterruptedException ignored) {}
-//                    String receivedMessage;
-//                    try {
-//                        int connection = 5;
-//                        do {
-//                            sleep(200);
-//                            // Read the message from the server
-//                            receivedMessage = in.readLine();
-//                            if (!receivedMessage.isEmpty()) {
-//                                StringBuilder messageBuilder = exludePartsOfMessage(receivedMessage);
-//                                message = messageBuilder.toString();
-//                                break;
-//                            }
-//                            connection--;
-//                            if (connection == 0) {
-//                                // TODO: Handle connection loss
-//                                System.out.println("Disconnected from server.");
-//                                closeSocket();
-//                                return;
-//                            }
-//                        } while (message.isEmpty());
-//
-//                        // Notify the event listener
-//                        if (eventListener != null) {
-//                            eventListener.onMessageReceivedQueue(message);
-//                        }
-//                        if (eventListenerGame != null) {
-//                            eventListenerGame.onMessageReceivedGame(message);
-//                        }
-//                    } catch (InterruptedException | NullPointerException e) {
-//                        System.out.println("Error: Server connection lost.");
-//                        // TODO: Handle connection loss
-//                        status = -1;
-//                        loggedIn = false;
-//                        closeSocket();
-//                    }
-//                    // Read the message from the server
-////                    System.out.println("Received: " + message);
-//
-//                    // Send the message to the server
-//                    if (response.isEmpty() || response.equals("\n")) {
-//                        response = pongMessage;
-//                    }
-////                    System.out.println("Sent: " + response);
-//                    out.println(response);
-//                    response = "";
-//                    // TODO: Handle ping messages - probably just respond with a pong
-//                } catch (IOException e) {
-//                    if (!listening) {
-//                        System.out.println("Socket closed, stopping listener thread.");
-//                    }
-//                }
-//            }
-//        });
-//        listenerThread.start();
-*/
         listenerThread = new Thread(() -> {
             while (listening) {
                 try {
@@ -218,7 +136,6 @@ public class Connection {
                         sleep(10);
                         if (!response.isEmpty()) {
                             out.println(response);
-                            System.out.println("Sent: " + response);
                             loggedIn = true;
                         }
                         response = "";
@@ -244,8 +161,12 @@ public class Connection {
                         return;
                     }
 
-                    if (eventListener != null) {
-                        eventListener.onMessageReceivedQueue(message);
+                    if (eventListenerLogin != null) {
+                        eventListenerLogin.onMessageReceivedLogin(message);
+                    }
+
+                    if (eventListenerQueue != null) {
+                        eventListenerQueue.onMessageReceivedQueue(message);
                     }
                     if (eventListenerGame != null) {
                         eventListenerGame.onMessageReceivedGame(message);
@@ -286,6 +207,10 @@ public class Connection {
         if (listenerThread != null) {
             listenerThread.interrupt();
         }
+    }
+
+    public interface EventListenerLogin {
+        void onMessageReceivedLogin(String message);
     }
 
     public interface EventListenerQueue {

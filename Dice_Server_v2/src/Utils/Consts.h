@@ -12,8 +12,4 @@
 // Message processing
 #define INIT_BUFFER_SIZE 8
 
-// MESSAGE success/failure
-#define SUCCESS "success"
-#define FAILURE "failure"
-
 #endif //CONSTS_H

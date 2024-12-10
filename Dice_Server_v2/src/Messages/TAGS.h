@@ -31,6 +31,9 @@
 #define GAME_END_TURN "endT:"
 #define GAME_END "endG:"
 
+// TAGS SUCCESS and ERROR
+#define SUCCESS "SUCCESS"
+#define ERROR "ERROR"
 
 // TAGS QUEUE
 #define QUEUE_STATUS "status:"

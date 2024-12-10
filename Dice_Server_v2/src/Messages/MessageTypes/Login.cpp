@@ -2,7 +2,6 @@
 #include "../../Data/Player.h"
 #include "../../Data/DataVectors.h"
 #include "../../Messages/TAGS.h"
-#include "../../Utils/Consts.h"
 
 namespace Login {
     std::string login(const int fd, std::string& information) {
@@ -15,6 +14,15 @@ namespace Login {
         }
         if (name.find('\r') != std::string::npos) {
             name = name.substr(0, name.find('\r'));
+        }
+
+        // Check if the player is already logged in
+        for (auto &player : DataVectors::players) {
+            if (player.name == name) {
+                std::string tag;
+                tag.append(BASE_LOGIN).append(LOGIN);
+                return MessageFormat::prepareResponse(ERROR, tag);
+            }
         }
 
         auto *player = new Player(fd, name, 0, 5);

@@ -2,7 +2,8 @@ package usp_sp.Server;
 
 public class Messages {
 
-    // Error
+    // Success and Error
+    public static final String SUCCESS = "SUCCESS";
     public static final String ERROR = "ERROR";
 
     // Base

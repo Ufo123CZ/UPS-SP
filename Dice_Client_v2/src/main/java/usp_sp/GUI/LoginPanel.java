@@ -12,7 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LoginPanel extends JPanel {
+public class LoginPanel extends JPanel implements Connection.EventListenerLogin {
     private JTextField nameField;
     private JTextField ipField;
     private JTextField portField;
@@ -75,40 +75,58 @@ public class LoginPanel extends JPanel {
         add(portField, gbc);
 
         connectButton = new JButton("Connect");
-        connectButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Check if all fields are filled
-                if (nameField.getText().isEmpty() || ipField.getText().isEmpty() || portField.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(window, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                // Check if port is a number
-                if (!portField.getText().matches("[0-9]+") || Integer.parseInt(portField.getText()) < 0 || Integer.parseInt(portField.getText()) > 65535) {
-                    JOptionPane.showMessageDialog(window, "Port must be a valid number", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                // Connect to server
-                Connection.getInstance().setServerDetails(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText(), 0);
-                if (!Connection.getInstance().openSocket()) {
-                    JOptionPane.showMessageDialog(window, "Cannot connect to the server.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                String response = Connection.getInstance().makeContact(Messages.LOGIN, nameField.getText());
-
-                if (response.contains("ERROR")) {
-                    JOptionPane.showMessageDialog(window, "Connection failed.", "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    Connection.getInstance().setStatus(0);
-                    window.showScene("Queue");
-                    JOptionPane.showMessageDialog(window, "Connected to the server.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                }
+        connectButton.addActionListener(e -> {
+            // Check if all fields are filled
+            if (nameField.getText().isEmpty() || ipField.getText().isEmpty() || portField.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(window, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
+            // Check if port is a number
+            if (!portField.getText().matches("[0-9]+") || Integer.parseInt(portField.getText()) < 0 || Integer.parseInt(portField.getText()) > 65535) {
+                JOptionPane.showMessageDialog(window, "Port must be a valid number", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Connect to server
+            Connection.getInstance().setServerDetails(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText(), 0);
+            if (!Connection.getInstance().openSocket()) {
+                JOptionPane.showMessageDialog(window, "Cannot connect to the server.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Connection.getInstance().makeContact(Messages.LOGIN, nameField.getText());
+
+//                if (response.contains("ERROR")) {
+//                    JOptionPane.showMessageDialog(window, "Connection failed.", "Error", JOptionPane.ERROR_MESSAGE);
+//                } else {
+//                    Connection.getInstance().setStatus(0);
+//                    window.showScene("Queue");
+//                    JOptionPane.showMessageDialog(window, "Connected to the server.", "Success", JOptionPane.INFORMATION_MESSAGE);
+//                }
         });
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
         add(connectButton, gbc);
+
+        // Register this panel as an event listener
+        Connection.getInstance().setEventListenerLogin(this);
     }
+
+    @Override
+    public void onMessageReceivedLogin(String message) {
+        if (message.contains(Messages.LOGIN) ) {
+            System.out.println("Received: " + message);
+            if (message.contains(Messages.ERROR)) {
+                JOptionPane.showMessageDialog(this, "Connection failed.", "Error", JOptionPane.ERROR_MESSAGE);
+                Connection.getInstance().closeSocket();
+            }
+            if (message.contains(Messages.SUCCESS)) {
+                Connection.getInstance().setStatus(0);
+                Window window = (Window) SwingUtilities.getWindowAncestor(this);
+                window.showScene("Queue");
+                JOptionPane.showMessageDialog(this, "Connected to the server.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
 }

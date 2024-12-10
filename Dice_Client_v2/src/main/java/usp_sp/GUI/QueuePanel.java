@@ -48,7 +48,7 @@ public class QueuePanel extends JPanel implements Connection.EventListenerQueue 
         add(cancelButton, gbc);
 
         // Register this panel as an event listener
-        Connection.getInstance().setEventListener(this);
+        Connection.getInstance().setEventListenerQueue(this);
     }
 
     @Override
