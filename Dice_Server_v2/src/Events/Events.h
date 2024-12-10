@@ -6,7 +6,7 @@
 
 namespace Events {
     std::string createGame();
-    std::string endGame(Game& game, int winner);
+    std::string endGame();
 }
 
 #endif //EVENTS_H

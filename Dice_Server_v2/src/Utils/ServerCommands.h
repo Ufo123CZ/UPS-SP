@@ -10,6 +10,8 @@ class ServerCommands {
 public:
     static void initCommandMap();
     static std::unordered_map<std::string, std::function<void(Server &server, std::string&)>> commandMap;
+    static void printGames();
+    static void printPlayers();
 };
 
 #endif //SERVERCOMMANDS_H

@@ -164,7 +164,6 @@ public class Connection {
                     if (eventListenerLogin != null) {
                         eventListenerLogin.onMessageReceivedLogin(message);
                     }
-
                     if (eventListenerQueue != null) {
                         eventListenerQueue.onMessageReceivedQueue(message);
                     }

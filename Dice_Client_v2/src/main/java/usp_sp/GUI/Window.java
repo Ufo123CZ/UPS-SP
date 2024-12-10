@@ -30,6 +30,8 @@ public class Window extends JFrame {
         setTitle("KCD Dice Client");
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 600);
+        setMinimumSize(new Dimension(800, 600));
         setLocationRelativeTo(null);
 
         // Add window listener to handle logout on close
@@ -37,7 +39,7 @@ public class Window extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 if (Connection.getInstance().getStatus() > -1) {
-                    Connection.getInstance().lastContact(Messages.LOGOUT, Connection.getInstance().getPlayerName());
+                    Connection.getInstance().lastContact(Messages.LOGOUT, "");
                     Connection.getInstance().closeSocket();
                     // Close the window
                     System.exit(0);

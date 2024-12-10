@@ -168,10 +168,11 @@ std::string Game::endRound(int who) {
     this->scores[who][0] += this->scores[who][1];
 
     // Check if the player has 4000 points
-    // TODO: Check if the player has 4000 points
+    // If so, end the game
     if (this->scores[who][0] >= 4000) {
         std::string res;
         res.append("winner:").append(this->playerNames[who]);
+        this->gameEnd = true;
         return res;
     }
 

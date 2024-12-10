@@ -95,13 +95,6 @@ public class LoginPanel extends JPanel implements Connection.EventListenerLogin 
             }
             Connection.getInstance().makeContact(Messages.LOGIN, nameField.getText());
 
-//                if (response.contains("ERROR")) {
-//                    JOptionPane.showMessageDialog(window, "Connection failed.", "Error", JOptionPane.ERROR_MESSAGE);
-//                } else {
-//                    Connection.getInstance().setStatus(0);
-//                    window.showScene("Queue");
-//                    JOptionPane.showMessageDialog(window, "Connected to the server.", "Success", JOptionPane.INFORMATION_MESSAGE);
-//                }
         });
         gbc.gridx = 0;
         gbc.gridy = 3;

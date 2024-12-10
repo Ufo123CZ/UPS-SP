@@ -37,7 +37,7 @@ public class QueuePanel extends JPanel implements Connection.EventListenerQueue 
 
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> {
-            Connection.getInstance().lastContact(Messages.LOGOUT, Connection.getInstance().getPlayerName());
+            Connection.getInstance().lastContact(Messages.LOGOUT, "");
             Connection.getInstance().closeSocket();
             Window window = (Window) SwingUtilities.getWindowAncestor(this);
             window.showScene("Login");
@@ -55,6 +55,12 @@ public class QueuePanel extends JPanel implements Connection.EventListenerQueue 
     public void onMessageReceivedQueue(String message) {
         new Thread(() -> {
             if (message.contains(GAME_CREATED)) {
+                // Reset Local variables
+                gamePanel.setFirstMoveInRound(false);
+                gamePanel.setSelectedDice(-1);
+                gamePanel.setGameEnd(false);
+                gamePanel.setWinnerName("");
+
                 Connection.getInstance().setStatus(1);
 
                 // Parse the message to get the information

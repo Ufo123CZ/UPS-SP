@@ -27,7 +27,9 @@ public class Messages {
     public static final String GAME_SELECT_DICE = BASE_GAME + "select:";
     public static final String GAME_NEXT_TURN = BASE_GAME + "nextT:";
     public static final String GAME_END_TURN = BASE_GAME + "endT:";
-    public static final String GAME_END_GAME = BASE_GAME + "endG:";
+
+    // Queue
+    public static final String QUEUE_REJOIN = BASE_QUEUE + "rejoin:";
 
     // Game States
     public static final String GAME_STATE_WINNER = "winner:";

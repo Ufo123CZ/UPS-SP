@@ -65,7 +65,8 @@
 				10,
 				11,
 				12,
-				13
+				13,
+				14
 			]
 		}
 	],
@@ -111,14 +112,14 @@
 				10,
 				11,
 				12,
-				13
+				13,
+				14
 			]
 		},
 		{
 			"name" : "Header Files",
 			"sourceIndexes" : 
 			[
-				14,
 				15,
 				16,
 				17,
@@ -127,7 +128,8 @@
 				20,
 				21,
 				22,
-				23
+				23,
+				24
 			]
 		}
 	],
@@ -173,6 +175,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "src/Messages/MessageTypes/GameM.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/Messages/MessageTypes/RejoinQ.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

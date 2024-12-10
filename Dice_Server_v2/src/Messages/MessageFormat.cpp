@@ -16,6 +16,9 @@ void MessageFormat::initMessageFormatMap() {
     // PING PONG
     std::string tagPing;
     tagPing.append(PONG);
+    // RECONNECT TO QUEUE
+    std::string tagQueueRejoin;
+    tagQueueRejoin.append(BASE_QUEUE).append(QUEUE_REJOIN);
     // GAME
     std::string tagGameThrow;
     tagGameThrow.append(BASE_GAME).append(GAME_THROW_DICE);
@@ -31,11 +34,14 @@ void MessageFormat::initMessageFormatMap() {
         {tagLogin, [](int fd, std::string& information) -> std::string {
             return Login::login(fd, information);
         }},
-        {tagLogout, [](int fd, std::string& information) -> std::string {
-            return Logout::logout(fd, information);
+        {tagLogout, [](int fd, std::string&) -> std::string {
+            return Logout::logout(fd);
         }},
         {tagPing, [](int, std::string&) -> std::string {
             return createPingMessage();
+        }},
+        {tagQueueRejoin, [](int fd, std::string&) -> std::string {
+            return RejoinQ::rejoinQueue(fd);
         }},
         {tagGameThrow, [](int fd, std::string&) -> std::string {
             return GameM::throwDice(fd);

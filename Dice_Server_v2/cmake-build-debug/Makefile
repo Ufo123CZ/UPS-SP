@@ -345,6 +345,30 @@ src/Messages/MessageTypes/Logout.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Logout.cpp.s
 .PHONY : src/Messages/MessageTypes/Logout.cpp.s
 
+src/Messages/MessageTypes/RejoinQ.o: src/Messages/MessageTypes/RejoinQ.cpp.o
+.PHONY : src/Messages/MessageTypes/RejoinQ.o
+
+# target to build an object file
+src/Messages/MessageTypes/RejoinQ.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/RejoinQ.cpp.o
+.PHONY : src/Messages/MessageTypes/RejoinQ.cpp.o
+
+src/Messages/MessageTypes/RejoinQ.i: src/Messages/MessageTypes/RejoinQ.cpp.i
+.PHONY : src/Messages/MessageTypes/RejoinQ.i
+
+# target to preprocess a source file
+src/Messages/MessageTypes/RejoinQ.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/RejoinQ.cpp.i
+.PHONY : src/Messages/MessageTypes/RejoinQ.cpp.i
+
+src/Messages/MessageTypes/RejoinQ.s: src/Messages/MessageTypes/RejoinQ.cpp.s
+.PHONY : src/Messages/MessageTypes/RejoinQ.s
+
+# target to generate assembly for a file
+src/Messages/MessageTypes/RejoinQ.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/RejoinQ.cpp.s
+.PHONY : src/Messages/MessageTypes/RejoinQ.cpp.s
+
 src/Server/MessageProcessing.o: src/Server/MessageProcessing.cpp.o
 .PHONY : src/Server/MessageProcessing.o
 
@@ -501,6 +525,9 @@ help:
 	@echo "... src/Messages/MessageTypes/Logout.o"
 	@echo "... src/Messages/MessageTypes/Logout.i"
 	@echo "... src/Messages/MessageTypes/Logout.s"
+	@echo "... src/Messages/MessageTypes/RejoinQ.o"
+	@echo "... src/Messages/MessageTypes/RejoinQ.i"
+	@echo "... src/Messages/MessageTypes/RejoinQ.s"
 	@echo "... src/Server/MessageProcessing.o"
 	@echo "... src/Server/MessageProcessing.i"
 	@echo "... src/Server/MessageProcessing.s"

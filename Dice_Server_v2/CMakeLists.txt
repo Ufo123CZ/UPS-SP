@@ -18,6 +18,7 @@ add_executable(Dice_Server_v2
         src/Messages/MessageTypes/Login.cpp
         src/Messages/MessageTypes/Logout.cpp
         src/Messages/MessageTypes/GameM.cpp
+        src/Messages/MessageTypes/RejoinQ.cpp
 
         # Data
         src/Data/DataVectors.cpp

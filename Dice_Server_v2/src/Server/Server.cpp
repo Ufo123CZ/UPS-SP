@@ -168,11 +168,29 @@ void Server::start() {
                 }
             }
         }
+        // Check if some games have ended
+        // Erase the game from the data vectors
+        if (!DataVectors::games.empty()) {
+            DataVectors::games.erase(
+                std::remove_if(DataVectors::games.begin(), DataVectors::games.end(), [](const Game& game) {
+                    return game.gameEnd;
+                }),
+                DataVectors::games.end()
+            );
+        }
 
         // Init Game
         // Create new game and change response to the game message
         // This event can occur only when there is more than 2 players in players vector
-        if (DataVectors::players.size() >= 2) {
+        // Check if there are more than 2 players in queue
+        int playersInQueue = 0;
+        for (Player& player : DataVectors::players) {
+            if (player.status == 0) {
+                playersInQueue++;
+            }
+        }
+
+        if (DataVectors::players.size() >= 2 && playersInQueue >= 2) {
             bool allInGame = true;
             for (Player& player : DataVectors::players) {
                 if (player.status != 1) {
@@ -186,12 +204,13 @@ void Server::start() {
             }
 
             std::string response = Events::createGame();
-            std::cout << "Players: " << DataVectors::games[DataVectors::games.size() - 1].gamePlayers[0].name
-            << " and " <<  DataVectors::games[DataVectors::games.size() - 1].gamePlayers[1].name  << std::endl;
+            Game *ptrToGame = &DataVectors::games[DataVectors::games.size() - 1];
+            std::cout << "Players: " << ptrToGame->gamePlayers[0].name
+            << " and " << ptrToGame->gamePlayers[1].name << std::endl;
             std::cout << response << std::endl;
-            std::cout << "---------------------------" << std::endl;
+
             // send the response to all players that are in now created game
-            for (Player& player : DataVectors::games[DataVectors::games.size() - 1].gamePlayers) {
+            for (Player& player : ptrToGame->gamePlayers) {
                 send(player.fd, response.c_str(), response.size(), 0);
             }
         }

@@ -7,9 +7,6 @@
 // TAGS OUT
 #define BASE_OUT "ds"
 
-// TAGS GENERAL
-#define QUEUE "queue:"
-
 // TAGS
 #define PING "ping:"
 #define PONG "pong:"
@@ -36,9 +33,8 @@
 #define ERROR "ERROR"
 
 // TAGS QUEUE
-#define QUEUE_STATUS "status:"
-#define QUEUE_WAIT_INFO "wait"
-#define QUEUE_START_INFO "start"
+#define BASE_QUEUE "queue:"
+#define QUEUE_REJOIN "rejoin:"
 
 
 

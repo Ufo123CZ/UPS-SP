@@ -88,15 +88,11 @@ namespace Events {
         return response;
     }
 
-    std::string endGame(Game& game, int winner) {
-
-        // Get name of the winner
-        std::string winnerName = game.playerNames[winner];
-
+    std::string endGame() {
         std::string tag;
         tag.append(BASE_GAME).append(GAME_END);
 
-        std::string response = MessageFormat::prepareResponse(winnerName, tag);
+        std::string response = MessageFormat::prepareResponse("Game Ended", tag);
         return response;
 
     }

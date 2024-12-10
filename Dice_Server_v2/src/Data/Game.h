@@ -24,12 +24,15 @@ public:
     std::vector<std::string> playerNames;
 
     std::string onMove;
-    bool lastSwitch;
+    bool lastSwitch = false;
 
     std::vector<std::vector<Dice>> dices;
 
     // Scores - length 3. 0 - total, 1 - round, 2 - throw
     std::vector<std::vector<int>> scores;
+
+    // Game state
+    bool gameEnd = false;
 
 private:
     static int calculateSelected(const int diceVals[]);

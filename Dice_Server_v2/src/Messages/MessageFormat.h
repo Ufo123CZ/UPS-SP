@@ -22,7 +22,7 @@ namespace Login {
     std::string login(int fd, std::string& information);
 }
 namespace Logout {
-    std::string logout(int fd, std::string& information);
+    std::string logout(int fd);
 }
 namespace GameM {
     std::string throwDice(int fd);
@@ -33,6 +33,9 @@ namespace GameM {
     std::string gameMessGen(const std::string& name, const std::string& score, const std::string& dice, const std::string& switchE, const std::string& unique);
     void updateGame(Game& game);
     std::pair<Game, Player> whereAndWho(int fd);
+}
+namespace RejoinQ {
+    std::string rejoinQueue(int fd);
 }
 
 #endif //MESSAGEFORMAT_H
