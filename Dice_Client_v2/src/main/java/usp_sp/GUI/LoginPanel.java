@@ -19,6 +19,7 @@ public class LoginPanel extends JPanel implements Connection.EventListenerLogin 
     private JButton connectButton;
 
     public LoginPanel(Window window) {
+        this.setBackground(Color.WHITE);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);

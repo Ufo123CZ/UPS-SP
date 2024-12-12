@@ -15,6 +15,7 @@ public class QueuePanel extends JPanel implements Connection.EventListenerQueue 
     private GamePanel gamePanel;
 
     public QueuePanel(GamePanel gamePanel) {
+        this.setBackground(Color.WHITE);
         this.gamePanel = gamePanel;
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();

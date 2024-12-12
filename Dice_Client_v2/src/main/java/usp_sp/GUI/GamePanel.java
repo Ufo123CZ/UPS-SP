@@ -50,6 +50,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
     String winnerName = "";
 
     public GamePanel() {
+        this.setBackground(Color.WHITE);
         board = new Board();
 
         Dice[] dicesP1 = new Dice[6];
@@ -195,6 +196,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         inputMap.put(KeyStroke.getKeyStroke("F"), "NextThrow");
         inputMap.put(KeyStroke.getKeyStroke("Q"), "EndTurn");
         inputMap.put(KeyStroke.getKeyStroke("SPACE"), "ThrowDices");
+        inputMap.put(KeyStroke.getKeyStroke("T"), "Help");
 
         actionMap.put("MoveLeft", new AbstractAction() {
             @Override
@@ -298,6 +300,14 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
                         firstMoveInRound = true;
                     }
                 }
+            }
+        });
+
+        actionMap.put("Help", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Window window = (Window) SwingUtilities.getWindowAncestor(GamePanel.this);
+                window.showScene("Help");
             }
         });
     }

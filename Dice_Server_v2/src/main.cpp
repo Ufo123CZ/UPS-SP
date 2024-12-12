@@ -28,9 +28,7 @@ void commandLineInterface(Server &server) {
         // Check if the command is valid
         auto cmd = ServerCommands::commandMap.find(command);
         if (cmd != ServerCommands::commandMap.end()) {
-            std::cout << R"(\\---------- Top of DataLogs ----------//)" << std::endl;
             cmd->second(server, arg1);
-
         } else {
             std::cout << "Invalid command" << std::endl
                       << "Type 'help' for a list of commands" << std::endl;

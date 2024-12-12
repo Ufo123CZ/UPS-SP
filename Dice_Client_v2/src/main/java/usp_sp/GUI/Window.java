@@ -25,6 +25,7 @@ public class Window extends JFrame {
         mainPanel.add(new LoginPanel(this), "Login");
         mainPanel.add(queuePanel, "Queue");
         mainPanel.add(gamePanel, "Game");
+        mainPanel.add(new HelpPanel(), "Help");
 
         add(mainPanel);
         setTitle("KCD Dice Client");
