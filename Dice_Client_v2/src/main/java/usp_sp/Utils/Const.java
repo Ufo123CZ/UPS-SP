@@ -4,8 +4,9 @@ import java.awt.*;
 
 public class Const {
     // Assets Paths
-    public static final String ASSETS_GIF = "src/main/resources/Assets/Gifs/";
-    public static final String ASSETS_MATERIALS = "src/main/resources/Assets/Materials/";
+    public static final String ASSETS_GIF = "/Assets/Gifs/";
+    public static final String ASSETS_MATERIALS = "/Assets/Materials/";
+    public static final String ASSETS_ADDS = "/Assets/Adds/";
 
     // Window
     public static final int WINDOW_WIDTH = 800;

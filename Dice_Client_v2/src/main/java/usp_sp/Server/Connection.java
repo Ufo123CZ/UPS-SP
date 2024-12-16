@@ -3,6 +3,7 @@ package usp_sp.Server;
 import lombok.Getter;
 import lombok.Setter;
 import usp_sp.GUI.Window;
+import usp_sp.Utils.Const;
 
 import javax.swing.*;
 import java.awt.*;
@@ -107,6 +108,7 @@ public class Connection extends Component {
     public void lastContact(String action, String information) {
         // Prepare the message
         response = messageBuilder(action, information);
+        System.out.println("Sent: " + response);
     }
 
     private String messageBuilder(String action, String information) {
@@ -147,8 +149,15 @@ public class Connection extends Component {
 
                     String receivedMessage;
                     int connectionAttempts = 10;
+                    long startTime = System.currentTimeMillis();
+                    long startPingTime = System.currentTimeMillis();
                     while (connectionAttempts > 0) {
                         sleep(10);
+//                        if (System.currentTimeMillis() - startTime > Const.TIMEOUT_CONNECTION_LOST) {
+//                            System.out.println("Connection lost.");
+//                            // TODO: Open a dialog to inform the user
+//                            startPingTime = System.currentTimeMillis();
+//                        }
                         receivedMessage = in.readLine();
                         if (!receivedMessage.isEmpty()) {
                             message = exludePartsOfMessage(receivedMessage).toString();

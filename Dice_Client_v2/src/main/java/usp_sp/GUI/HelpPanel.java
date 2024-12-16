@@ -2,6 +2,10 @@ package usp_sp.GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
+
+import static usp_sp.Utils.Const.ASSETS_ADDS;
+import static usp_sp.Utils.Const.ASSETS_GIF;
 
 public class HelpPanel extends JPanel {
 
@@ -25,7 +29,8 @@ public class HelpPanel extends JPanel {
 
 
         // Help Combinations image
-        origIcon = new ImageIcon("src/main/resources/Assets/Adds/Combinations.png");
+//        origIcon = new ImageIcon("src/main/resources/Assets/Adds/Combinations.png");
+        origIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource(ASSETS_ADDS + "Combinations.png")));
         origImage = origIcon.getImage();
         // Scale the image
         int width = origImage.getWidth(null);
@@ -38,7 +43,7 @@ public class HelpPanel extends JPanel {
         JLabel combLabel = new JLabel(scaledIcon);
 
         // Help Rules
-        origIcon = new ImageIcon("src/main/resources/Assets/Adds/Rules.png");
+        origIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource(ASSETS_ADDS + "Rules.png")));
         origImage = origIcon.getImage();
         // Scale the image
         float scaleR = (float) (origImage.getWidth(null) / origImage.getHeight(null));
