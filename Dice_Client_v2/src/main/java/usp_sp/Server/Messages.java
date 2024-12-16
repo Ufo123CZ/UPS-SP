@@ -5,6 +5,7 @@ public class Messages {
     // Success and Error
     public static final String SUCCESS = "SUCCESS";
     public static final String ERROR = "ERROR";
+    public static final String SERVER_ERROR = "SERVER ERROR";
 
     // Base
     static final String BASE_IN = "dc";

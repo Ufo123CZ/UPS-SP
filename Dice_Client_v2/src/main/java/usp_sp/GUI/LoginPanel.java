@@ -12,6 +12,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static usp_sp.Server.Messages.SERVER_ERROR;
+
 public class LoginPanel extends JPanel implements Connection.EventListenerLogin {
     private JTextField nameField;
     private JTextField ipField;
@@ -120,6 +122,13 @@ public class LoginPanel extends JPanel implements Connection.EventListenerLogin 
                 window.showScene("Queue");
                 JOptionPane.showMessageDialog(this, "Connected to the server.", "Success", JOptionPane.INFORMATION_MESSAGE);
             }
+        }
+
+        if (message.contains(SERVER_ERROR)) {
+            JOptionPane.showMessageDialog(this, "Connection Lost", "Error", JOptionPane.ERROR_MESSAGE);
+//            Connection.getInstance().closeSocket();
+            Window window = (Window) SwingUtilities.getWindowAncestor(this);
+            window.showScene("Login");
         }
     }
 

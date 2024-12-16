@@ -56,9 +56,16 @@ public class QueuePanel extends JPanel implements Connection.EventListenerQueue 
     public void onMessageReceivedQueue(String message) {
         new Thread(() -> {
             if (message.contains(GAME_CREATED)) {
+                System.out.println("Game Created with: " + message);
                 // Reset Local variables
                 gamePanel.setFirstMoveInRound(false);
                 gamePanel.setSelectedDice(-1);
+                // Set all dices to not Hover
+                for (int i = 0; i < gamePanel.getDiceList().size(); i++) {
+                    for (int j = 0; j < gamePanel.getDiceList().get(i).length; j++) {
+                        gamePanel.getDiceList().get(i)[j].setHover(false);
+                    }
+                }
                 gamePanel.setGameEnd(false);
                 gamePanel.setWinnerName("");
 

@@ -2,7 +2,10 @@ package usp_sp.Server;
 
 import lombok.Getter;
 import lombok.Setter;
+import usp_sp.GUI.Window;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,7 +15,7 @@ import java.net.Socket;
 import static java.lang.Thread.sleep;
 import static usp_sp.Server.Messages.*;
 
-public class Connection {
+public class Connection extends Component {
 
     // Server details
     private String serverAddress = "";
@@ -143,7 +146,7 @@ public class Connection {
                     }
 
                     String receivedMessage;
-                    int connectionAttempts = 5;
+                    int connectionAttempts = 10;
                     while (connectionAttempts > 0) {
                         sleep(10);
                         receivedMessage = in.readLine();
@@ -180,6 +183,13 @@ public class Connection {
                 } catch (InterruptedException | IOException e) {
                     if (!listening) {
                         System.out.println("Socket closed, stopping listener thread.");
+                    } else {
+                        System.out.println("Error: " + e.getMessage());
+                        listening = false;
+                        loggedIn = false;
+                        if (eventListenerLogin != null) {
+                            eventListenerLogin.onMessageReceivedLogin(SERVER_ERROR);
+                        }
                     }
                 }
             }
