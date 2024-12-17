@@ -36,6 +36,11 @@ Game::Game(Player player1, Player player2) {
         dices[1].emplace_back(dicesIds2[i]);
     }
 
+    // Set throwed dices
+    throwB.push_back(false);
+    throwB.push_back(false);
+
+
     // Set scores
     std::vector<int> scoresP1, scoresP2;
 
@@ -112,8 +117,10 @@ std::pair<std::string, std::string> Game::rollDices(int who) {
     }
     if (oneOrFive || threeOfAKind) {
         switchPlayer = " ";
+        this->throwB[who] = true;
     } else {
         switchPlayer = playerNames[who == 0 ? 1 : 0];
+        this->throwB = {false, false};
         this->onMove = switchPlayer;
         this->scores[who][1] = 0;
         this->scores[who][2] = 0;
@@ -167,6 +174,7 @@ std::string Game::endRound(int who) {
     this->scores[who][1] += this->scores[who][2];
     this->scores[who][0] += this->scores[who][1];
 
+    this->throwB = {false, false};
     // Check if the player has 4000 points
     // If so, end the game
     if (this->scores[who][0] >= 4000) {

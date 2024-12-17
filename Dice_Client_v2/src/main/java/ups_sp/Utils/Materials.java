@@ -1,14 +1,13 @@
-package usp_sp.Utils;
+package ups_sp.Utils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-import static usp_sp.Utils.Const.ASSETS_MATERIALS;
+import static ups_sp.Utils.Const.ASSETS_MATERIALS;
 
 public abstract class Materials {
     public TexturePaint loadTexture(String fileName) {

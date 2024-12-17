@@ -1,4 +1,4 @@
-package usp_sp.Utils;
+package ups_sp.Utils;
 
 import java.awt.*;
 

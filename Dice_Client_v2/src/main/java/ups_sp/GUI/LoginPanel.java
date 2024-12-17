@@ -1,7 +1,7 @@
-package usp_sp.GUI;
+package ups_sp.GUI;
 
-import usp_sp.Server.Connection;
-import usp_sp.Server.Messages;
+import ups_sp.Server.Connection;
+import ups_sp.Server.Messages;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
@@ -9,10 +9,8 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import static usp_sp.Server.Messages.SERVER_ERROR;
+import static ups_sp.Server.Messages.SERVER_ERROR;
 
 public class LoginPanel extends JPanel implements Connection.EventListenerLogin {
     private JTextField nameField;

@@ -101,13 +101,6 @@ void Server::start() {
                     int a2read;
                     ioctl(fd, FIONREAD, &a2read);
                     if (a2read > 0) {
-                        // Find name of the player
-                        // for (Player& player : DataVectors::players) {
-                        //     if (player.fd == fd) {
-                        //         std::cout << "Player " << player.name << ":" << std::endl;
-                        //     }
-                        // }
-
                         // Read the message
                         std::string message = MessageProcessing::readMessage(fd);
                         if (message.empty()) {
@@ -122,6 +115,12 @@ void Server::start() {
                         std::string response = MessageProcessing::processMessage(fd, message);
                         if (response.empty() || response == "\n") {
                             response = MessageFormat::createFailMessage();
+                        }
+                        if (response.find(BASE_LOGIN) != std::string::npos && response.find(LOGIN) != std::string::npos && response.find(ERROR) != std::string::npos) {
+                            send(fd, response.c_str(), response.size(), 0);
+                            std::erase(currentPings, fd);
+                            close(fd);
+                            FD_CLR(fd, &client_socks);
                         }
 
                         // Update for all in players in modified game
@@ -140,9 +139,33 @@ void Server::start() {
                         // Message contains the command logout close the socket
                         if (message.find(LOGOUT) != std::string::npos) {
                             send(fd, response.c_str(), response.size(), 0);
+                            // if the player was in game remove him from the game and announce the other player that he left
+                            for (Player p : DataVectors::players) {
+                                if (fd == p.fd && p.status == 1) {
+                                    for (int i = 0; i < DataVectors::games.size(); i++) {
+                                        if ((DataVectors::games[i].playerNames[0] == p.name || DataVectors::games[i].playerNames[1] == p.name) && DataVectors::games[i].gamePlayers.size() == 2) {
+                                            std::pair<int, std::string> result = Events::announcePlayerLeft(p);
+                                            if (result.first != -1) {
+                                                send(result.first, result.second.c_str(), result.second.size(), 0);
+                                            }
+                                        }
+                                        // Erase from DataVectors::games gamePlayers vector the player that left
+                                        std::erase_if(DataVectors::games[i].gamePlayers, [p](const Player& player) {
+                                            return player.name == p.name;
+                                        });
+                                    }
+                                }
+                            }
+
+
+                            // Remove the player from the data vectors
+                            std::erase_if(DataVectors::players, [fd](const Player& player) {
+                                return player.fd == fd;
+                            });
                             std::erase(currentPings, fd);
                             close(fd);
                             FD_CLR(fd, &client_socks);
+
                             std::cout << "Client disconnected and removed from socket set" << std::endl;
                         }
 
@@ -168,15 +191,45 @@ void Server::start() {
                 }
             }
         }
+
+        // Check if game have 0 players
+        // Erase the game from the data vectors
+        for (Game& game : DataVectors::games) {
+            if (game.gamePlayers.empty()) {
+                game.gameEnd = true;
+                // Game Does not have gameID
+                std::erase_if(DataVectors::games, [&game](const Game& g) {
+                    return game.gameEnd;
+                });
+            }
+        }
         // Check if some games have ended
         // Erase the game from the data vectors
         if (!DataVectors::games.empty()) {
-            DataVectors::games.erase(
-                std::remove_if(DataVectors::games.begin(), DataVectors::games.end(), [](const Game& game) {
-                    return game.gameEnd;
-                }),
-                DataVectors::games.end()
-            );
+            std::erase_if(DataVectors::games, [](const Game& game) {
+                return game.gameEnd;
+            });
+        }
+
+        // Game Reconnect
+        // Player connects to server, and he was in the game when he disconnected reconnect him to the game
+        // This event can occur only when the player is in the players vector
+        if (!DataVectors::games.empty()) {
+            for (auto & player : DataVectors::players) {
+                if (player.status == 0) {
+                    std::string response = Events::reconnectGame(player);
+                    if (!response.empty()) {
+                        player.status = 1;
+                        send(player.fd, response.c_str(), response.size(), 0);
+
+                        // announce the other player that the player has reconnected
+                        std::pair<int, std::string> result = Events::announcePlayerReconnect(player);
+                        if (result.first != -1) {
+                            send(result.first, result.second.c_str(), result.second.size(), 0);
+                        }
+                    }
+                }
+            }
         }
 
         // Init Game

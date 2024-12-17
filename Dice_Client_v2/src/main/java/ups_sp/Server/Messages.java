@@ -1,4 +1,4 @@
-package usp_sp.Server;
+package ups_sp.Server;
 
 public class Messages {
 
@@ -24,10 +24,13 @@ public class Messages {
 
     // Game
     public static final String GAME_CREATED = BASE_GAME + "create:";
+    public static final String GAME_RECONNECTED = BASE_GAME + "reconnect:";
     public static final String GAME_THROW_DICE = BASE_GAME + "throw:";
     public static final String GAME_SELECT_DICE = BASE_GAME + "select:";
     public static final String GAME_NEXT_TURN = BASE_GAME + "nextT:";
     public static final String GAME_END_TURN = BASE_GAME + "endT:";
+    public static final String GAME_PLAYER_LEFT = BASE_GAME + "playerLeft:";
+    public static final String GAME_PLAYER_JOINED = BASE_GAME + "playerJoined:";
 
     // Queue
     public static final String QUEUE_REJOIN = BASE_QUEUE + "rejoin:";

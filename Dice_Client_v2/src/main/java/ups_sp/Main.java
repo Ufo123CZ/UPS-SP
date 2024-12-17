@@ -1,9 +1,8 @@
-package usp_sp;
+package ups_sp;
 
-import usp_sp.GUI.Window;
+import ups_sp.GUI.Window;
 
 import javax.swing.*;
-import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {

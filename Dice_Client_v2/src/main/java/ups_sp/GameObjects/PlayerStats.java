@@ -1,16 +1,16 @@
-package usp_sp.GameObjects;
+package ups_sp.GameObjects;
 
 import lombok.Getter;
 import lombok.Setter;
-import usp_sp.Utils.Materials;
+import ups_sp.Utils.Materials;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
-import static usp_sp.Utils.Colours.*;
-import static usp_sp.Utils.Const.*;
+import static ups_sp.Utils.Colours.*;
+import static ups_sp.Utils.Const.*;
 
 public class PlayerStats extends Materials {
 

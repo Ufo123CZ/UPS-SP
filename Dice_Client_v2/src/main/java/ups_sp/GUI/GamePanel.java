@@ -1,12 +1,12 @@
-package usp_sp.GUI;
+package ups_sp.GUI;
 
 import lombok.Getter;
 import lombok.Setter;
-import usp_sp.GameObjects.Board;
-import usp_sp.GameObjects.Dice;
-import usp_sp.GameObjects.PlayerStats;
-import usp_sp.Server.Connection;
-import usp_sp.Server.Messages;
+import ups_sp.GameObjects.Board;
+import ups_sp.GameObjects.Dice;
+import ups_sp.GameObjects.PlayerStats;
+import ups_sp.Server.Connection;
+import ups_sp.Server.Messages;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,15 +14,17 @@ import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.util.List;
 
-import static usp_sp.Server.Messages.GAME_STATE_WINNER;
-import static usp_sp.Utils.Const.*;
+import static ups_sp.Server.Messages.GAME_STATE_WINNER;
+import static ups_sp.Utils.Const.*;
 
 public class GamePanel extends JPanel implements Connection.EventListenerGame {
 
     // Additional Buttons
-    JButton endButton;
-    JPanel statusPanel;
-    JLabel statusLabel;
+    JButton endButtonBottom, endButtonUpper;
+    @Setter
+    JPanel statusPanel, upperPanel;
+    JLabel statusLabel, upperLabel;
+
 
     // Globals
     private final Board board;
@@ -49,6 +51,10 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
     @Setter
     String winnerName = "";
 
+    // Game Interrupt
+    @Setter
+    boolean gameStopped = false;
+
     public GamePanel() {
         this.setBackground(Color.WHITE);
         board = new Board();
@@ -68,8 +74,10 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         // Register this panel as an event listener
         Connection.getInstance().setEventListenerGame(this);
 
-        // Init the lower bar
+        // Init the bars
         initLowerBar();
+        initUpperBar();
+        upperPanel.setVisible(false);
 
         // Create a panel to hold the board and player stats
         JPanel centerPanel = new JPanel() {
@@ -86,6 +94,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         controls();
     }
 
+    //region Init Bars
     private void initLowerBar() {
         // Create the lower bar panel with BorderLayout
         statusPanel = new JPanel(new BorderLayout());
@@ -99,15 +108,38 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         statusPanel.add(statusLabel, BorderLayout.WEST);
 
         // On the right side is the end game button
-        endButton = new JButton("Endgame");
-        endButton.setVisible(false);
-        endButton.addActionListener(e -> showGameOverDialog(""));
-        statusPanel.add(endButton, BorderLayout.EAST);
+        endButtonBottom = new JButton("Endgame Options");
+        endButtonBottom.setVisible(false);
+        endButtonBottom.addActionListener(e -> showGameOverDialog(""));
+        statusPanel.add(endButtonBottom, BorderLayout.EAST);
 
         // Add the lower bar to the main panel
         this.setLayout(new BorderLayout());
         this.add(statusPanel, BorderLayout.SOUTH);
     }
+    private void initUpperBar() {
+        // Create the upper bar panel with BorderLayout
+        upperPanel = new JPanel(new BorderLayout());
+        upperPanel.setBackground(Color.LIGHT_GRAY);
+        upperPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        upperPanel.setPreferredSize(new Dimension(0, 20));
+
+        // On the left side is the status of the game
+        upperLabel = new JLabel("Player is disconnected!");
+        upperLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        upperPanel.add(upperLabel, BorderLayout.WEST);
+
+        // On the right side is the end game button
+        endButtonUpper = new JButton("Disconnect Options");
+        endButtonUpper.setVisible(false);
+        endButtonUpper.addActionListener(e -> showGameStatusDialog(""));
+        upperPanel.add(endButtonUpper, BorderLayout.EAST);
+
+        // Add the lower bar to the main panel
+        this.setLayout(new BorderLayout());
+        this.add(upperPanel, BorderLayout.NORTH);
+    }
+    //endregion
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -201,7 +233,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("MoveLeft", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (firstMoveInRound && !gameEnd) {
+                if (firstMoveInRound && !gameEnd && !gameStopped) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         int who = whoIsPlaying();
                         int leftest = getTheLeftest();
@@ -227,7 +259,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("MoveRight", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (firstMoveInRound && !gameEnd) {
+                if (firstMoveInRound && !gameEnd && !gameStopped) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         int who = whoIsPlaying();
                         int rightest = getTheRightest();
@@ -253,7 +285,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("SelectDice", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (firstMoveInRound && !gameEnd) {
+                if (firstMoveInRound && !gameEnd && !gameStopped) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         int who = whoIsPlaying();
                         if (selectedDice != -1 && diceList.get(who)[selectedDice].isSelected()) {
@@ -270,7 +302,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("NextThrow", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (firstMoveInRound && isAtleastOneDiceSelected() && throwScoreIsntZero() && !gameEnd) {
+                if (firstMoveInRound && isAtleastOneDiceSelected() && throwScoreIsntZero() && !gameEnd && !gameStopped) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         Connection.getInstance().makeContact(Messages.GAME_NEXT_TURN, "");
                         disableHover();
@@ -282,7 +314,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("EndTurn", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (firstMoveInRound && isAtleastOneDiceSelected() && throwScoreIsntZero() && !gameEnd) {
+                if (firstMoveInRound && isAtleastOneDiceSelected() && throwScoreIsntZero() && !gameEnd && !gameStopped) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         Connection.getInstance().makeContact(Messages.GAME_END_TURN, "");
                         disableHover();
@@ -294,7 +326,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("ThrowDices", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!firstMoveInRound && !gameEnd) {
+                if (!firstMoveInRound && !gameEnd && !gameStopped) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         Connection.getInstance().makeContact(Messages.GAME_THROW_DICE, "");
                         firstMoveInRound = true;
@@ -412,16 +444,19 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
                     }
                 }
 
+                // Throw boolean
+                String[] throwsB = parts[4].split(",");
+                firstMoveInRound = throwsB[who].equals("1");
+
                 // Switch Player
-                if (!parts[4].equals(" ")) {
-                    onMove = parts[4];
-                    firstMoveInRound = false;
+                if (!parts[5].equals(" ")) {
+                    onMove = parts[5];
                     statusLabel.setText("Status: " + parts[4] + " is playing");
                 }
 
                 // Unique Information
-                if (!parts[5].equals(" ")) {
-                    if (parts[5].contains(GAME_STATE_WINNER)) {
+                if (!parts[6].equals(" ")) {
+                    if (parts[6].contains(GAME_STATE_WINNER)) {
                         String[] winner = parts[5].split(":");
                         winnerName = winner[1];
                     }
@@ -432,19 +467,21 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         if (!winnerName.isEmpty()) {
             gameEnd = true;
             statusLabel.setText("Status: " + winnerName + " is the winner!");
-            endButton.setVisible(true);
+            endButtonBottom.setVisible(true);
             gameEnd();
         }
 
         repaint();
     }
+    //endregion
 
+    //region Game Status
     private void showGameOverDialog(String winner) {
         if (winnerName.isEmpty()) {
             return;
         }
         statusLabel.setText("Status: " + winnerName + " is the winner!");
-        endButton.setVisible(false);
+        endButtonBottom.setVisible(false);
         String message = "YOU LOSE!";
         if (winner.equals(Connection.getInstance().getPlayerName())) {
             message = "YOU WON!";
@@ -460,21 +497,43 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
                 options,
                 options[0]
         );
+        optionPanel(option, endButtonBottom);
+    }
+
+    private void showGameStatusDialog(String disconnected) {
+        // get name of the disconnected player
+        statusLabel.setText("Player " + disconnected + " is disconnected!");
+        endButtonUpper.setVisible(false);
+        Object[] options = {"Return to Login Screen", "Queue for another game"};
+        int option = JOptionPane.showOptionDialog(
+                this,
+                 statusLabel.getText() + "\nDo you want to return to login or queue for another game?",
+                "Game Over",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+        optionPanel(option, endButtonUpper);
+    }
+
+    private void optionPanel(int option, JButton endButtonUpper) {
         if (option == 0) {
-            Connection.getInstance().lastContact(Messages.LOGOUT, "");
+            Connection.getInstance().makeContact(Messages.LOGOUT, "");
             Connection.getInstance().closeSocket();
             Window window = (Window) SwingUtilities.getWindowAncestor(this);
             window.showScene("Login");
         } else if (option == 1) {
             Connection.getInstance().makeContact(Messages.QUEUE_REJOIN, "");
         } else {
-            endButton.setVisible(true);
+            endButtonUpper.setVisible(true);
         }
     }
 
     private void gameEnd() {
         SwingUtilities.invokeLater(() -> {
-            endButton.setVisible(false);
+            endButtonBottom.setVisible(false);
             showGameOverDialog(winnerName);
         });
     }
@@ -483,6 +542,18 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
     @Override
     public void onMessageReceivedGame(String message) {
         new Thread(() -> {
+            if (message.contains(Messages.GAME_PLAYER_LEFT)) {
+                System.out.println("Update Game with message: " + message);
+                upperPanel.setVisible(true);
+                gameStopped = true;
+                String disconected = message.split(";")[1];
+                showGameStatusDialog(disconected);
+            }
+            if (message.contains(Messages.GAME_PLAYER_JOINED)) {
+                System.out.println("Update Game with message: " + message);
+                upperPanel.setVisible(false);
+                gameStopped = false;
+            }
             if (message.contains(Messages.GAME_THROW_DICE)) {
                 System.out.println("Update Game with message: " + message);
                 updateGame(message);

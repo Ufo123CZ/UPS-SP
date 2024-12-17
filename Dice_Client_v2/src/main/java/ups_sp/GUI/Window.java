@@ -1,15 +1,15 @@
-package usp_sp.GUI;
+package ups_sp.GUI;
 
-import usp_sp.Server.Connection;
-import usp_sp.Server.Messages;
+import ups_sp.Server.Connection;
+import ups_sp.Server.Messages;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import static usp_sp.Utils.Const.WINDOW_HEIGHT;
-import static usp_sp.Utils.Const.WINDOW_WIDTH;
+import static ups_sp.Utils.Const.WINDOW_HEIGHT;
+import static ups_sp.Utils.Const.WINDOW_WIDTH;
 
 public class Window extends JFrame {
     private CardLayout cardLayout;
@@ -39,7 +39,7 @@ public class Window extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 if (Connection.getInstance().getStatus() > -1) {
-                    Connection.getInstance().lastContact(Messages.LOGOUT, "");
+                    Connection.getInstance().makeContact(Messages.LOGOUT, "");
                     Connection.getInstance().closeSocket();
                     // Close the window
                     System.exit(0);

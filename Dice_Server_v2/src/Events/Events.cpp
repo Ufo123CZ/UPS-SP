@@ -88,6 +88,125 @@ namespace Events {
         return response;
     }
 
+    std::string reconnectGame(Player &player) {
+        Game *game = nullptr;
+        for (auto & i : DataVectors::games) {
+            if (i.playerNames[0] == player.name || i.playerNames[1] == player.name) {
+                i.gamePlayers.push_back(player);
+                game = &i;
+                break;
+            }
+        }
+        if (game == nullptr) {
+            return "";
+        }
+        
+        std::string tag;
+        tag.append(BASE_GAME).append(GAME_RECONNECT);
+
+        // Make information
+        std::string information;
+
+        // Player names
+        for (int i = 0; i < game->playerNames.size(); i++) {
+            information.append(game->playerNames[i]).append("|");
+            // Scores
+            for (int j = 0; j < game->scores[i].size(); j++) {
+                information.append(std::to_string(game->scores[i][j]));
+                if (j != game->scores[i].size() - 1) {
+                    information.append(",");
+                } else {
+                    information.append("|");
+                }
+            }
+            // Dices
+            for (int j = 0; j < game->dices[i].size(); j++) {
+                information.append(game->dices[i][j].id).append(",")
+                .append(std::to_string(game->dices[i][j].value)).append(",")
+                .append(std::to_string(game->dices[i][j].selected)).append(",")
+                .append(std::to_string(game->dices[i][j].hold));
+                if (j != game->dices[i].size() - 1) {
+                    information.append("/");
+                } else {
+                    information.append("|");
+                }
+            }
+            information.append(";");
+        }
+
+        // On move
+        information.append(game->onMove).append(";");
+
+        std::string response = MessageFormat::prepareResponse(information, tag);
+        return response;
+    }
+
+    std::pair<int, std::string> announcePlayerLeft(const Player &player) {
+        Game *game = nullptr;
+        int makeAnouncementFor = 0, targetedPlayer = -1;
+        for (Game& g : DataVectors::games) {
+            if (g.playerNames[0] == player.name) {
+                makeAnouncementFor = 1;
+                game = &g;
+                break;
+            }
+            if (g.playerNames[1] == player.name) {
+                makeAnouncementFor = 0;
+                game = &g;
+                break;
+            }
+        }
+        if (game == nullptr) {
+            return std::make_pair(-1, "");
+        }
+
+        // For who will be the announcement
+        for (Player& p : game->gamePlayers) {
+            if (p.name == game->playerNames[makeAnouncementFor]) {
+                targetedPlayer = p.fd;
+            }
+        }
+
+        std::string tag;
+        tag.append(BASE_GAME).append(GAME_PLAYER_LEFT);
+
+        std::string response = MessageFormat::prepareResponse(player.name, tag);
+        return std::make_pair(targetedPlayer, response);
+    }
+
+    std::pair<int, std::string> announcePlayerReconnect(const Player &player) {
+        Game *game = nullptr;
+        int makeAnouncementFor = 0, targetedPlayer = -1;
+        for (Game& g : DataVectors::games) {
+            if (g.playerNames[0] == player.name) {
+                makeAnouncementFor = 1;
+                game = &g;
+                break;
+            }
+            if (g.playerNames[1] == player.name) {
+                makeAnouncementFor = 0;
+                game = &g;
+                break;
+            }
+        }
+        if (game == nullptr) {
+            return std::make_pair(-1, "");
+        }
+
+        // For who will be the announcement
+        for (Player& p : game->gamePlayers) {
+            if (p.name == game->playerNames[makeAnouncementFor]) {
+                targetedPlayer = p.fd;
+            }
+        }
+
+        std::string tag;
+        tag.append(BASE_GAME).append(GAME_PLAYER_JOINED);
+
+        std::string response = MessageFormat::prepareResponse(player.name, tag);
+        return std::make_pair(targetedPlayer, response);
+    }
+
     std::string endGame() {
         std::string tag;
         tag.append(BASE_GAME).append(GAME_END);

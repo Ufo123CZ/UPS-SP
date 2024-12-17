@@ -1,15 +1,15 @@
-package usp_sp.GUI;
+package ups_sp.GUI;
 
-import usp_sp.GameObjects.PlayerStats;
-import usp_sp.Server.Connection;
-import usp_sp.Server.Messages;
+import ups_sp.GameObjects.PlayerStats;
+import ups_sp.Server.Connection;
+import ups_sp.Server.Messages;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-import static usp_sp.Server.Messages.GAME_CREATED;
-import static usp_sp.Utils.Const.ASSETS_GIF;
+import static ups_sp.Server.Messages.GAME_CREATED;
+import static ups_sp.Utils.Const.ASSETS_GIF;
 
 public class QueuePanel extends JPanel implements Connection.EventListenerQueue {
 
@@ -39,7 +39,7 @@ public class QueuePanel extends JPanel implements Connection.EventListenerQueue 
 
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> {
-            Connection.getInstance().lastContact(Messages.LOGOUT, "");
+            Connection.getInstance().makeContact(Messages.LOGOUT, "");
             Connection.getInstance().closeSocket();
             Window window = (Window) SwingUtilities.getWindowAncestor(this);
             window.showScene("Login");
@@ -56,7 +56,7 @@ public class QueuePanel extends JPanel implements Connection.EventListenerQueue 
     @Override
     public void onMessageReceivedQueue(String message) {
         new Thread(() -> {
-            if (message.contains(GAME_CREATED)) {
+            if (message.contains(GAME_CREATED) || message.contains(Messages.GAME_RECONNECTED)) {
                 System.out.println("Game Created with: " + message);
                 // Reset Local variables
                 gamePanel.setFirstMoveInRound(false);
@@ -67,8 +67,11 @@ public class QueuePanel extends JPanel implements Connection.EventListenerQueue 
                         gamePanel.getDiceList().get(i)[j].setHover(false);
                     }
                 }
+
                 gamePanel.setGameEnd(false);
                 gamePanel.setWinnerName("");
+                gamePanel.gameStopped = false;
+                gamePanel.upperPanel.setVisible(false);
 
                 Connection.getInstance().setStatus(1);
 

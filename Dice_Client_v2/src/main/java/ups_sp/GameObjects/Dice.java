@@ -1,17 +1,17 @@
-package usp_sp.GameObjects;
+package ups_sp.GameObjects;
 
 import lombok.Getter;
 import lombok.Setter;
-import usp_sp.Utils.Materials;
+import ups_sp.Utils.Materials;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 
-import static usp_sp.Utils.Colours.*;
-import static usp_sp.Utils.Const.DICE_ROLL_ARC;
-import static usp_sp.Utils.Const.DICE_SIZE;
+import static ups_sp.Utils.Colours.*;
+import static ups_sp.Utils.Const.DICE_ROLL_ARC;
+import static ups_sp.Utils.Const.DICE_SIZE;
 
 public class Dice extends Materials {
 

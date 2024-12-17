@@ -1,11 +1,8 @@
-package usp_sp.Server;
+package ups_sp.Server;
 
 import lombok.Getter;
 import lombok.Setter;
-import usp_sp.GUI.Window;
-import usp_sp.Utils.Const;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +11,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import static java.lang.Thread.sleep;
-import static usp_sp.Server.Messages.*;
+import static ups_sp.Server.Messages.*;
 
 public class Connection extends Component {
 
@@ -101,12 +98,6 @@ public class Connection extends Component {
 
     public void makeContact(String action, String information) {
         // Prepare and send the message
-        response = messageBuilder(action, information);
-        System.out.println("Sent: " + response);
-    }
-
-    public void lastContact(String action, String information) {
-        // Prepare the message
         response = messageBuilder(action, information);
         System.out.println("Sent: " + response);
     }

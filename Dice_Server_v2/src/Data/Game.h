@@ -26,6 +26,8 @@ public:
     std::string onMove;
     bool lastSwitch = false;
 
+
+    std::vector<bool> throwB;
     std::vector<std::vector<Dice>> dices;
 
     // Scores - length 3. 0 - total, 1 - round, 2 - throw

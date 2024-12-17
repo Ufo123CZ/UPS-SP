@@ -1,11 +1,10 @@
-package usp_sp.GUI;
+package ups_sp.GUI;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-import static usp_sp.Utils.Const.ASSETS_ADDS;
-import static usp_sp.Utils.Const.ASSETS_GIF;
+import static ups_sp.Utils.Const.ASSETS_ADDS;
 
 public class HelpPanel extends JPanel {
 

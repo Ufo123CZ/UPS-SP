@@ -12,7 +12,7 @@ namespace Logout {
             if (DataVectors::players[i].fd == fd) {
                 // Remove the pointer from the vector
                 name = DataVectors::players[i].name;
-                DataVectors::players.erase(DataVectors::players.begin() + i);
+                // DataVectors::players.erase(DataVectors::players.begin() + i);
                 break;
             }
         }
