@@ -28,6 +28,8 @@ public class Const {
 
 
     // Timeouts
+    public static final int TIMEOUT_CONNECTION = 10000; // 10 seconds
     public static final int TIMEOUT_CONNECTION_LOST = 5000; // 5 seconds
+
 
 }

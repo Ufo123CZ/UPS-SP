@@ -9,8 +9,8 @@ std::unordered_map<std::string, std::function<std::string(int fd, std::string&)>
 void MessageFormat::initMessageFormatMap() {
     // TAGS
     // LOGIN LOGOUT
-    std::string tagLogin;
-    tagLogin.append(BASE_LOGIN).append(LOGIN);
+    std::string tagNameset;
+    tagNameset.append(BASE_LOGIN).append(NAMESET);
     std::string tagLogout;
     tagLogout.append(BASE_LOGIN).append(LOGOUT);
     // PING PONG
@@ -31,7 +31,7 @@ void MessageFormat::initMessageFormatMap() {
 
 
     messFormatMap = {
-        {tagLogin, [](int fd, std::string& information) -> std::string {
+        {tagNameset, [](int fd, std::string& information) -> std::string {
             return Login::login(fd, information);
         }},
         {tagLogout, [](int fd, std::string&) -> std::string {
@@ -73,10 +73,10 @@ std::string MessageFormat::prepareResponse(const std::string& information, const
     return response;
 }
 
-std::string MessageFormat::createFailMessage() {
+std::string MessageFormat::createViolationMess() {
     // Response is based on the information
     std::string responseHeader, response;
-    std::string tag = FAIL;
+    std::string tag = TERMINATION;
     // Make Header
     int messLen = tag.length() + 2;
     std::string messLenStr = std::to_string(messLen);

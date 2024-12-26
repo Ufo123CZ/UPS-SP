@@ -81,7 +81,10 @@ namespace MessageProcessing {
         if (mfm != MessageFormat::messFormatMap.end()) {
             response = mfm->second(fd, information);
         } else {
-            std::cerr << "Invalid message" << std::endl;
+            std::cerr << "Invalid message from fd: " << fd << std::endl
+            << "Terminate connection" << std::endl;
+            // Create terminating message
+            response = MessageFormat::createViolationMess();
         }
 
         // Check if response is empty

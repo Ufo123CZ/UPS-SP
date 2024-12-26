@@ -9,9 +9,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.lang.Thread.sleep;
 import static ups_sp.Server.Messages.*;
+import static ups_sp.Utils.Const.TIMEOUT_CONNECTION;
 
 public class Connection extends Component {
 
@@ -69,18 +72,34 @@ public class Connection extends Component {
     }
 
     public boolean openSocket() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<Boolean> future = executor.submit(() -> {
+            try {
+                socket = new Socket(serverAddress, port);
+                out = new PrintWriter(socket.getOutputStream(), true);
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                pongMessage = messageBuilder(PONG, "");
+                startListening();
+                return true;
+            } catch (IOException e) {
+                System.out.println("Error: " + e.getMessage());
+                status = -1;
+                loggedIn = false;
+                return false;
+            }
+        });
+
         try {
-            socket = new Socket(serverAddress, port);
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            pongMessage = messageBuilder(PONG, "");
-            startListening();
-            return true;
-        } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
-            this.status = -1;
-            this.loggedIn = false;
+            return future.get(TIMEOUT_CONNECTION, TimeUnit.MILLISECONDS);
+        } catch (TimeoutException e) {
+            System.out.println("Connection attempt timed out.");
+            future.cancel(true);
             return false;
+        } catch (InterruptedException | ExecutionException e) {
+            System.out.println("Error: " + e.getMessage());
+            return false;
+        } finally {
+            executor.shutdown();
         }
     }
 
@@ -128,15 +147,15 @@ public class Connection extends Component {
         listenerThread = new Thread(() -> {
             while (listening) {
                 try {
-                    if (!loggedIn) {
-                        sleep(10);
-                        if (!response.isEmpty()) {
-                            out.println(response);
-                            loggedIn = true;
-                        }
-                        response = "";
-                        continue;
-                    }
+//                    if (!loggedIn) {
+//                        sleep(10);
+//                        if (!response.isEmpty()) {
+//                            out.println(response);
+//                            loggedIn = true;
+//                        }
+//                        response = "";
+//                        continue;
+//                    }
 
                     String receivedMessage;
                     int connectionAttempts = 10;
@@ -150,6 +169,8 @@ public class Connection extends Component {
 //                            startPingTime = System.currentTimeMillis();
 //                        }
                         receivedMessage = in.readLine();
+                        if (receivedMessage.equals("Welcome to the game! Please enter your name: "))
+                            System.out.println(receivedMessage);
                         if (!receivedMessage.isEmpty()) {
                             message = exludePartsOfMessage(receivedMessage).toString();
                             break;
@@ -180,7 +201,7 @@ public class Connection extends Component {
                     out.println(response);
                     response = "";
 
-                } catch (InterruptedException | IOException e) {
+                } catch (InterruptedException | IOException | NullPointerException e) {
                     if (!listening) {
                         System.out.println("Socket closed, stopping listener thread.");
                     } else {
@@ -212,7 +233,7 @@ public class Connection extends Component {
 
     private void stopListening() throws InterruptedException {
         listening = false;
-        sleep(2000);
+        sleep(1000);
         if (listenerThread != null) {
             listenerThread.interrupt();
         }

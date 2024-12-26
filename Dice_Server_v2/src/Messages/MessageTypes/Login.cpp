@@ -20,21 +20,37 @@ namespace Login {
         for (auto &player : DataVectors::players) {
             if (player.name == name) {
                 std::string tag;
-                tag.append(BASE_LOGIN).append(LOGIN);
+                tag.append(BASE_LOGIN).append(NAMESET);
+
+                // Remove player from vector with fd
+                DataVectors::players.erase(std::remove_if(DataVectors::players.begin(), DataVectors::players.end(), [fd](Player &player) {
+                    return player.fd == fd;
+                }), DataVectors::players.end());
                 return MessageFormat::prepareResponse(ERROR, tag);
             }
         }
 
-        auto *player = new Player(fd, name, 0, 5);
-        DataVectors::players.push_back(*player);
-
+        for (auto &player : DataVectors::players) {
+            if (player.status == -2) {
+                player.name = name;
+                player.status = 0;
+                std::string tag;
+                // update player in vector
+                for (auto & i : DataVectors::players) {
+                    if (i.fd == fd) {
+                        i = player;
+                    }
+                }
+            }
+        }
 
         std::cout << "Player " << name << " has logged in." << std::endl;
 
         // Prepare response and return
         std::string tag;
-        tag.append(BASE_LOGIN).append(LOGIN);
+        tag.append(BASE_LOGIN).append(NAMESET);
 
+        std::cout << "Sending response: " << MessageFormat::prepareResponse(SUCCESS, tag) << std::endl;
         return MessageFormat::prepareResponse(SUCCESS, tag);
     }
 }

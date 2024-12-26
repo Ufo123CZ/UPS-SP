@@ -6,6 +6,7 @@ public class Messages {
     public static final String SUCCESS = "SUCCESS";
     public static final String ERROR = "ERROR";
     public static final String SERVER_ERROR = "SERVER ERROR";
+    public static final String TERMINATE = "terminating:";
 
     // Base
     static final String BASE_IN = "dc";
@@ -21,6 +22,7 @@ public class Messages {
     // Login
     public static final String LOGIN = BASE_LOGIN + "in:";
     public static final String LOGOUT = BASE_LOGIN + "out:";
+    public static final String NAMESET = BASE_LOGIN + "nameset:";
 
     // Game
     public static final String GAME_CREATED = BASE_GAME + "create:";

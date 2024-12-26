@@ -94,6 +94,14 @@ void Server::start() {
                     if (client_socket >= 0) {
                         FD_SET(client_socket, &client_socks);
                         std::cout << "New client connected and added to socket set" << std::endl;
+                        if (client_socket != 3){
+                            Player player = Player(client_socket, -2, 5);
+                            DataVectors::players.push_back(player);
+                            std::string tag;
+                            tag.append(BASE_LOGIN).append(LOGIN);
+                            std::string response = MessageFormat::prepareResponse(SUCCESS, tag);
+                            send(client_socket , response.c_str() , response.size() , 0);
+                        }
                     } else {
                         std::cerr << "Failed to accept new connection" << std::endl;
                     }
@@ -103,22 +111,30 @@ void Server::start() {
                     if (a2read > 0) {
                         // Read the message
                         std::string message = MessageProcessing::readMessage(fd);
+                        std::string response;
                         if (message.empty()) {
                             std::cerr << "Failed to read message" << std::endl;
-                            continue;
+                            goto terminate;
                         }
 
                         // Add the client to the current pings
                         currentPings.push_back(fd);
 
                         // Process the message and generate a response
-                        std::string response = MessageProcessing::processMessage(fd, message);
+                        response = MessageProcessing::processMessage(fd, message);
                         if (response.empty() || response == "\n") {
-                            response = MessageFormat::createFailMessage();
+                            terminate:
+                            response = MessageFormat::createViolationMess();
                         }
-                        if (response.find(BASE_LOGIN) != std::string::npos && response.find(LOGIN) != std::string::npos && response.find(ERROR) != std::string::npos) {
+                        if ((response.find(BASE_LOGIN) != std::string::npos && response.find(LOGIN) != std::string::npos && response.find(ERROR) != std::string::npos)
+                            || (response.find(BASE_LOGIN) != std::string::npos && response.find(NAMESET) != std::string::npos && response.find(ERROR) != std::string::npos)
+                            || response.find(TERMINATION) != std::string::npos) {
                             send(fd, response.c_str(), response.size(), 0);
+                            sleep(1);
                             std::erase(currentPings, fd);
+                            DataVectors::players.erase(std::remove_if(DataVectors::players.begin(), DataVectors::players.end(), [fd](const Player& player) {
+                                return player.fd == fd;
+                            }), DataVectors::players.end());
                             close(fd);
                             FD_CLR(fd, &client_socks);
                         }

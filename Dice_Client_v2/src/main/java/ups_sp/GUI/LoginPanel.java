@@ -94,7 +94,6 @@ public class LoginPanel extends JPanel implements Connection.EventListenerLogin 
                 JOptionPane.showMessageDialog(window, "Cannot connect to the server.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            Connection.getInstance().makeContact(Messages.LOGIN, nameField.getText());
 
         });
         gbc.gridx = 0;
@@ -108,26 +107,52 @@ public class LoginPanel extends JPanel implements Connection.EventListenerLogin 
 
     @Override
     public void onMessageReceivedLogin(String message) {
-        if (message.contains(Messages.LOGIN) ) {
-            System.out.println("Received: " + message);
+        if (message.contains(Messages.LOGIN)) {
             if (message.contains(Messages.ERROR)) {
+                System.out.println("Received: " + message);
                 JOptionPane.showMessageDialog(this, "Connection failed.", "Error", JOptionPane.ERROR_MESSAGE);
                 Connection.getInstance().closeSocket();
+                Window window = (Window) SwingUtilities.getWindowAncestor(this);
+                window.showScene("Login");
             }
+
             if (message.contains(Messages.SUCCESS)) {
+                System.out.println("Connected to the server.");
+                Connection.getInstance().makeContact(Messages.NAMESET, nameField.getText());
+            }
+        }
+        if (message.contains(Messages.NAMESET)) {
+            if (message.contains(Messages.SUCCESS)) {
+                System.out.println("Received: " + message);
                 Connection.getInstance().setStatus(0);
                 Window window = (Window) SwingUtilities.getWindowAncestor(this);
                 window.showScene("Queue");
                 JOptionPane.showMessageDialog(this, "Connected to the server.", "Success", JOptionPane.INFORMATION_MESSAGE);
             }
+            if (message.contains(Messages.ERROR)) {
+                System.out.println("Received: " + message);
+                JOptionPane.showMessageDialog(this, "Name already in use.", "Error", JOptionPane.ERROR_MESSAGE);
+                Connection.getInstance().closeSocket();
+                Window window = (Window) SwingUtilities.getWindowAncestor(this);
+                window.showScene("Login");
+            }
         }
 
-        if (message.contains(SERVER_ERROR)) {
-            JOptionPane.showMessageDialog(this, "Connection Lost", "Error", JOptionPane.ERROR_MESSAGE);
-//            Connection.getInstance().closeSocket();
-            Window window = (Window) SwingUtilities.getWindowAncestor(this);
-            window.showScene("Login");
-        }
+            if (message.contains(SERVER_ERROR)) {
+                JOptionPane.showMessageDialog(this, "Connection Lost", "Error", JOptionPane.ERROR_MESSAGE);
+                Connection.getInstance().closeSocket();
+                Window window = (Window) SwingUtilities.getWindowAncestor(this);
+                window.showScene("Login");
+            }
+
+            if (message.contains(Messages.TERMINATE)) {
+                System.out.println("Received: " + message);
+                Connection.getInstance().setStatus(-1);
+                Connection.getInstance().closeSocket();
+                JOptionPane.showMessageDialog(this, "Violation detected --> Disconnecting", "Error", JOptionPane.ERROR_MESSAGE);
+                Window window = (Window) SwingUtilities.getWindowAncestor(this);
+                window.showScene("Login");
+            }
     }
 
 }

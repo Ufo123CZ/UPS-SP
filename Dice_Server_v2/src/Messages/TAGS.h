@@ -12,12 +12,13 @@
 #define PONG "pong:"
 
 // TAGS FAIL
-#define FAIL "fail:"
+#define TERMINATION "terminating:"
 
 // TAGS LOGIN
 #define BASE_LOGIN "log:"
 #define LOGIN "in:"
 #define LOGOUT "out:"
+#define NAMESET "nameset:"
 
 // TAGS GAME
 #define BASE_GAME "game:"

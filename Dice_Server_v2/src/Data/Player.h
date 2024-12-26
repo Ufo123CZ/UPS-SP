@@ -5,10 +5,10 @@
 
 class Player {
 public:
-    Player(int fd, const std::string &name, int status, int ping);
+    Player(int fd, int status, int ping);
     int fd;
     std::string name;
-    int status; // -1 = disconnected, 0 = queue, 1 = playing
+    int status; // -2 = nameless, -1 = disconnected, 0 = queue, 1 = playing
     int ping;
 
     // ~Player();
