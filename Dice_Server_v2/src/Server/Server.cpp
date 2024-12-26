@@ -185,9 +185,6 @@ void Server::start() {
                             std::cout << "Client disconnected and removed from socket set" << std::endl;
                         }
 
-                        // std::cout << "---------------------------" << std::endl;
-
-
                         // Send the response
                         send(fd, response.c_str(), response.size(), 0);
                     }

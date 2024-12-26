@@ -84,6 +84,9 @@ namespace Events {
         // On move
         information.append(game.onMove).append(";");
 
+        // States
+        information.append(std::to_string(game.throwB[0])).append(",").append(std::to_string(game.throwB[1]));
+
         std::string response = MessageFormat::prepareResponse(information, tag);
         return response;
     }
@@ -136,6 +139,9 @@ namespace Events {
 
         // On move
         information.append(game->onMove).append(";");
+
+        // States
+        information.append(std::to_string(game->throwB[0])).append(",").append(std::to_string(game->throwB[1]));
 
         std::string response = MessageFormat::prepareResponse(information, tag);
         return response;

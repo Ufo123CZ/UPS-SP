@@ -38,7 +38,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
     private List<PlayerStats> playerStatsList;
 
     // Player
-    @Setter
+    @Setter @Getter
     private String onMove = "P1";
     @Setter
     private boolean firstMoveInRound = false;

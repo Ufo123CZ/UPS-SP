@@ -78,7 +78,7 @@ public class QueuePanel extends JPanel implements Connection.EventListenerQueue 
                 // Parse the message to get the information
                 String[] parts = message.split(";");
                 // parts[0] is tag GAME_CREATED
-                for (int i = 1; i < parts.length - 1; i++) {
+                for (int i = 1; i < parts.length - 2; i++) {
                     // Player Stats
                     PlayerStats playerStats = gamePanel.getPlayerStatsList().get(i - 1);
 
@@ -105,7 +105,23 @@ public class QueuePanel extends JPanel implements Connection.EventListenerQueue 
                 }
 
                 // Set currentPlayer
-                gamePanel.setOnMove(parts[parts.length - 1]);
+                gamePanel.setOnMove(parts[parts.length - 2]);
+
+                //States of the game
+                String gameStates = parts[parts.length - 1];
+                String[] states = gameStates.split(",");
+
+                if (gamePanel.getOnMove().equals(Connection.getInstance().getPlayerName())) {
+                    for (int i = 0; i < states.length; i++) {
+                        if (gamePanel.getPlayerStatsList().get(i).getName().equals(gamePanel.getOnMove())) {
+                            gamePanel.setFirstMoveInRound(states[i].equals("1"));
+                            break;
+                        } else {
+                            gamePanel.setFirstMoveInRound(false);
+                        }
+                    }
+                }
+
                 gamePanel.repaint();
 
                 Window window = (Window) SwingUtilities.getWindowAncestor(this);
