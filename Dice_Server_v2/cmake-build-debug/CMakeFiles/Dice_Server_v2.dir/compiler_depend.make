@@ -2608,7 +2608,6 @@ CMakeFiles/Dice_Server_v2.dir/src/Server/Server.cpp.o: /mnt/c/Users/Ufo12/FAV/R3
   /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/TAGS.h \
   /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Events/Events.h \
   /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/Game.h \
-  /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Utils/ScoreCalculation.h \
   /usr/include/c++/12/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \
@@ -2618,6 +2617,28 @@ CMakeFiles/Dice_Server_v2.dir/src/Server/Server.cpp.o: /mnt/c/Users/Ufo12/FAV/R3
   /usr/include/linux/falloc.h \
   /usr/include/x86_64-linux-gnu/bits/stat.h \
   /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
+  /usr/include/signal.h \
+  /usr/include/x86_64-linux-gnu/bits/signum-generic.h \
+  /usr/include/x86_64-linux-gnu/bits/signum-arch.h \
+  /usr/include/x86_64-linux-gnu/bits/types/sig_atomic_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/siginfo_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h \
+  /usr/include/x86_64-linux-gnu/bits/siginfo-arch.h \
+  /usr/include/x86_64-linux-gnu/bits/siginfo-consts.h \
+  /usr/include/x86_64-linux-gnu/bits/siginfo-consts-arch.h \
+  /usr/include/x86_64-linux-gnu/bits/types/sigval_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h \
+  /usr/include/x86_64-linux-gnu/bits/sigevent-consts.h \
+  /usr/include/x86_64-linux-gnu/bits/sigaction.h \
+  /usr/include/x86_64-linux-gnu/bits/sigcontext.h \
+  /usr/include/x86_64-linux-gnu/bits/types/stack_t.h \
+  /usr/include/x86_64-linux-gnu/sys/ucontext.h \
+  /usr/include/x86_64-linux-gnu/bits/sigstack.h \
+  /usr/include/x86_64-linux-gnu/bits/sigstksz.h \
+  /usr/include/x86_64-linux-gnu/bits/ss_flags.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_sigstack.h \
+  /usr/include/x86_64-linux-gnu/bits/sigthread.h \
+  /usr/include/x86_64-linux-gnu/bits/signal_ext.h \
   /usr/include/x86_64-linux-gnu/sys/ioctl.h \
   /usr/include/x86_64-linux-gnu/bits/ioctls.h \
   /usr/include/x86_64-linux-gnu/asm/ioctls.h \
@@ -3365,17 +3386,45 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/asm-generic/ioctl.h:
 
-/usr/include/c++/12/limits:
-
-/usr/include/x86_64-linux-gnu/asm/ioctl.h:
-
 /usr/include/asm-generic/ioctls.h:
 
 /usr/include/x86_64-linux-gnu/asm/ioctls.h:
 
+/usr/include/x86_64-linux-gnu/bits/signal_ext.h:
+
+/usr/include/x86_64-linux-gnu/bits/sigstack.h:
+
+/usr/include/x86_64-linux-gnu/sys/ucontext.h:
+
+/usr/include/x86_64-linux-gnu/bits/sigcontext.h:
+
+/usr/include/x86_64-linux-gnu/bits/sigevent-consts.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/sigval_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/siginfo-consts-arch.h:
+
+/usr/include/x86_64-linux-gnu/bits/siginfo-arch.h:
+
+/usr/include/c++/12/limits:
+
+/usr/include/x86_64-linux-gnu/asm/ioctl.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h:
+
 /usr/include/x86_64-linux-gnu/bits/ioctls.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/siginfo_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/ss_flags.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/sig_atomic_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/signum-generic.h:
+
 /usr/include/x86_64-linux-gnu/bits/struct_stat.h:
+
+/usr/include/x86_64-linux-gnu/bits/sigstksz.h:
 
 /usr/include/x86_64-linux-gnu/bits/stat.h:
 
@@ -3390,6 +3439,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/x86_64-linux-gnu/bits/in.h:
 
 /usr/include/netinet/in.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h:
 
@@ -3557,6 +3608,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/c++/12/bits/stl_bvector.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/struct_sigstack.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
 /usr/include/c++/12/ext/numeric_traits.h:
@@ -3683,6 +3736,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/main.cpp:
 
+/usr/include/x86_64-linux-gnu/bits/sigaction.h:
+
 /usr/include/c++/12/bits/exception.h:
 
 /usr/include/c++/12/bits/std_thread.h:
@@ -3702,6 +3757,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/c++/12/bits/ranges_cmp.h:
 
 /usr/include/x86_64-linux-gnu/bits/sched.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/stack_t.h:
 
 /usr/include/c++/12/bits/locale_facets.tcc:
 
@@ -3759,6 +3816,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/x86_64-linux-gnu/c++/12/bits/atomic_word.h:
 
+/usr/include/signal.h:
+
 /usr/include/strings.h:
 
 /usr/include/c++/12/initializer_list:
@@ -3813,11 +3872,15 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/errno.h:
 
+/usr/include/x86_64-linux-gnu/bits/signum-arch.h:
+
 /usr/include/x86_64-linux-gnu/bits/errno.h:
 
 /usr/include/linux/errno.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
+
+/usr/include/x86_64-linux-gnu/bits/siginfo-consts.h:
 
 /usr/include/c++/12/bits/ranges_algo.h:
 
@@ -3972,6 +4035,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/c++/12/ext/aligned_buffer.h:
 
 /usr/include/c++/12/bits/enable_special_members.h:
+
+/usr/include/x86_64-linux-gnu/bits/sigthread.h:
 
 /usr/include/c++/12/bits/unordered_map.h:
 

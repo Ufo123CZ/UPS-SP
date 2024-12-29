@@ -74,11 +74,6 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         // Register this panel as an event listener
         Connection.getInstance().setEventListenerGame(this);
 
-        // Init the bars
-        initLowerBar();
-        initUpperBar();
-        upperPanel.setVisible(false);
-
         // Create a panel to hold the board and player stats
         JPanel centerPanel = new JPanel() {
             @Override
@@ -90,6 +85,10 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
 
         // Add the center panel to the main panel
         this.add(centerPanel, BorderLayout.CENTER);
+
+        // Init the bars
+        initLowerBar();
+        initUpperBar();
 
         controls();
     }

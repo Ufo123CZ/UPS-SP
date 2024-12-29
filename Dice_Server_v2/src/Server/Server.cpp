@@ -4,10 +4,10 @@
 #include "../Data/DataVectors.h"
 #include "../Messages/TAGS.h"
 #include "../Events/Events.h"
-#include "../Utils/ScoreCalculation.h"
 #include <iostream>
 #include <cstring>
 #include <fcntl.h>
+#include <signal.h>
 #include <sys/ioctl.h>
 
 Server::Server() : running(false), serverSocket(-1) {
@@ -126,6 +126,7 @@ void Server::start() {
                             terminate:
                             response = MessageFormat::createViolationMess();
                         }
+                        bool killed = false;
                         if ((response.find(BASE_LOGIN) != std::string::npos && response.find(LOGIN) != std::string::npos && response.find(ERROR) != std::string::npos)
                             || (response.find(BASE_LOGIN) != std::string::npos && response.find(NAMESET) != std::string::npos && response.find(ERROR) != std::string::npos)
                             || response.find(TERMINATION) != std::string::npos) {
@@ -137,10 +138,11 @@ void Server::start() {
                             }), DataVectors::players.end());
                             close(fd);
                             FD_CLR(fd, &client_socks);
+                            killed = true;
                         }
 
                         // Update for all in players in modified game
-                        if (message.find(BASE_GAME) != std::string::npos) {
+                        if (!killed && message.find(BASE_GAME) != std::string::npos) {
                             // Get the game and player
                             std::pair<Game, Player> finder = GameM::whereAndWho(fd);
                             for (Player& player : finder.first.gamePlayers) {
@@ -153,7 +155,7 @@ void Server::start() {
                         }
 
                         // Message contains the command logout close the socket
-                        if (message.find(LOGOUT) != std::string::npos) {
+                        if (!killed && message.find(LOGOUT) != std::string::npos) {
                             send(fd, response.c_str(), response.size(), 0);
                             // if the player was in game remove him from the game and announce the other player that he left
                             for (Player p : DataVectors::players) {
@@ -193,7 +195,7 @@ void Server::start() {
         }
 
         // Special Events
-        // Update players
+        /* UPDATE PLAYERS */
         for (std::pair<int, std::string> pair : update) {
             for (Player& player : DataVectors::players) {
                 if (player.fd == pair.first) {
@@ -205,6 +207,7 @@ void Server::start() {
             }
         }
 
+        /* GAME DELETE */
         // Check if game have 0 players
         // Erase the game from the data vectors
         for (Game& game : DataVectors::games) {
@@ -224,7 +227,7 @@ void Server::start() {
             });
         }
 
-        // Game Reconnect
+        /* RECONNECT GAME (NEW CLIENT) */
         // Player connects to server, and he was in the game when he disconnected reconnect him to the game
         // This event can occur only when the player is in the players vector
         if (!DataVectors::games.empty()) {
@@ -245,7 +248,7 @@ void Server::start() {
             }
         }
 
-        // Init Game
+        /* CREATE GAME */
         // Create new game and change response to the game message
         // This event can occur only when there is more than 2 players in players vector
         // Check if there are more than 2 players in queue

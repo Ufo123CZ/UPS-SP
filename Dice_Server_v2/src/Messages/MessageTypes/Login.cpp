@@ -5,6 +5,15 @@
 
 namespace Login {
     std::string login(const int fd, std::string& information) {
+        // Check if message could come
+        for (Player &player : DataVectors::players) {
+            if (player.fd == fd) {
+                if (player.status != -2) {
+                    return MessageFormat::createViolationMess();
+                }
+            }
+        }
+
         // Process the login information
         std::string name = information.substr(0, information.find(';'));
 

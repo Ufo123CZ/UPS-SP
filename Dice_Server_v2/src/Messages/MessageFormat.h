@@ -33,6 +33,7 @@ namespace GameM {
     std::string gameMessGen(const std::string& name, const std::string& score, const std::string& dice, const std::string& throwB, const std::string& switchE, const std::string& unique);
     void updateGame(Game& game);
     std::pair<Game, Player> whereAndWho(int fd);
+    bool checkValidInput(bool throwCheck, std::string diceID, bool turnS, int fd);
 }
 namespace RejoinQ {
     std::string rejoinQueue(int fd);

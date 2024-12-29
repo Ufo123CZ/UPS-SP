@@ -4,6 +4,11 @@
 
 namespace GameM {
     std::string throwDice(int fd) {
+        // Check if the message could come
+        if (!checkValidInput(true, "", false, fd)) {
+            return MessageFormat::createViolationMess();
+        }
+
         // Get the game and player
         std::pair<Game, Player> finder = whereAndWho(fd);
 
@@ -42,6 +47,11 @@ namespace GameM {
     }
 
     std::string selectDice(int fd, std::string& information) {
+        // Check if the message could come
+        if (!checkValidInput(false, information, false,fd)) {
+            return MessageFormat::createViolationMess();
+        }
+
         // Get the game and player
         std::pair<Game, Player> finder = whereAndWho(fd);
 
@@ -82,6 +92,11 @@ namespace GameM {
     }
 
     std::string nextTurn(int fd) {
+        // Check if the message could come
+        if (!checkValidInput(false, "", true, fd)) {
+            return MessageFormat::createViolationMess();
+        }
+
         // Get the game and player
         std::pair<Game, Player> finder = whereAndWho(fd);
 
@@ -126,6 +141,11 @@ namespace GameM {
     }
 
     std::string endTurn(int fd) {
+        // Check if the message could come
+        if (!checkValidInput(false, "", true, fd)) {
+            return MessageFormat::createViolationMess();
+        }
+
         // Get the game and player
         std::pair<Game, Player> finder = whereAndWho(fd);
 
@@ -206,11 +226,92 @@ namespace GameM {
                 }
             }
         }
-        if (player == nullptr || game == nullptr) {
-            throw std::runtime_error("Player or Game not found");
-        }
+        // if (player == nullptr || game == nullptr) {
+        //     throw std::runtime_error("Player or Game not found");
+        // }
 
         return std::make_pair(*game, *player);
+    }
+
+    bool checkValidInput(bool throwCheck, std::string diceID, bool turnS, int fd) {
+        for (Player &player : DataVectors::players) {
+            if (player.fd == fd) {
+                if (player.status != 1) {
+                    return false;
+                }
+                // Check if the player is in a game that exists
+                bool foundGame = false;
+                Game *gameH = nullptr;
+                for (Game &game : DataVectors::games) {
+                    for (Player &p : game.gamePlayers) {
+                        if (p.fd == fd) {
+                            foundGame = true;
+                            gameH = &game;
+                            break;
+                        }
+                    }
+                }
+                if (!foundGame) {
+                    return false;
+                }
+                // Check if the player is on move
+                if (gameH->onMove != player.name) {
+                    return false;
+                }
+                // Check if next turn is possible
+                if (turnS) {
+                    if (gameH->playerNames[0] == player.name && gameH->scores[0][2] == 0) {
+                        return false;
+                    }
+                    if (gameH->playerNames[1] == player.name && gameH->scores[1][2] == 0) {
+                        return false;
+                    }
+                }
+                // Check if the dice is held
+                if (!diceID.empty()) {
+                    if (gameH->playerNames[0] == player.name && gameH->throwB[0]) {
+                        bool found = false;
+                        for (Dice &dice : gameH->dices[0]) {
+                            if (dice.id == diceID) {
+                                found = true;
+                                if (dice.hold) {
+                                    return false;
+                                }
+                            }
+                        }
+                        if (!found) {
+                            return false;
+                        }
+                    } else if (gameH->playerNames[1] == player.name && gameH->throwB[1]) {
+                        bool found = false;
+                        for (Dice &dice : gameH->dices[1]) {
+                            if (dice.id == diceID) {
+                                found = true;
+                                if (dice.hold) {
+                                    return false;
+                                }
+                            }
+                        }
+                        if (!found) {
+                            return false;
+                        }
+                    } else {
+                        // Player did not throw the dices
+                        return false;
+                    }
+                }
+                // Check if the player has thrown the dices
+                if (throwCheck) {
+                    if (gameH->playerNames[0] == player.name && gameH->throwB[0]) {
+                        return false;
+                    }
+                    if (gameH->playerNames[1] == player.name && gameH->throwB[1]) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     void updateGame(Game& game) {
