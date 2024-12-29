@@ -121,7 +121,6 @@ public class QueuePanel extends JPanel implements Connection.EventListenerQueue 
                         }
                     }
                 }
-                gamePanel.statusPanel.setVisible(true);
                 gamePanel.repaint();
 
                 Window window = (Window) SwingUtilities.getWindowAncestor(this);

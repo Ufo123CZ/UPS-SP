@@ -25,7 +25,6 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
     JPanel statusPanel, upperPanel;
     JLabel statusLabel, upperLabel;
 
-
     // Globals
     private final Board board;
 
@@ -83,12 +82,16 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
             }
         };
 
+        // Set the layout of the center panel
+        this.setLayout(new BorderLayout());
         // Add the center panel to the main panel
         this.add(centerPanel, BorderLayout.CENTER);
-
         // Init the bars
-        initLowerBar();
         initUpperBar();
+        initLowerBar();
+        // Add the bars to the main panel
+        this.add(upperPanel, BorderLayout.NORTH);
+        this.add(statusPanel, BorderLayout.SOUTH);
 
         controls();
     }
@@ -111,10 +114,6 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         endButtonBottom.setVisible(false);
         endButtonBottom.addActionListener(e -> showGameOverDialog(""));
         statusPanel.add(endButtonBottom, BorderLayout.EAST);
-
-        // Add the lower bar to the main panel
-        this.setLayout(new BorderLayout());
-        this.add(statusPanel, BorderLayout.SOUTH);
     }
     private void initUpperBar() {
         // Create the upper bar panel with BorderLayout
@@ -133,10 +132,6 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         endButtonUpper.setVisible(false);
         endButtonUpper.addActionListener(e -> showGameStatusDialog(""));
         upperPanel.add(endButtonUpper, BorderLayout.EAST);
-
-        // Add the lower bar to the main panel
-        this.setLayout(new BorderLayout());
-        this.add(upperPanel, BorderLayout.NORTH);
     }
     //endregion
 
@@ -450,13 +445,13 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
                 // Switch Player
                 if (!parts[5].equals(" ")) {
                     onMove = parts[5];
-                    statusLabel.setText("Status: " + parts[4] + " is playing");
+                    statusLabel.setText("Status: " + parts[5] + " is playing");
                 }
 
                 // Unique Information
                 if (!parts[6].equals(" ")) {
                     if (parts[6].contains(GAME_STATE_WINNER)) {
-                        String[] winner = parts[5].split(":");
+                        String[] winner = parts[6].split(":");
                         winnerName = winner[1];
                     }
                 }

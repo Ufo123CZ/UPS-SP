@@ -147,16 +147,6 @@ public class Connection extends Component {
         listenerThread = new Thread(() -> {
             while (listening) {
                 try {
-//                    if (!loggedIn) {
-//                        sleep(10);
-//                        if (!response.isEmpty()) {
-//                            out.println(response);
-//                            loggedIn = true;
-//                        }
-//                        response = "";
-//                        continue;
-//                    }
-
                     String receivedMessage;
                     int connectionAttempts = 10;
                     long startTime = System.currentTimeMillis();
