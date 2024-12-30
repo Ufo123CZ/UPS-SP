@@ -254,6 +254,11 @@ namespace GameM {
                 if (!foundGame) {
                     return false;
                 }
+                // Check if the game is paused
+                if (gameH->gamePaused) {
+                    return false;
+                }
+
                 // Check if the player is on move
                 if (gameH->onMove != player.name) {
                     return false;

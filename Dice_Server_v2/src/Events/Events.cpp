@@ -103,6 +103,10 @@ namespace Events {
         if (game == nullptr) {
             return "";
         }
+        // Unpause the game
+        game->gamePaused = false;
+        // Update game
+        GameM::updateGame(*game);
         
         std::string tag;
         tag.append(BASE_GAME).append(GAME_RECONNECT);
@@ -165,6 +169,10 @@ namespace Events {
         if (game == nullptr) {
             return std::make_pair(-1, "");
         }
+        // Pause the game
+        game->gamePaused = true;
+        // Update game
+        GameM::updateGame(*game);
 
         // For who will be the announcement
         for (Player& p : game->gamePlayers) {

@@ -34,6 +34,7 @@ public:
     std::vector<std::vector<int>> scores;
 
     // Game state
+    bool gamePaused = false;
     bool gameEnd = false;
 
 private:

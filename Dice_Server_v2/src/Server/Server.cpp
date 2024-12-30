@@ -133,6 +133,13 @@ void Server::start() {
                             send(fd, response.c_str(), response.size(), 0);
                             sleep(1);
                             std::erase(currentPings, fd);
+                            // Remove the player from the game if he is in the game
+                            for (Game& game : DataVectors::games) {
+                                game.gamePlayers.erase(std::remove_if(game.gamePlayers.begin(), game.gamePlayers.end(), [fd](const Player& player) {
+                                    return player.fd == fd;
+                                }), game.gamePlayers.end());
+                            }
+                            // Remove the player from the data vectors
                             DataVectors::players.erase(std::remove_if(DataVectors::players.begin(), DataVectors::players.end(), [fd](const Player& player) {
                                 return player.fd == fd;
                             }), DataVectors::players.end());
@@ -160,15 +167,15 @@ void Server::start() {
                             // if the player was in game remove him from the game and announce the other player that he left
                             for (Player p : DataVectors::players) {
                                 if (fd == p.fd && p.status == 1) {
-                                    for (int i = 0; i < DataVectors::games.size(); i++) {
-                                        if ((DataVectors::games[i].playerNames[0] == p.name || DataVectors::games[i].playerNames[1] == p.name) && DataVectors::games[i].gamePlayers.size() == 2) {
+                                    for (auto & game : DataVectors::games) {
+                                        if ((game.playerNames[0] == p.name || game.playerNames[1] == p.name) && game.gamePlayers.size() == 2) {
                                             std::pair<int, std::string> result = Events::announcePlayerLeft(p);
                                             if (result.first != -1) {
                                                 send(result.first, result.second.c_str(), result.second.size(), 0);
                                             }
                                         }
                                         // Erase from DataVectors::games gamePlayers vector the player that left
-                                        std::erase_if(DataVectors::games[i].gamePlayers, [p](const Player& player) {
+                                        std::erase_if(game.gamePlayers, [p](const Player& player) {
                                             return player.name == p.name;
                                         });
                                     }
