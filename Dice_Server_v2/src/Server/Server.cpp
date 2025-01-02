@@ -7,7 +7,7 @@
 #include <iostream>
 #include <cstring>
 #include <fcntl.h>
-#include <signal.h>
+#include <csignal>
 #include <sys/ioctl.h>
 
 Server::Server() : running(false), serverSocket(-1) {

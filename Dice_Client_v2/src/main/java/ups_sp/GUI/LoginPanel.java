@@ -88,11 +88,20 @@ public class LoginPanel extends JPanel implements Connection.EventListenerLogin 
                 return;
             }
 
+            // check if name is valid
+            // no /  or ; or \ or | or , or \n or \r
+            if (nameField.getText().contains("/") || nameField.getText().contains(";") ||
+                    nameField.getText().contains("\\") || nameField.getText().contains("|") ||
+                    nameField.getText().contains(",") || nameField.getText().contains("\n") ||
+                    nameField.getText().contains("\r")) {
+                JOptionPane.showMessageDialog(window, "Name cannot contain /, ;, \\, |, ,, \\n or \\r", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             // Connect to server
             Connection.getInstance().setServerDetails(ipField.getText(), Integer.parseInt(portField.getText()), nameField.getText(), 0);
             if (!Connection.getInstance().openSocket()) {
                 JOptionPane.showMessageDialog(window, "Cannot connect to the server.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
             }
 
         });
