@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.util.List;
 
+import static ups_sp.Server.Messages.CONNECTION_LOST;
 import static ups_sp.Server.Messages.GAME_STATE_WINNER;
 import static ups_sp.Utils.Const.*;
 
@@ -572,6 +573,11 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
                 Connection.getInstance().setStatus(0);
                 Window window = (Window) SwingUtilities.getWindowAncestor(this);
                 window.showScene("Queue");
+            }
+
+            if (message.contains(CONNECTION_LOST)) {
+                upperPanel.setVisible(true);
+                gameStopped = true;
             }
         }).start();
     }

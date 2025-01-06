@@ -10,11 +10,11 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.lang.Thread.sleep;
 import static ups_sp.Server.Messages.*;
-import static ups_sp.Utils.Const.TIMEOUT_CONNECTION;
+import static ups_sp.Utils.Const.NO_CONNECTION;
+import static ups_sp.Utils.Const.DISCONNECTED_CONNECTION;
 
 public class Connection extends Component {
 
@@ -41,9 +41,6 @@ public class Connection extends Component {
     private String response = "";
 
     private String pongMessage;
-
-    // Logged in
-    private boolean loggedIn = false;
 
     // Event listener
     @Setter
@@ -76,6 +73,8 @@ public class Connection extends Component {
         Future<Boolean> future = executor.submit(() -> {
             try {
                 socket = new Socket(serverAddress, port);
+                socket.setSoTimeout(DISCONNECTED_CONNECTION);
+//                socket.setSoTimeout(SOCKET_TIMEOUT);
                 out = new PrintWriter(socket.getOutputStream(), true);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 pongMessage = messageBuilder(PONG, "");
@@ -84,13 +83,12 @@ public class Connection extends Component {
             } catch (IOException e) {
                 System.out.println("Error: " + e.getMessage());
                 status = -1;
-                loggedIn = false;
                 return false;
             }
         });
 
         try {
-            return future.get(TIMEOUT_CONNECTION, TimeUnit.MILLISECONDS);
+            return future.get(DISCONNECTED_CONNECTION, TimeUnit.MILLISECONDS);
         } catch (TimeoutException e) {
             System.out.println("Connection attempt timed out.");
             future.cancel(true);
@@ -111,7 +109,6 @@ public class Connection extends Component {
             if (socket != null) socket.close();
             this.playerName = "";
             this.status = -1;
-            this.loggedIn = false;
         } catch (IOException | InterruptedException ignored) {}
     }
 
@@ -148,33 +145,94 @@ public class Connection extends Component {
             while (listening) {
                 try {
                     String receivedMessage;
-                    int connectionAttempts = 10;
-                    long startTime = System.currentTimeMillis();
-                    long startPingTime = System.currentTimeMillis();
-                    while (connectionAttempts > 0) {
-                        sleep(10);
-//                        if (System.currentTimeMillis() - startTime > Const.TIMEOUT_CONNECTION_LOST) {
-//                            System.out.println("Connection lost.");
-//                            // TODO: Open a dialog to inform the user
-//                            startPingTime = System.currentTimeMillis();
-//                        }
-                        receivedMessage = in.readLine();
-                        if (receivedMessage.equals("Welcome to the game! Please enter your name: "))
-                            System.out.println(receivedMessage);
-                        if (!receivedMessage.isEmpty()) {
-                            message = exludePartsOfMessage(receivedMessage).toString();
-                            break;
-                        }
-                        connectionAttempts--;
-                    }
+                    /* RECONNECTING */
+                    boolean reconnecting = false;
 
-                    if (connectionAttempts == 0) {
-                        System.out.println("Disconnected from server.");
-                        // TODO: Handle connection loss
+                    int connectionAttempts = NO_CONNECTION / 1000; // Time till when pause game
+                    int connectionAttempts2 = DISCONNECTED_CONNECTION / 1000; // Time till when close socket
+                    while (connectionAttempts2 > 0) {
+                        if (in.ready()) {
+                            // Read the message
+                            receivedMessage = in.readLine();
+                            if (receivedMessage != null && !receivedMessage.isEmpty()) {
+                                connectionAttempts = NO_CONNECTION / 1000;
+                                connectionAttempts2 = DISCONNECTED_CONNECTION / 1000;
+                                reconnecting = false;
+
+                                // Check if the message is a valid message
+                                if (receivedMessage.contains(BASE_OUT)) {
+                                    message = exludePartsOfMessage(receivedMessage).toString();
+                                    break;
+                                } else {
+                                    // Message is not valid - close the socket and send a logout message
+                                    response = messageBuilder(LOGOUT, "");
+                                    out.println(response);
+                                    response = "";
+                                    closeSocket();
+                                    if (eventListenerLogin != null) {
+                                        eventListenerLogin.onMessageReceivedLogin(SERVER_ERROR);
+                                    }
+                                    return;
+                                }
+                            }
+                        } else {
+                            connectionAttempts2--;
+                            if (connectionAttempts > 0) connectionAttempts--;
+
+                            System.out.println("Status to reconecting: " + connectionAttempts + " / 5");
+                            System.out.println("Status to close socket: " + connectionAttempts2 + " / 30");
+
+                            if (connectionAttempts == 0 && !reconnecting) {
+                                System.out.println("Connection lost. Trying to reconnect...");
+                                reconnecting = true;
+                                if (eventListenerGame != null) {
+                                    eventListenerGame.onMessageReceivedGame(CONNECTION_LOST);
+                                }
+                            }
+
+                            sleep(1000); // Wait for 1 second before trying again
+                        }
+                    }
+                    if (connectionAttempts2 == 0) {
+                        System.out.println("Connection lost.");
                         closeSocket();
+                        if (eventListenerLogin != null) {
+                            eventListenerLogin.onMessageReceivedLogin(SERVER_ERROR);
+                        }
                         return;
                     }
 
+                    /* NO RECONNECTING */
+//                    int connectionAttempts = 10;
+//                    while (connectionAttempts > 0) {
+//                        sleep(10);
+//                        receivedMessage = in.readLine();
+//
+//                        if (!receivedMessage.isEmpty()) {
+//                            // Check if the message is a valid message
+//                            if (receivedMessage.contains(BASE_OUT)) {
+//                                message = exludePartsOfMessage(receivedMessage).toString();
+//                            } else {
+//                                response = messageBuilder(LOGOUT, "");
+//                                out.println(response);
+//                                response = "";
+//                                closeSocket();
+//                                if (eventListenerLogin != null) {
+//                                    eventListenerLogin.onMessageReceivedLogin(SERVER_ERROR);
+//                                }
+//                            }
+//                            break;
+//                        }
+//                    }
+//
+//                    if (connectionAttempts == 0) {
+//                        System.out.println("Disconnected from server.");
+//                        // TODO: Handle connection loss
+//                        closeSocket();
+//                        return;
+//                    }
+
+                    /* BASE */
                     if (eventListenerLogin != null) {
                         eventListenerLogin.onMessageReceivedLogin(message);
                     }
@@ -197,11 +255,11 @@ public class Connection extends Component {
                     } else {
                         System.out.println("Error: " + e.getMessage());
                         listening = false;
-                        loggedIn = false;
                         if (eventListenerLogin != null) {
                             eventListenerLogin.onMessageReceivedLogin(SERVER_ERROR);
                         }
                     }
+
                 }
             }
         });

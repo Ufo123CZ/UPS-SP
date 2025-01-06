@@ -78,10 +78,8 @@ void Server::start() {
             continue;
         }
 
-        // bool doNotPing = false;
         std::vector<int> currentPings = {};
         std::vector<std::pair<int, std::string>> update = {};
-        // sleep(1);
         for (int fd = 3; fd < FD_SETSIZE; fd++) {
             if (FD_ISSET(fd, &readfds)) {
                 if (fd == serverSocket) {
@@ -191,16 +189,11 @@ void Server::start() {
                             std::cout << "Client disconnected and removed from socket set" << std::endl;
                         }
 
-                        // Send the response
-                        // if (fd != 4 && !nofd4) {
-                        //
-                        // }
-
                         if (fd == 4 && nofd4) {
                             std::cout << "No pings for fd 4" << std::endl;
                             // std::erase(currentPings, fd);
                         } else {
-                            std::cout << "Response for: " << fd << " is: " << response << std::endl;
+                            // std::cout << "Response for: " << fd << " is: " << response << std::endl;
                             send(fd, response.c_str(), response.size(), 0);
                         }
                     }

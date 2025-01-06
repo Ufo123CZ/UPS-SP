@@ -83,8 +83,8 @@ public class LoginPanel extends JPanel implements Connection.EventListenerLogin 
                 return;
             }
             // Check if port is a number
-            if (!portField.getText().matches("[0-9]+") || Integer.parseInt(portField.getText()) < 0 || Integer.parseInt(portField.getText()) > 65535) {
-                JOptionPane.showMessageDialog(window, "Port must be a valid number", "Error", JOptionPane.ERROR_MESSAGE);
+            if (!portField.getText().matches("\\d{1,5}") || Integer.parseInt(portField.getText()) < 0 || Integer.parseInt(portField.getText()) > 65535) {
+                JOptionPane.showMessageDialog(window, "Port must be a valid number between 0 and 65535", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
