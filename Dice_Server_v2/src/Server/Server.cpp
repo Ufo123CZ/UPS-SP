@@ -9,21 +9,18 @@
 #include <fcntl.h>
 #include <csignal>
 #include <sys/ioctl.h>
+#include <arpa/inet.h>
 
-Server::Server() : running(false), serverSocket(-1) {
-#ifdef _WIN32
-    WSAStartup(MAKEWORD(2, 2), &wsaData);
-#endif
-}
+
+bool nofd4 = false;
+
+Server::Server() : running(false), serverSocket(-1) {}
 
 Server::~Server() {
     stop();
-#ifdef _WIN32
-    WSACleanup();
-#endif
 }
 
-bool Server::init() {
+bool Server::init(const std::string& ip, int port) {
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == -1) {
         std::cerr << "Failed to create socket" << std::endl;
@@ -39,8 +36,8 @@ bool Server::init() {
 
     sockaddr_in serverAddr{};
     serverAddr.sin_family = AF_INET;
-    serverAddr.sin_addr.s_addr = INADDR_ANY;
-    serverAddr.sin_port = htons(PORT);
+    serverAddr.sin_addr.s_addr = inet_addr(ip.c_str());
+    serverAddr.sin_port = htons(port);
 
     if (bind(serverSocket, reinterpret_cast<sockaddr *>(&serverAddr), sizeof(serverAddr)) < 0) {
         std::cerr << "Bind failed" << std::endl;
@@ -195,7 +192,17 @@ void Server::start() {
                         }
 
                         // Send the response
-                        send(fd, response.c_str(), response.size(), 0);
+                        // if (fd != 4 && !nofd4) {
+                        //
+                        // }
+
+                        if (fd == 4 && nofd4) {
+                            std::cout << "No pings for fd 4" << std::endl;
+                            // std::erase(currentPings, fd);
+                        } else {
+                            std::cout << "Response for: " << fd << " is: " << response << std::endl;
+                            send(fd, response.c_str(), response.size(), 0);
+                        }
                     }
                 }
             }
@@ -344,18 +351,10 @@ void Server::start() {
 void Server::stop() {
     running = false;
     if (serverSocket != -1) {
-#ifdef _WIN32
-        closesocket(serverSocket);
-#else
         close(serverSocket);
-#endif
     }
     for (int clientSocket : clientSockets) {
-#ifdef _WIN32
-        closesocket(clientSocket);
-#else
         close(clientSocket);
-#endif
     }
     clientSockets.clear();
 }

@@ -43,13 +43,21 @@ int main() {
     Server server;
     srand(time(0));
 
-    bool result = server.init();
+    std::string ip;
+    int port;
+
+    std::cout << "Enter IP address: ";
+    std::cin >> ip;
+    std::cout << "Enter port: ";
+    std::cin >> port;
+
+    bool result = server.init(ip, port);
     if (result == FAILURE_INIT) {
         std::cerr << "Server initialization failed" << std::endl;
         return 1;
     }
     std::cout << "Server initialized" << std::endl
-                << "Listening on port " << PORT << std::endl;
+                << "Listening on port " << port << std::endl;
 
     std::thread cliThread(commandLineInterface, std::ref(server));
 

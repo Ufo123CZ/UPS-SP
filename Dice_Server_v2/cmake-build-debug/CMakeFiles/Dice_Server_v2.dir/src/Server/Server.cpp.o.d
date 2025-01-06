@@ -230,7 +230,8 @@ CMakeFiles/Dice_Server_v2.dir/src/Server/Server.cpp.o: \
  /usr/include/fcntl.h /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
  /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
- /usr/include/x86_64-linux-gnu/bits/struct_stat.h /usr/include/signal.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
+ /usr/include/c++/12/csignal /usr/include/signal.h \
  /usr/include/x86_64-linux-gnu/bits/signum-generic.h \
  /usr/include/x86_64-linux-gnu/bits/signum-arch.h \
  /usr/include/x86_64-linux-gnu/bits/types/sig_atomic_t.h \
@@ -259,4 +260,4 @@ CMakeFiles/Dice_Server_v2.dir/src/Server/Server.cpp.o: \
  /usr/include/x86_64-linux-gnu/asm/ioctl.h \
  /usr/include/asm-generic/ioctl.h \
  /usr/include/x86_64-linux-gnu/bits/ioctl-types.h \
- /usr/include/x86_64-linux-gnu/sys/ttydefaults.h
+ /usr/include/x86_64-linux-gnu/sys/ttydefaults.h /usr/include/arpa/inet.h

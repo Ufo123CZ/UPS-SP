@@ -2617,6 +2617,7 @@ CMakeFiles/Dice_Server_v2.dir/src/Server/Server.cpp.o: /mnt/c/Users/Ufo12/FAV/R3
   /usr/include/linux/falloc.h \
   /usr/include/x86_64-linux-gnu/bits/stat.h \
   /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
+  /usr/include/c++/12/csignal \
   /usr/include/signal.h \
   /usr/include/x86_64-linux-gnu/bits/signum-generic.h \
   /usr/include/x86_64-linux-gnu/bits/signum-arch.h \
@@ -2647,7 +2648,8 @@ CMakeFiles/Dice_Server_v2.dir/src/Server/Server.cpp.o: /mnt/c/Users/Ufo12/FAV/R3
   /usr/include/x86_64-linux-gnu/asm/ioctl.h \
   /usr/include/asm-generic/ioctl.h \
   /usr/include/x86_64-linux-gnu/bits/ioctl-types.h \
-  /usr/include/x86_64-linux-gnu/sys/ttydefaults.h
+  /usr/include/x86_64-linux-gnu/sys/ttydefaults.h \
+  /usr/include/arpa/inet.h
 
 CMakeFiles/Dice_Server_v2.dir/src/Utils/ScoreCalculation.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Utils/ScoreCalculation.cpp \
   /usr/include/stdc-predef.h \
@@ -3456,6 +3458,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/x86_64-linux-gnu/bits/socket.h:
 
+/usr/include/c++/12/csignal:
+
 /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h:
 
 /usr/include/x86_64-linux-gnu/sys/socket.h:
@@ -3663,6 +3667,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/c++/12/bits/stl_algobase.h:
 
 /usr/include/c++/12/bits/cxxabi_forced.h:
+
+/usr/include/arpa/inet.h:
 
 /usr/include/c++/12/bits/atomic_base.h:
 

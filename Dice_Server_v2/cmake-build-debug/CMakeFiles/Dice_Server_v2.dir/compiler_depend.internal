@@ -2629,6 +2629,7 @@ CMakeFiles/Dice_Server_v2.dir/src/Server/Server.cpp.o
  /usr/include/linux/falloc.h
  /usr/include/x86_64-linux-gnu/bits/stat.h
  /usr/include/x86_64-linux-gnu/bits/struct_stat.h
+ /usr/include/c++/12/csignal
  /usr/include/signal.h
  /usr/include/x86_64-linux-gnu/bits/signum-generic.h
  /usr/include/x86_64-linux-gnu/bits/signum-arch.h
@@ -2660,6 +2661,7 @@ CMakeFiles/Dice_Server_v2.dir/src/Server/Server.cpp.o
  /usr/include/asm-generic/ioctl.h
  /usr/include/x86_64-linux-gnu/bits/ioctl-types.h
  /usr/include/x86_64-linux-gnu/sys/ttydefaults.h
+ /usr/include/arpa/inet.h
 
 CMakeFiles/Dice_Server_v2.dir/src/Utils/ScoreCalculation.cpp.o
  /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Utils/ScoreCalculation.cpp
