@@ -191,9 +191,10 @@ void Server::start() {
 
                         if (fd == 4 && nofd4) {
                             std::cout << "No pings for fd 4" << std::endl;
-                            // std::erase(currentPings, fd);
+                            response = "";
+                            std::erase(currentPings, fd);
                         } else {
-                            // std::cout << "Response for: " << fd << " is: " << response << std::endl;
+                            std::cout << "Response for: " << fd << " is: " << response << std::endl;
                             send(fd, response.c_str(), response.size(), 0);
                         }
                     }

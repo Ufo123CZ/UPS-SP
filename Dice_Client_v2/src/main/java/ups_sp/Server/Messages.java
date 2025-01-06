@@ -7,6 +7,7 @@ public class Messages {
     public static final String ERROR = "ERROR";
     public static final String SERVER_ERROR = "SERVER ERROR";
     public static final String CONNECTION_LOST = "CONNECTION LOST";
+    public static final String CONNECTION_RECONNECTED = "CONNECTION RECONNECTED";
     public static final String TERMINATE = "terminating:";
 
     // Base

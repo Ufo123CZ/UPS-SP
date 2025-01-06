@@ -70,7 +70,7 @@ public class QueuePanel extends JPanel implements Connection.EventListenerQueue 
 
                 gamePanel.setGameEnd(false);
                 gamePanel.setWinnerName("");
-                gamePanel.gameStopped = false;
+                gamePanel.gameStoppedServer = false;
                 gamePanel.upperPanel.setVisible(false);
 
                 Connection.getInstance().setStatus(1);

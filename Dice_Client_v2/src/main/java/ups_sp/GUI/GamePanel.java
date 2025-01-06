@@ -14,8 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.util.List;
 
-import static ups_sp.Server.Messages.CONNECTION_LOST;
-import static ups_sp.Server.Messages.GAME_STATE_WINNER;
+import static ups_sp.Server.Messages.*;
 import static ups_sp.Utils.Const.*;
 
 public class GamePanel extends JPanel implements Connection.EventListenerGame {
@@ -53,7 +52,9 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
 
     // Game Interrupt
     @Setter
-    boolean gameStopped = false;
+    boolean gameStoppedServer = false;
+    @Setter
+    boolean gameStoppedClient = false;
 
     public GamePanel() {
         this.setBackground(Color.WHITE);
@@ -228,7 +229,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("MoveLeft", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (firstMoveInRound && !gameEnd && !gameStopped) {
+                if (firstMoveInRound && !gameEnd && !gameStoppedServer && !gameStoppedClient) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         int who = whoIsPlaying();
                         int leftest = getTheLeftest();
@@ -254,7 +255,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("MoveRight", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (firstMoveInRound && !gameEnd && !gameStopped) {
+                if (firstMoveInRound && !gameEnd && !gameStoppedServer && !gameStoppedClient) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         int who = whoIsPlaying();
                         int rightest = getTheRightest();
@@ -280,7 +281,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("SelectDice", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (firstMoveInRound && !gameEnd && !gameStopped) {
+                if (firstMoveInRound && !gameEnd && !gameStoppedServer && !gameStoppedClient) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         int who = whoIsPlaying();
                         if (selectedDice != -1 && diceList.get(who)[selectedDice].isSelected()) {
@@ -297,7 +298,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("NextThrow", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (firstMoveInRound && isAtleastOneDiceSelected() && throwScoreIsntZero() && !gameEnd && !gameStopped) {
+                if (firstMoveInRound && isAtleastOneDiceSelected() && throwScoreIsntZero() && !gameEnd && !gameStoppedServer && !gameStoppedClient) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         Connection.getInstance().makeContact(Messages.GAME_NEXT_TURN, "");
                         disableHover();
@@ -309,7 +310,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("EndTurn", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (firstMoveInRound && isAtleastOneDiceSelected() && throwScoreIsntZero() && !gameEnd && !gameStopped) {
+                if (firstMoveInRound && isAtleastOneDiceSelected() && throwScoreIsntZero() && !gameEnd && !gameStoppedServer && !gameStoppedClient) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         Connection.getInstance().makeContact(Messages.GAME_END_TURN, "");
                         disableHover();
@@ -321,7 +322,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         actionMap.put("ThrowDices", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!firstMoveInRound && !gameEnd && !gameStopped) {
+                if (!firstMoveInRound && !gameEnd && !gameStoppedServer && !gameStoppedClient) {
                     if (Connection.getInstance().getPlayerName().equals(onMove)) {
                         Connection.getInstance().makeContact(Messages.GAME_THROW_DICE, "");
                         firstMoveInRound = true;
@@ -540,14 +541,14 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
             if (message.contains(Messages.GAME_PLAYER_LEFT)) {
                 System.out.println("Update Game with message: " + message);
                 upperPanel.setVisible(true);
-                gameStopped = true;
+                gameStoppedServer = true;
                 String disconected = message.split(";")[1];
                 showGameStatusDialog(disconected);
             }
             if (message.contains(Messages.GAME_PLAYER_JOINED)) {
                 System.out.println("Update Game with message: " + message);
                 upperPanel.setVisible(false);
-                gameStopped = false;
+                gameStoppedServer = false;
             }
             if (message.contains(Messages.GAME_THROW_DICE)) {
                 System.out.println("Update Game with message: " + message);
@@ -576,8 +577,10 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
             }
 
             if (message.contains(CONNECTION_LOST)) {
-                upperPanel.setVisible(true);
-                gameStopped = true;
+                gameStoppedClient = true;
+            }
+            if (message.contains(CONNECTION_RECONNECTED)) {
+                gameStoppedClient = false;
             }
         }).start();
     }
