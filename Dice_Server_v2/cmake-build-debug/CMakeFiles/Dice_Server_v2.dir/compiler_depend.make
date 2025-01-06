@@ -2649,7 +2649,28 @@ CMakeFiles/Dice_Server_v2.dir/src/Server/Server.cpp.o: /mnt/c/Users/Ufo12/FAV/R3
   /usr/include/asm-generic/ioctl.h \
   /usr/include/x86_64-linux-gnu/bits/ioctl-types.h \
   /usr/include/x86_64-linux-gnu/sys/ttydefaults.h \
-  /usr/include/arpa/inet.h
+  /usr/include/arpa/inet.h \
+  /usr/include/c++/12/mutex \
+  /usr/include/c++/12/bits/chrono.h \
+  /usr/include/c++/12/ratio \
+  /usr/include/c++/12/limits \
+  /usr/include/c++/12/ctime \
+  /usr/include/c++/12/bits/parse_numbers.h \
+  /usr/include/c++/12/bits/unique_lock.h \
+  /usr/include/c++/12/thread \
+  /usr/include/c++/12/stop_token \
+  /usr/include/c++/12/bits/std_thread.h \
+  /usr/include/c++/12/bits/unique_ptr.h \
+  /usr/include/c++/12/semaphore \
+  /usr/include/c++/12/bits/semaphore_base.h \
+  /usr/include/c++/12/bits/atomic_timed_wait.h \
+  /usr/include/c++/12/bits/this_thread_sleep.h \
+  /usr/include/x86_64-linux-gnu/sys/time.h \
+  /usr/include/semaphore.h \
+  /usr/include/x86_64-linux-gnu/bits/semaphore.h \
+  /usr/include/c++/12/chrono \
+  /usr/include/c++/12/sstream \
+  /usr/include/c++/12/bits/sstream.tcc
 
 CMakeFiles/Dice_Server_v2.dir/src/Utils/ScoreCalculation.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Utils/ScoreCalculation.cpp \
   /usr/include/stdc-predef.h \
@@ -3330,24 +3351,6 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
   /usr/include/c++/12/bits/sstream.tcc
 
 
-/usr/include/c++/12/bits/sstream.tcc:
-
-/usr/include/x86_64-linux-gnu/bits/semaphore.h:
-
-/usr/include/semaphore.h:
-
-/usr/include/x86_64-linux-gnu/sys/time.h:
-
-/usr/include/c++/12/bits/this_thread_sleep.h:
-
-/usr/include/c++/12/bits/parse_numbers.h:
-
-/usr/include/c++/12/bits/semaphore_base.h:
-
-/usr/include/c++/12/semaphore:
-
-/usr/include/c++/12/bits/unique_ptr.h:
-
 /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Utils/ServerCommands.cpp:
 
 /usr/include/c++/12/tr1/poly_laguerre.tcc:
@@ -3383,6 +3386,24 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
 
 /usr/include/x86_64-linux-gnu/bits/math-vector.h:
+
+/usr/include/c++/12/bits/sstream.tcc:
+
+/usr/include/x86_64-linux-gnu/bits/semaphore.h:
+
+/usr/include/semaphore.h:
+
+/usr/include/x86_64-linux-gnu/sys/time.h:
+
+/usr/include/c++/12/bits/this_thread_sleep.h:
+
+/usr/include/c++/12/bits/semaphore_base.h:
+
+/usr/include/c++/12/semaphore:
+
+/usr/include/c++/12/bits/unique_ptr.h:
+
+/usr/include/c++/12/bits/parse_numbers.h:
 
 /usr/include/x86_64-linux-gnu/bits/ioctl-types.h:
 
@@ -3446,6 +3467,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h:
 
+/usr/include/c++/12/mutex:
+
 /usr/include/asm-generic/sockios.h:
 
 /usr/include/x86_64-linux-gnu/asm/bitsperlong.h:
@@ -3495,6 +3518,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
+
+/usr/include/c++/12/chrono:
 
 /usr/include/x86_64-linux-gnu/bits/waitflags.h:
 
@@ -3684,9 +3709,9 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/c++/12/bits/std_abs.h:
 
-/usr/include/c++/12/stop_token:
-
 /usr/include/c++/12/cmath:
+
+/usr/include/c++/12/stop_token:
 
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
 
@@ -3775,6 +3800,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
 
 /usr/include/c++/12/bits/new_allocator.h:
+
+/usr/include/c++/12/bits/unique_lock.h:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 

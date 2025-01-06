@@ -18,15 +18,17 @@ public:
 
     bool init(const std::string& ip, int port);
     void start();
-    void pingClients();
     void stop();
+    void checkPlayerActivity();
 
 private:
-    void handleClient(socket_t clientSocket);
     std::atomic<bool> running;
     socket_t serverSocket;
     std::vector<socket_t> clientSockets;
+    fd_set client_socks = {};
 };
+
+
 
 namespace MessageProcessing {
     std::string readMessage(int fd);

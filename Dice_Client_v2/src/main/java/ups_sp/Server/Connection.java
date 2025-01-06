@@ -3,6 +3,7 @@ package ups_sp.Server;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -233,13 +234,17 @@ public class Connection extends Component {
                         // Freeze game and try to reconnect
                         if (counter == 0) System.out.println("Connection lost. Trying to reconnect.");
                         counter++;
-                        if (eventListenerGame != null) {
+
+                        if (eventListenerGame != null && !reconnecting) {
                             eventListenerGame.onMessageReceivedGame(CONNECTION_LOST);
+                            reconnecting = true;
                         }
+                        out.println(pongMessage);
                     } else {
                         counter = 0;
-                        if (eventListenerGame != null) {
+                        if (eventListenerGame != null && reconnecting) {
                             eventListenerGame.onMessageReceivedGame(CONNECTION_RECONNECTED);
+                            reconnecting = false;
                         }
                     }
                 } catch (InterruptedException e) {

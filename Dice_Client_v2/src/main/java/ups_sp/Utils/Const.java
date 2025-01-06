@@ -29,7 +29,7 @@ public class Const {
 
     // Timeouts
     public static final long DISCONNECTED_CONNECTION = 30000; // 10 seconds
-    public static final long NO_CONNECTION = 5000; // 5 seconds
+    public static final long NO_CONNECTION = 3000; // 3 seconds
 
 
 }

@@ -35,6 +35,7 @@ public class Messages {
     public static final String GAME_END_TURN = BASE_GAME + "endT:";
     public static final String GAME_PLAYER_LEFT = BASE_GAME + "playerLeft:";
     public static final String GAME_PLAYER_JOINED = BASE_GAME + "playerJoined:";
+    public static final String GAME_PLAYER_DISCONNECTED = BASE_GAME + "playerDisconnected:";
 
     // Queue
     public static final String QUEUE_REJOIN = BASE_QUEUE + "rejoin:";

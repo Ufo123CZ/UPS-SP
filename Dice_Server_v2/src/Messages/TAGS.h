@@ -25,6 +25,7 @@
 #define GAME_CREATE "create:"
 #define GAME_RECONNECT "reconnect:"
 #define GAME_PLAYER_LEFT "playerLeft:"
+#define GAME_PLAYER_DISCONNECTED "playerDisconnected:"
 #define GAME_PLAYER_JOINED "playerJoined:"
 #define GAME_THROW_DICE "throw:"
 #define GAME_SELECT_DICE "select:"

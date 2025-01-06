@@ -60,7 +60,7 @@ void ServerCommands::printPlayers() {
         << "Name: " << player.name << std::endl
         << "Status: " << player.status << std::endl
         << "Socket: " << player.fd << std::endl
-        << "Ping: " << player.ping << "/5" << std::endl;
+        << "Last message: " << player.lastMess << std::endl;
         std::cout << R"(\\---------- ---------- ----------//)" << std::endl;
     }
 }
