@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
 import static ups_sp.Server.Messages.*;
 import static ups_sp.Utils.Const.*;
 
@@ -518,10 +519,17 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
 
     private void optionPanel(int option, JButton endButtonUpper) {
         if (option == 0) {
-            Connection.getInstance().makeContact(Messages.LOGOUT, "");
-            Connection.getInstance().closeSocket();
-            Window window = (Window) SwingUtilities.getWindowAncestor(this);
-            window.showScene("Login");
+            new Thread(() -> {
+                try {
+                    Connection.getInstance().makeContact(Messages.LOGOUT, "");
+                    sleep(500);
+                    Connection.getInstance().closeSocket();
+                    Window window = (Window) SwingUtilities.getWindowAncestor(this);
+                    window.showScene("Login");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
         } else if (option == 1) {
             Connection.getInstance().makeContact(Messages.QUEUE_REJOIN, "");
         } else {

@@ -38,12 +38,10 @@ public class Window extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (Connection.getInstance().getStatus() > -1) {
-                    Connection.getInstance().makeContact(Messages.LOGOUT, "");
-                    Connection.getInstance().closeSocket();
-                    // Close the window
-                    System.exit(0);
-                }
+                Connection.getInstance().makeContact(Messages.LOGOUT, "");
+                Connection.getInstance().closeSocket();
+                // Close the window
+                System.exit(0);
             }
         });
     }

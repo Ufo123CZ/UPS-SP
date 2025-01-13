@@ -121,6 +121,8 @@ void Server::start() {
                             std::cerr << "Failed to read message" << std::endl;
                             goto terminate;
                         }
+                        std::cout << "Message from: " << fd << std::endl;
+                        std::cout << "Received message: " << message << std::endl;
 
                         // Update for player last message
                         for (Player& player : DataVectors::players) {
@@ -165,6 +167,7 @@ void Server::start() {
                             terminate:
                             response = MessageFormat::createViolationMess();
                         }
+                        std::cout << "Response: " << response << std::endl;
                         bool killed = false;
                         if ((response.find(BASE_LOGIN) != std::string::npos && response.find(LOGIN) != std::string::npos && response.find(ERROR) != std::string::npos)
                             || (response.find(BASE_LOGIN) != std::string::npos && response.find(NAMESET) != std::string::npos && response.find(ERROR) != std::string::npos)
@@ -345,13 +348,13 @@ void Server::stop() {
 }
 void Server::checkPlayerActivity() {
     while (running) {
-        std::this_thread::sleep_for(std::chrono::seconds(1)); // Check every 1 seconds
+        std::this_thread::sleep_for(std::chrono::milliseconds(500)); // Check every 0.5 seconds
 
         std::lock_guard<std::mutex> lock(playerMutex);
         for (auto it = DataVectors::players.begin(); it != DataVectors::players.end(); ) {
             std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-            if (now - it->lastMess > 25) { // If no message for 25 seconds
-                std::cout << "Player " << it->name << " is inactive for 25 seconds and will be removed." << std::endl;
+            if (now - it->lastMess > 20) { // If no message for 20 seconds
+                std::cout << "Player " << it->name << " is inactive for 20 seconds and will be removed." << std::endl;
                 close(it->fd);
                 for (Game& game : DataVectors::games) {
                     for (Player p : game.gamePlayers) {
@@ -364,23 +367,25 @@ void Server::checkPlayerActivity() {
                             game.gamePlayers.erase(std::remove_if(game.gamePlayers.begin(), game.gamePlayers.end(), [it](const Player& player) {
                                 return player.fd == it->fd;
                             }), game.gamePlayers.end());
-                            it = DataVectors::players.erase(it);
+                            // it = DataVectors::players.erase(it);
                         }
                     }
                 }
                 // Remove the player from the data vectors
-                close(it->fd);
-                FD_CLR(it->fd, &client_socks);
+                int fd = it->fd;
+                close(fd);
+                FD_CLR(fd, &client_socks);
                 DataVectors::players.erase(std::remove_if(DataVectors::players.begin(), DataVectors::players.end(), [it](const Player& player) {
                     return player.fd == it->fd;
                 }), DataVectors::players.end());
+
 
 
                 // if DataVectors::players.size() == 0 break
                 if (DataVectors::players.empty()) {
                     break;
                 }
-            } else if (now - it->lastMess > 3 && it->status != -1) { // If no message for 5 seconds
+            } else if (now - it->lastMess > 5 && it->status != -1) { // If no message for 5 seconds
                 it->status = -1; // Set state to -1 (disconnected)
                 std::cout << "Player " << it->name << " is inactive for 3 seconds and set to disconnected." << std::endl;
                 // Send message to the player that he is disconnected

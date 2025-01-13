@@ -3348,8 +3348,79 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
   /usr/include/semaphore.h \
   /usr/include/x86_64-linux-gnu/bits/semaphore.h \
   /usr/include/c++/12/sstream \
-  /usr/include/c++/12/bits/sstream.tcc
+  /usr/include/c++/12/bits/sstream.tcc \
+  /usr/include/c++/12/regex \
+  /usr/include/c++/12/bitset \
+  /usr/include/c++/12/locale \
+  /usr/include/c++/12/bits/locale_facets_nonio.h \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/time_members.h \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/messages_members.h \
+  /usr/include/libintl.h \
+  /usr/include/c++/12/bits/codecvt.h \
+  /usr/include/c++/12/bits/locale_facets_nonio.tcc \
+  /usr/include/c++/12/bits/locale_conv.h \
+  /usr/include/c++/12/stack \
+  /usr/include/c++/12/deque \
+  /usr/include/c++/12/bits/stl_deque.h \
+  /usr/include/c++/12/bits/deque.tcc \
+  /usr/include/c++/12/bits/stl_stack.h \
+  /usr/include/c++/12/bits/shared_ptr.h \
+  /usr/include/c++/12/bits/shared_ptr_base.h \
+  /usr/include/c++/12/bits/allocated_ptr.h \
+  /usr/include/c++/12/ext/concurrence.h \
+  /usr/include/c++/12/bit \
+  /usr/include/c++/12/bits/align.h \
+  /usr/include/c++/12/bits/stl_tree.h \
+  /usr/include/c++/12/bits/stl_map.h \
+  /usr/include/c++/12/bits/regex_constants.h \
+  /usr/include/c++/12/bits/regex_error.h \
+  /usr/include/c++/12/bits/regex_automaton.h \
+  /usr/include/c++/12/bits/regex_automaton.tcc \
+  /usr/include/c++/12/bits/regex_scanner.h \
+  /usr/include/c++/12/bits/regex_scanner.tcc \
+  /usr/include/c++/12/bits/regex_compiler.h \
+  /usr/include/c++/12/bits/regex_compiler.tcc \
+  /usr/include/c++/12/bits/regex.h \
+  /usr/include/c++/12/bits/regex.tcc \
+  /usr/include/c++/12/bits/regex_executor.h \
+  /usr/include/c++/12/bits/regex_executor.tcc
 
+
+/usr/include/c++/12/bits/regex_executor.h:
+
+/usr/include/c++/12/bits/regex.h:
+
+/usr/include/c++/12/bits/regex_compiler.tcc:
+
+/usr/include/c++/12/bits/regex_scanner.tcc:
+
+/usr/include/c++/12/bits/regex_scanner.h:
+
+/usr/include/c++/12/bits/regex_automaton.tcc:
+
+/usr/include/c++/12/bits/regex_automaton.h:
+
+/usr/include/c++/12/bits/regex_error.h:
+
+/usr/include/c++/12/bits/stl_map.h:
+
+/usr/include/c++/12/bits/stl_tree.h:
+
+/usr/include/c++/12/ext/concurrence.h:
+
+/usr/include/c++/12/bits/shared_ptr_base.h:
+
+/usr/include/c++/12/bits/shared_ptr.h:
+
+/usr/include/c++/12/bits/stl_stack.h:
+
+/usr/include/c++/12/stack:
+
+/usr/include/c++/12/bits/locale_facets_nonio.tcc:
+
+/usr/include/c++/12/locale:
+
+/usr/include/c++/12/bitset:
 
 /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Utils/ServerCommands.cpp:
 
@@ -3387,6 +3458,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/x86_64-linux-gnu/bits/math-vector.h:
 
+/usr/include/libintl.h:
+
 /usr/include/c++/12/bits/sstream.tcc:
 
 /usr/include/x86_64-linux-gnu/bits/semaphore.h:
@@ -3422,6 +3495,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/x86_64-linux-gnu/bits/sigcontext.h:
 
 /usr/include/x86_64-linux-gnu/bits/sigevent-consts.h:
+
+/usr/include/c++/12/bits/regex_constants.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/sigval_t.h:
 
@@ -3480,6 +3555,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/asm-generic/socket.h:
 
 /usr/include/x86_64-linux-gnu/bits/socket.h:
+
+/usr/include/x86_64-linux-gnu/c++/12/bits/time_members.h:
 
 /usr/include/c++/12/csignal:
 
@@ -3600,6 +3677,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
 
 /usr/include/c++/12/bits/postypes.h:
+
+/usr/include/c++/12/bits/stl_deque.h:
 
 /usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
 
@@ -3747,9 +3826,13 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/c++/12/bits/allocator.h:
 
+/usr/include/c++/12/bits/codecvt.h:
+
 /usr/include/c++/12/thread:
 
 /usr/include/c++/12/bits/cpp_type_traits.h:
+
+/usr/include/x86_64-linux-gnu/c++/12/bits/messages_members.h:
 
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
@@ -3765,11 +3848,15 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/c++/12/bits/stl_iterator.h:
 
+/usr/include/c++/12/bits/locale_facets_nonio.h:
+
 /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/main.cpp:
 
 /usr/include/x86_64-linux-gnu/bits/sigaction.h:
 
 /usr/include/c++/12/bits/exception.h:
+
+/usr/include/c++/12/bits/regex.tcc:
 
 /usr/include/c++/12/bits/std_thread.h:
 
@@ -3813,11 +3900,15 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
 
+/usr/include/c++/12/bits/locale_conv.h:
+
 /usr/include/c++/12/bits/stl_uninitialized.h:
 
 /usr/include/string.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
+
+/usr/include/c++/12/bits/align.h:
 
 /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h:
 
@@ -3836,6 +3927,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Data/DataVectors.h:
 
 /usr/include/c++/12/string:
+
+/usr/include/c++/12/bit:
 
 /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
 
@@ -3973,6 +4066,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/c++/12/typeinfo:
 
+/usr/include/c++/12/bits/allocated_ptr.h:
+
 /usr/include/c++/12/bits/nested_exception.h:
 
 /usr/include/c++/12/bits/ios_base.h:
@@ -4002,6 +4097,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/x86_64-linux-gnu/sys/single_threaded.h:
 
 /usr/include/c++/12/bits/locale_classes.h:
+
+/usr/include/c++/12/bits/regex_compiler.h:
 
 /usr/include/c++/12/system_error:
 
@@ -4035,6 +4132,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 
 /usr/include/c++/12/bits/algorithmfwd.h:
 
+/usr/include/c++/12/deque:
+
 /usr/include/asm-generic/bitsperlong.h:
 
 /usr/include/c++/12/ext/type_traits.h:
@@ -4050,6 +4149,8 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /usr/include/c++/12/bits/stl_tempbuf.h:
 
 /usr/include/c++/12/bits/ranges_algobase.h:
+
+/usr/include/c++/12/regex:
 
 /usr/include/c++/12/bits/localefwd.h:
 
@@ -4100,6 +4201,10 @@ CMakeFiles/Dice_Server_v2.dir/src/main.cpp.o: /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UP
 /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/TAGS.h:
 
 /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/GameM.cpp:
+
+/usr/include/c++/12/bits/regex_executor.tcc:
+
+/usr/include/c++/12/bits/deque.tcc:
 
 /mnt/c/Users/Ufo12/FAV/R3ZS/SPs/UPS-SP/Dice_Server_v2/src/Messages/MessageTypes/Login.cpp:
 

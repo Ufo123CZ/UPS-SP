@@ -60,7 +60,7 @@ public class LoginPanel extends JPanel implements Connection.EventListenerLogin 
         gbc.gridy = 1;
         add(ipLabel, gbc);
 
-        ipField = new JTextField("localhost",20);
+        ipField = new JTextField("127.0.0.1",20);
         gbc.gridx = 1;
         gbc.gridy = 1;
         add(ipField, gbc);
@@ -70,7 +70,7 @@ public class LoginPanel extends JPanel implements Connection.EventListenerLogin 
         gbc.gridy = 2;
         add(portLabel, gbc);
 
-        portField = new JTextField("8080", 20);
+        portField = new JTextField("10000", 20);
         gbc.gridx = 1;
         gbc.gridy = 2;
         add(portField, gbc);

@@ -16,8 +16,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static java.lang.Thread.sleep;
 import static ups_sp.Server.Messages.*;
-import static ups_sp.Utils.Const.NO_CONNECTION;
-import static ups_sp.Utils.Const.DISCONNECTED_CONNECTION;
+import static ups_sp.Utils.Const.*;
 
 public class Connection extends Component {
 
@@ -85,6 +84,7 @@ public class Connection extends Component {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 pongMessage = messageBuilder(PONG, "");
                 startListening();
+                sendMessages();
                 return true;
             } catch (IOException e) {
                 System.out.println("Error: " + e.getMessage());
@@ -145,6 +145,19 @@ public class Connection extends Component {
         return messageHeader + action + ";" + information;
     }
 
+    private static StringBuilder exludePartsOfMessage(String receivedMessage) {
+        String[] parts = receivedMessage.split(";");
+        // Chain all parts except the first two
+        StringBuilder messageBuilder = new StringBuilder();
+        for (int i = 2; i < parts.length; i++) {
+            messageBuilder.append(parts[i]);
+            if (i < parts.length - 1) {
+                messageBuilder.append(";");
+            }
+        }
+        return messageBuilder;
+    }
+
     private void startListening() {
         listening = new AtomicBoolean(true);
         lastMess = new AtomicLong(System.currentTimeMillis());
@@ -190,10 +203,10 @@ public class Connection extends Component {
                         eventListenerGame.onMessageReceivedGame(message);
                     }
 
-                    if (response.isEmpty() || response.equals("\n")) {
-                        response = pongMessage;
+                    if (!response.isEmpty() && !response.equals("\n")) {
+//                        response = pongMessage;
+                        out.println(response);
                     }
-                    out.println(response);
                     response = "";
 
                 } catch (IOException | NullPointerException e) {
@@ -213,13 +226,30 @@ public class Connection extends Component {
         listenerThread.start();
     }
 
+    public void sendMessages() {
+        new Thread(() -> {
+            while(listening.get()) {
+                if (!response.isEmpty()) {
+                    out.println(response);
+                    response = "";
+                }
+                try {
+                    sleep(100);
+                } catch (InterruptedException e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+        }).start();
+    }
+
     private void statusCheck() {
         new Thread(() -> {
             boolean reconnecting = false;
             int counter = 0;
             while (listening.get()) {
                 try {
-                    sleep(1000);
+                    sleep(500);
+                    // DISCONNECTED
                     if (System.currentTimeMillis() - lastMess.get() > DISCONNECTED_CONNECTION) {
                         // Close socket
                         System.out.println("Connection timed out.");
@@ -230,6 +260,7 @@ public class Connection extends Component {
                         }
                     }
 
+                    // NO CONNECTION - RECONNECT
                     if (System.currentTimeMillis() - lastMess.get() > NO_CONNECTION) {
                         // Freeze game and try to reconnect
                         if (counter == 0) System.out.println("Connection lost. Trying to reconnect.");
@@ -247,6 +278,11 @@ public class Connection extends Component {
                             reconnecting = false;
                         }
                     }
+
+                    // PING
+                    if (System.currentTimeMillis() - lastMess.get() > PING_INTERVAL) {
+                        out.println(pongMessage);
+                    }
                 } catch (InterruptedException e) {
                     System.out.println("Error: " + e.getMessage());
                 }
@@ -254,22 +290,9 @@ public class Connection extends Component {
         }).start();
     }
 
-    private static StringBuilder exludePartsOfMessage(String receivedMessage) {
-        String[] parts = receivedMessage.split(";");
-        // Chain all parts except the first two
-        StringBuilder messageBuilder = new StringBuilder();
-        for (int i = 2; i < parts.length; i++) {
-            messageBuilder.append(parts[i]);
-            if (i < parts.length - 1) {
-                messageBuilder.append(";");
-            }
-        }
-        return messageBuilder;
-    }
-
     private void stopListening() throws InterruptedException {
         listening.set(false);
-        sleep(1000);
+        sleep(2000);
         if (listenerThread != null) {
             listenerThread.interrupt();
         }

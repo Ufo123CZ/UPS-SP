@@ -4,6 +4,7 @@
 #include <iostream>
 #include <thread>
 #include <sstream>
+#include <regex>
 
 std::atomic<bool> runningCLI(true);
 
@@ -39,6 +40,13 @@ void commandLineInterface(Server &server) {
     }
 }
 
+bool isValidIP(const std::string& ip) {
+    const std::regex pattern(
+    R"(^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$)"
+    );
+    return std::regex_match(ip, pattern);
+}
+
 int main() {
     Server server;
     srand(time(0));
@@ -48,8 +56,21 @@ int main() {
 
     std::cout << "Enter IP address: ";
     std::cin >> ip;
+
+    // Is valid IP address
+    if (!isValidIP(ip)) {
+        std::cerr << "Invalid IP address" << std::endl;
+        return 1;
+    }
+
     std::cout << "Enter port: ";
     std::cin >> port;
+
+    // Is valid Port number
+    if (port < 1024 || port > 65535) {
+        std::cerr << "Invalid port number" << std::endl;
+        return 1;
+    }
 
     bool result = server.init(ip, port);
     if (result == FAILURE_INIT) {

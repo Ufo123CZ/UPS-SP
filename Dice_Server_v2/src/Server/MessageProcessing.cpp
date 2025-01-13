@@ -64,7 +64,7 @@ namespace MessageProcessing {
         if (message.empty()) return "";
 
         // Print the received message
-        if (messageLength > 8) std::cout << "Received message: " << information << message << std::endl;
+        // if (messageLength > 8) std::cout << "Received message: " << information << message << std::endl;
 
 
         return message;
