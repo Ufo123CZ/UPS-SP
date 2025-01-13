@@ -17,7 +17,7 @@
 
 bool nofd4 = false;
 
-std::mutex playerMutex;
+std::mutex playerMutex, fdsMutex;
 
 Server::Server() : running(false), serverSocket(-1) {}
 
@@ -59,7 +59,7 @@ bool Server::init(const std::string& ip, int port) {
 
 void Server::start() {
     running = true;
-    fd_set readfds, client_socks;
+    fd_set readfds;
     struct timeval timeout{};
     timeout.tv_sec = 5;
     timeout.tv_usec = 0;
@@ -80,15 +80,20 @@ void Server::start() {
 
     // Main loop
     while (running) {
-        readfds = client_socks;
+        {
+            std::lock_guard<std::mutex> lock(fdsMutex);
+            readfds = client_socks;
+        }
 
         // int activity = select(FD_SETSIZE, &readfds, nullptr, nullptr, &timeout);
+        // Lock playerLock until activityCheck is done
         int activity = select(FD_SETSIZE, &readfds, nullptr, nullptr, nullptr);
         if (activity < 0 && errno != EINTR) {
             std::cerr << "Select error" << std::endl;
-            continue;
+            // continue;
         }
 
+        fdsToRemove = {};
         std::vector<std::pair<int, std::string>> update = {};
         for (int fd = 3; fd < FD_SETSIZE; fd++) {
             if (FD_ISSET(fd, &readfds)) {
@@ -97,7 +102,10 @@ void Server::start() {
                     socklen_t len_addr = sizeof(peer_addr);
                     socket_t client_socket = accept(serverSocket, reinterpret_cast<sockaddr *>(&peer_addr), &len_addr);
                     if (client_socket >= 0) {
-                        FD_SET(client_socket, &client_socks);
+                        {
+                            std::lock_guard<std::mutex> lock(fdsMutex);
+                            FD_SET(client_socket, &client_socks);
+                        }
                         std::cout << "New client connected and added to socket set" << std::endl;
                         if (client_socket != 3){
                             Player player = Player(client_socket, -2);
@@ -185,7 +193,10 @@ void Server::start() {
                                 return player.fd == fd;
                             }), DataVectors::players.end());
                             close(fd);
-                            FD_CLR(fd, &client_socks);
+                            {
+                                std::lock_guard<std::mutex> lock(fdsMutex);
+                                FD_CLR(fd, &client_socks);
+                            }
                             killed = true;
                         }
 
@@ -229,7 +240,10 @@ void Server::start() {
                                 return player.fd == fd;
                             });
                             close(fd);
-                            FD_CLR(fd, &client_socks);
+                            {
+                                std::lock_guard<std::mutex> lock(fdsMutex);
+                                FD_CLR(fd, &client_socks);
+                            }
 
                             std::cout << "Client disconnected and removed from socket set" << std::endl;
                         }
@@ -239,8 +253,18 @@ void Server::start() {
                         } else {
                             send(fd, response.c_str(), response.size(), 0);
                         }
+                    } else {
+                        fdsToRemove.push_back(fd);
                     }
                 }
+            }
+        }
+
+        {
+            std::lock_guard<std::mutex> lock(fdsMutex);
+            for (int fd : fdsToRemove) {
+                close(fd);
+                FD_CLR(fd, &client_socks);
             }
         }
 
@@ -353,41 +377,32 @@ void Server::checkPlayerActivity() {
         std::lock_guard<std::mutex> lock(playerMutex);
         for (auto it = DataVectors::players.begin(); it != DataVectors::players.end(); ) {
             std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-            if (now - it->lastMess > 20) { // If no message for 20 seconds
+            if (now - it->lastMess > 20 && it->status == -1) { // If no message for 20 seconds
                 std::cout << "Player " << it->name << " is inactive for 20 seconds and will be removed." << std::endl;
-                close(it->fd);
+                socket_t fd = it->fd;
+                // Announce player left to other players in the game
                 for (Game& game : DataVectors::games) {
+                    // Send message to the other player that the player has left
                     for (Player p : game.gamePlayers) {
-                        if (p.fd == it->fd) {
+                        if (p.fd == fd) {
                             std::pair<int, std::string> result = Events::announcePlayerLeft(*it);
                             if (result.first != -1) {
                                 send(result.first, result.second.c_str(), result.second.size(), 0);
                             }
-                            // Remove the player from the game and from Player vector
-                            game.gamePlayers.erase(std::remove_if(game.gamePlayers.begin(), game.gamePlayers.end(), [it](const Player& player) {
-                                return player.fd == it->fd;
-                            }), game.gamePlayers.end());
-                            // it = DataVectors::players.erase(it);
                         }
                     }
+                    game.gamePlayers.erase(std::remove_if(game.gamePlayers.begin(), game.gamePlayers.end(), [it](const Player& player) {
+                        return player.name == it->name;
+                    }), game.gamePlayers.end());
                 }
                 // Remove the player from the data vectors
-                int fd = it->fd;
-                close(fd);
-                FD_CLR(fd, &client_socks);
-                DataVectors::players.erase(std::remove_if(DataVectors::players.begin(), DataVectors::players.end(), [it](const Player& player) {
-                    return player.fd == it->fd;
-                }), DataVectors::players.end());
+                std::cout << "Player " << it->name << ", fd: " << fd << " removed." << std::endl;
+                it = DataVectors::players.erase(it);
+                fdsToRemove.push_back(fd);
 
-
-
-                // if DataVectors::players.size() == 0 break
-                if (DataVectors::players.empty()) {
-                    break;
-                }
             } else if (now - it->lastMess > 5 && it->status != -1) { // If no message for 5 seconds
                 it->status = -1; // Set state to -1 (disconnected)
-                std::cout << "Player " << it->name << " is inactive for 3 seconds and set to disconnected." << std::endl;
+                std::cout << "Player " << it->name << " is inactive for 5 seconds and set to disconnected." << std::endl;
                 // Send message to the player that he is disconnected
                 // check if the player is in the game
                 // if yes send message to the other player that he left

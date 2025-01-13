@@ -83,6 +83,7 @@ public class Connection extends Component {
                 out = new PrintWriter(socket.getOutputStream(), true);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 pongMessage = messageBuilder(PONG, "");
+                response = "";
                 startListening();
                 sendMessages();
                 return true;

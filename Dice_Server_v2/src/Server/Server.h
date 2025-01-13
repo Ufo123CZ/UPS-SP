@@ -26,6 +26,7 @@ private:
     socket_t serverSocket;
     std::vector<socket_t> clientSockets;
     fd_set client_socks = {};
+    std::vector<socket_t> fdsToRemove;
 };
 
 
