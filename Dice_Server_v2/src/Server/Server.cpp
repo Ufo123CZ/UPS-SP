@@ -15,8 +15,7 @@
 #include <chrono>
 
 
-bool nofd4 = false;
-
+std::thread activityThread;
 std::mutex playerMutex, fdsMutex;
 
 Server::Server() : running(false), serverSocket(-1) {}
@@ -75,7 +74,7 @@ void Server::start() {
 
 
     // Start the player activity check thread
-    std::thread activityThread([this]() { checkPlayerActivity(); });
+    activityThread = std::thread([this]() { checkPlayerActivity(); });
     activityThread.detach();
 
     // Main loop
@@ -96,6 +95,7 @@ void Server::start() {
         fdsToRemove = {};
         std::vector<std::pair<int, std::string>> update = {};
         for (int fd = 3; fd < FD_SETSIZE; fd++) {
+            sleep(0.01);
             if (FD_ISSET(fd, &readfds)) {
                 if (fd == serverSocket) {
                     sockaddr_in peer_addr{};
@@ -135,37 +135,7 @@ void Server::start() {
                         // Update for player last message
                         for (Player& player : DataVectors::players) {
                             if (player.fd == fd) {
-                                if (nofd4) {
-                                    if (fd != 4) {
-                                        player.lastMess = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-                                    }
-                                } else {
-                                    player.lastMess = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-                                }
-                                // Check if player was disconnected
-                                if (player.status == -1) {
-                                    if (fd == 4 && nofd4) {
-                                        break;
-                                    }
-                                    // Check if player was in game
-                                    bool inGame = false;
-                                    for (Game game : DataVectors::games) {
-                                        for (Player p : game.gamePlayers) {
-                                            if (p.fd == fd) {
-                                                player.status = 1;
-                                                inGame = true;
-                                                // Announce the other player that the player has reconnected
-                                                std::pair<int, std::string> result = Events::announcePlayerReconnect(player);
-                                                if (result.first != -1) {
-                                                    send(result.first, result.second.c_str(), result.second.size(), 0);
-                                                }
-                                            }
-                                        }
-                                    }
-                                    if (!inGame) {
-                                        player.status = 0;
-                                    }
-                                }
+                                player.lastMess = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
                             }
                         }
 
@@ -248,11 +218,7 @@ void Server::start() {
                             std::cout << "Client disconnected and removed from socket set" << std::endl;
                         }
 
-                        if (fd == 4 && nofd4) {
-                            response = "";
-                        } else {
-                            send(fd, response.c_str(), response.size(), 0);
-                        }
+                        send(fd, response.c_str(), response.size(), 0);
                     } else {
                         fdsToRemove.push_back(fd);
                     }
@@ -269,6 +235,15 @@ void Server::start() {
         }
 
         // Special Events
+        /* ASK CLIENT IF IT IS ALIVE */
+        for (Player& player : DataVectors::players) {
+            if (player.status == -1) {
+                std::string response = MessageFormat::aliveCheck();
+                send(player.fd, response.c_str(), response.size(), 0);
+            }
+        }
+
+
         /* UPDATE PLAYERS */
         for (std::pair<int, std::string> pair : update) {
             for (Player& player : DataVectors::players) {
@@ -289,6 +264,24 @@ void Server::start() {
                 game.gameEnd = true;
                 // Game Does not have gameID
                 std::erase_if(DataVectors::games, [&game](const Game& g) {
+                    return game.gameEnd;
+                });
+            }
+        }
+        // Check if player left and game still exists
+        for (Game& game : DataVectors::games) {
+            bool found = false;
+            for (std::string &playerName : game.playerNames) {
+                for (const Player& player : DataVectors::players) {
+                    if (player.name == playerName) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found) {
+                game.gameEnd = true;
+                std::erase_if(DataVectors::games, [](const Game& game) {
                     return game.gameEnd;
                 });
             }
@@ -369,15 +362,22 @@ void Server::stop() {
         close(clientSocket);
     }
     clientSockets.clear();
+    DataVectors::players.clear();
+    DataVectors::games.clear();
+
+    if (activityThread.joinable()) {
+        activityThread.join(); // Ensure the thread has finished
+    }
 }
 void Server::checkPlayerActivity() {
     while (running) {
         std::this_thread::sleep_for(std::chrono::milliseconds(500)); // Check every 0.5 seconds
 
         std::lock_guard<std::mutex> lock(playerMutex);
+
         for (auto it = DataVectors::players.begin(); it != DataVectors::players.end(); ) {
             std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-            if (now - it->lastMess > 20 && it->status == -1) { // If no message for 20 seconds
+            if (now - it->lastMess > DISCONNECTED_TIMEOUT && it->status == -1) { // If no message for 20 seconds
                 std::cout << "Player " << it->name << " is inactive for 20 seconds and will be removed." << std::endl;
                 socket_t fd = it->fd;
                 // Announce player left to other players in the game
@@ -400,7 +400,7 @@ void Server::checkPlayerActivity() {
                 it = DataVectors::players.erase(it);
                 fdsToRemove.push_back(fd);
 
-            } else if (now - it->lastMess > 5 && it->status != -1) { // If no message for 5 seconds
+            } else if (now - it->lastMess > DISCONNECTED_TRY && it->status != -1) { // If no message for 5 seconds
                 it->status = -1; // Set state to -1 (disconnected)
                 std::cout << "Player " << it->name << " is inactive for 5 seconds and set to disconnected." << std::endl;
                 // Send message to the player that he is disconnected
@@ -408,7 +408,7 @@ void Server::checkPlayerActivity() {
                 // if yes send message to the other player that he left
                 for (Game& game : DataVectors::games) {
                     for (Player p : game.gamePlayers) {
-                        if (p.fd == it->fd) {
+                        if (p.fd == it->fd && !game.gamePaused) {
                             std::pair<int, std::string> result = Events::announcePlayerTempLeft(*it);
                             if (result.first != -1) {
                                 std::cout << result.second << std::endl;

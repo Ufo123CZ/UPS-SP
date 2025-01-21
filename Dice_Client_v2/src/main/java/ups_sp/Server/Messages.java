@@ -43,6 +43,12 @@ public class Messages {
     // Game States
     public static final String GAME_STATE_WINNER = "winner:";
 
+    // TAGS RECONNECT CONNECTION
+    public static final String BASE_CONNECTION = "connection:";
+    public static final String CONNECTION_RECONNECT = BASE_CONNECTION + "recConn:";
+    public static final String NOGAME = "noGame";
+    public static final String CONNECTION_ALIVE = "alive:";
+
 
 
 

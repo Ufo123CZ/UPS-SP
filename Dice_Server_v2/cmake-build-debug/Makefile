@@ -345,6 +345,30 @@ src/Messages/MessageTypes/Logout.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Logout.cpp.s
 .PHONY : src/Messages/MessageTypes/Logout.cpp.s
 
+src/Messages/MessageTypes/Reconnect.o: src/Messages/MessageTypes/Reconnect.cpp.o
+.PHONY : src/Messages/MessageTypes/Reconnect.o
+
+# target to build an object file
+src/Messages/MessageTypes/Reconnect.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Reconnect.cpp.o
+.PHONY : src/Messages/MessageTypes/Reconnect.cpp.o
+
+src/Messages/MessageTypes/Reconnect.i: src/Messages/MessageTypes/Reconnect.cpp.i
+.PHONY : src/Messages/MessageTypes/Reconnect.i
+
+# target to preprocess a source file
+src/Messages/MessageTypes/Reconnect.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Reconnect.cpp.i
+.PHONY : src/Messages/MessageTypes/Reconnect.cpp.i
+
+src/Messages/MessageTypes/Reconnect.s: src/Messages/MessageTypes/Reconnect.cpp.s
+.PHONY : src/Messages/MessageTypes/Reconnect.s
+
+# target to generate assembly for a file
+src/Messages/MessageTypes/Reconnect.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dice_Server_v2.dir/build.make CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Reconnect.cpp.s
+.PHONY : src/Messages/MessageTypes/Reconnect.cpp.s
+
 src/Messages/MessageTypes/RejoinQ.o: src/Messages/MessageTypes/RejoinQ.cpp.o
 .PHONY : src/Messages/MessageTypes/RejoinQ.o
 
@@ -525,6 +549,9 @@ help:
 	@echo "... src/Messages/MessageTypes/Logout.o"
 	@echo "... src/Messages/MessageTypes/Logout.i"
 	@echo "... src/Messages/MessageTypes/Logout.s"
+	@echo "... src/Messages/MessageTypes/Reconnect.o"
+	@echo "... src/Messages/MessageTypes/Reconnect.i"
+	@echo "... src/Messages/MessageTypes/Reconnect.s"
 	@echo "... src/Messages/MessageTypes/RejoinQ.o"
 	@echo "... src/Messages/MessageTypes/RejoinQ.i"
 	@echo "... src/Messages/MessageTypes/RejoinQ.s"

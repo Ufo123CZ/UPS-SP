@@ -5,7 +5,6 @@
 #include <iostream>
 
 extern std::atomic<bool> runningCLI;
-extern bool nofd4;
 
 // Initialize the command map
 std::unordered_map<std::string, std::function<void(Server &server, std::string&)>> ServerCommands::commandMap;
@@ -33,16 +32,6 @@ void ServerCommands::initCommandMap() {
             // Stop the server
             server.stop();
             runningCLI = false;
-        }},
-        {"EDfd4", [](Server &server, std::string&) {
-            std::cout << R"(\\---xxxx--- No pings for fd 4: ---xxxx---//)" << std::endl;
-            if (!nofd4) {
-                std::cout << "nofd4 = " << nofd4 << std::endl;
-                nofd4 = true;
-            } else {
-                std::cout << "nofd4 = " << nofd4 << std::endl;
-                nofd4 = false;
-            }
         }},
     };
 }

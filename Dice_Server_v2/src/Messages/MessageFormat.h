@@ -16,6 +16,7 @@ public:
     static std::string prepareResponse(const std::string& information, const std::string& tag);
     static std::string createViolationMess();
     static std::string createPingMessage();
+    static std::string aliveCheck();
 };
 
 namespace Login {
@@ -37,6 +38,9 @@ namespace GameM {
 }
 namespace RejoinQ {
     std::string rejoinQueue(int fd);
+}
+namespace Reconnect {
+    std::string reconnect(int fd);
 }
 
 #endif //MESSAGEFORMAT_H

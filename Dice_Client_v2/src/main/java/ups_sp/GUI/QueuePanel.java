@@ -56,7 +56,7 @@ public class QueuePanel extends JPanel implements Connection.EventListenerQueue 
     @Override
     public void onMessageReceivedQueue(String message) {
         new Thread(() -> {
-            if (message.contains(GAME_CREATED) || message.contains(Messages.GAME_RECONNECTED)) {
+            if ((message.contains(GAME_CREATED) || message.contains(Messages.GAME_RECONNECTED)) && !Connection.getInstance().isReconnecting()) {
                 System.out.println("Game Created with: " + message);
                 // Reset Local variables
                 gamePanel.setFirstMoveInRound(false);
@@ -127,6 +127,11 @@ public class QueuePanel extends JPanel implements Connection.EventListenerQueue 
 
                 Window window = (Window) SwingUtilities.getWindowAncestor(this);
                 window.showScene("Game");
+            }
+
+            if (message.contains(Messages.CONNECTION_RECONNECTED) && message.contains(Messages.NOGAME)) {
+                System.out.println("Connection Reconnected with: " + message);
+                Connection.getInstance().setStatus(0);
             }
         }).start();
     }

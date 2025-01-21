@@ -17,6 +17,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Login.cpp.o.d"
   "CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Logout.cpp.o"
   "CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Logout.cpp.o.d"
+  "CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Reconnect.cpp.o"
+  "CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/Reconnect.cpp.o.d"
   "CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/RejoinQ.cpp.o"
   "CMakeFiles/Dice_Server_v2.dir/src/Messages/MessageTypes/RejoinQ.cpp.o.d"
   "CMakeFiles/Dice_Server_v2.dir/src/Server/MessageProcessing.cpp.o"

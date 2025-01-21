@@ -3,16 +3,13 @@ package ups_sp.Server;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static java.lang.Thread.sleep;
 import static ups_sp.Server.Messages.*;
@@ -29,6 +26,7 @@ public class Connection extends Component {
     private int status = -1;
 
     // Socket
+    @Getter
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
@@ -47,6 +45,9 @@ public class Connection extends Component {
     // Reconnect
     AtomicLong lastMess;
     AtomicBoolean statusOK;
+
+    @Getter @Setter
+    boolean reconnecting = false;
 
     // Event listener
     @Setter
@@ -79,7 +80,8 @@ public class Connection extends Component {
         Future<Boolean> future = executor.submit(() -> {
             try {
                 socket = new Socket(serverAddress, port);
-                socket.setSoTimeout((int)(DISCONNECTED_CONNECTION));
+//                socket.setSoTimeout((int)(DISCONNECTED_CONNECTION));
+                socket.setKeepAlive(true);
                 out = new PrintWriter(socket.getOutputStream(), true);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 pongMessage = messageBuilder(PONG, "");
@@ -205,7 +207,6 @@ public class Connection extends Component {
                     }
 
                     if (!response.isEmpty() && !response.equals("\n")) {
-//                        response = pongMessage;
                         out.println(response);
                     }
                     response = "";
@@ -245,13 +246,15 @@ public class Connection extends Component {
 
     private void statusCheck() {
         new Thread(() -> {
-            boolean reconnecting = false;
+            reconnecting = false;
+            boolean reconSended = false;
             int counter = 0;
+            long lastPing = System.currentTimeMillis();
             while (listening.get()) {
                 try {
                     sleep(500);
-                    // DISCONNECTED
-                    if (System.currentTimeMillis() - lastMess.get() > DISCONNECTED_CONNECTION) {
+                    long timeNow = System.currentTimeMillis();
+                    if (timeNow - lastMess.get() > DISCONNECTED_CONNECTION) {   // DISCONNECTED
                         // Close socket
                         System.out.println("Connection timed out.");
                         statusOK.set(false);
@@ -259,30 +262,30 @@ public class Connection extends Component {
                         if (eventListenerLogin != null) {
                             eventListenerLogin.onMessageReceivedLogin(SERVER_ERROR);
                         }
-                    }
-
-                    // NO CONNECTION - RECONNECT
-                    if (System.currentTimeMillis() - lastMess.get() > NO_CONNECTION) {
+                    } else if (timeNow - lastMess.get() > NO_CONNECTION && !reconnecting) { // NO CONNECTION - TRY TO RECONNECT
                         // Freeze game and try to reconnect
-                        if (counter == 0) System.out.println("Connection lost. Trying to reconnect.");
+                        if (counter == 0) System.out.println("Connection lost.");
                         counter++;
 
-                        if (eventListenerGame != null && !reconnecting) {
+                        if (eventListenerGame != null) {
                             eventListenerGame.onMessageReceivedGame(CONNECTION_LOST);
                             reconnecting = true;
                         }
-                        out.println(pongMessage);
-                    } else {
+                    } else if (timeNow - lastMess.get() <= NO_CONNECTION) { // RECONNECTED
                         counter = 0;
-                        if (eventListenerGame != null && reconnecting) {
-                            eventListenerGame.onMessageReceivedGame(CONNECTION_RECONNECTED);
-                            reconnecting = false;
-                        }
+//                        if (eventListenerGame != null) {
+//                            reconnecting = false;
+//                            eventListenerGame.onMessageReceivedGame(CONNECTION_RECONNECTED);
+//                        }
                     }
-
                     // PING
-                    if (System.currentTimeMillis() - lastMess.get() > PING_INTERVAL) {
+                    if ((timeNow - lastPing > PING_INTERVAL) && !reconnecting ) {
+                        // Last ping message
+                        lastPing = System.currentTimeMillis();
+
+                        // Check if out is filled with pong
                         out.println(pongMessage);
+
                     }
                 } catch (InterruptedException e) {
                     System.out.println("Error: " + e.getMessage());

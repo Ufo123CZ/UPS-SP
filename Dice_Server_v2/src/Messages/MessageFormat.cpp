@@ -28,6 +28,8 @@ void MessageFormat::initMessageFormatMap() {
     tagGameConfirm.append(BASE_GAME).append(GAME_NEXT_TURN);
     std::string tagGameEndTurn;
     tagGameEndTurn.append(BASE_GAME).append(GAME_END_TURN);
+    std::string tagReconnect;
+    tagReconnect.append(BASE_CONNECTION).append(CONNECTION_RECONNECT);
 
 
     messFormatMap = {
@@ -55,6 +57,9 @@ void MessageFormat::initMessageFormatMap() {
         {tagGameEndTurn, [](int fd, std::string&) -> std::string {
             return GameM::endTurn(fd);
         }},
+        {tagReconnect, [](int fd, std::string&) -> std::string {
+            return Reconnect::reconnect(fd);
+        }}
     };
 }
 
@@ -96,3 +101,12 @@ std::string MessageFormat::createPingMessage() {
 
     return response;
 }
+
+std::string MessageFormat::aliveCheck() {
+    // Response is based on the information
+    std::string response;
+    response.append("ds;0008;").append(CONNECTION_ALIVE).append(";\n");
+
+    return response;
+}
+

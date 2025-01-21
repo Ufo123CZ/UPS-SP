@@ -407,7 +407,7 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
     //endregion
 
     //region Update Game
-    void updateGame(String information) {
+    public void updateGame(String information) {
 
         // information TAG;PLAYER;SCORE_T,SCORE_ST,SCORE_TH;DICE1_id,DICE1_val, ...|DICE2|...|DICE6|;SWITCH_PLAYER;
 
@@ -471,6 +471,92 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
         }
 
         repaint();
+    }
+
+    private void updateGameOnReconnect(String message) {
+        new Thread(() -> {
+        // Reset Local variables
+            firstMoveInRound = false;
+//        selectedDice = -1; TODO: if it looks good, remove this line
+            // Set all dices to not Hover
+//        for (int i = 0; i < diceList.size(); i++) {
+//            for (int j = 0; j < diceList.get(i).length; j++) {
+//                diceList.get(i)[j].setHover(false);
+//            }
+//        }
+
+            gameStopped = false;
+            gameEnd = false;
+            gameStoppedClient = false;
+            gameStoppedServer = false;
+            winnerName = "";
+            upperPanel.setVisible(false);
+
+            Connection.getInstance().setStatus(1);
+
+            // Parse the message to get the information
+            String[] parts = message.split(";");
+            // parts[0] is tag GAME_CREATED
+            for (int i = 1; i < parts.length - 3; i++) {
+                // Player Stats
+                PlayerStats playerStats = playerStatsList.get(i - 1);
+
+                String[] playerInfo = parts[i].split("\\|");
+
+                // Name
+                playerStats.setName(playerInfo[0]);
+
+                // Scores
+                String[] playerScores = playerInfo[1].split(",");
+                playerStats.setTotalScore(Integer.parseInt(playerScores[0]));
+                playerStats.setSubtotalScore(Integer.parseInt(playerScores[1]));
+                playerStats.setThrowScore(Integer.parseInt(playerScores[2]));
+
+                // Dices
+                String[] dices = playerInfo[2].split("/");
+                for (int j = 0; j < dices.length; j++) {
+                    String[] diceParts = dices[j].split(",");
+                    diceList.get(i - 1)[j].setDiceId(diceParts[0]);
+                    diceList.get(i - 1)[j].setDiceValue(Integer.parseInt(diceParts[1]));
+                    diceList.get(i - 1)[j].setSelected(diceParts[2].equals("1"));
+                    diceList.get(i - 1)[j].setHold(diceParts[3].equals("1"));
+                }
+            }
+
+            // Set currentPlayer
+            onMove = parts[parts.length - 3];
+
+            //States of the game
+            String gameStates = parts[parts.length - 2];
+            String[] states = gameStates.split(",");
+
+            if (onMove.equals(Connection.getInstance().getPlayerName())) {
+                for (int i = 0; i < states.length; i++) {
+                    if (playerStatsList.get(i).getName().equals(onMove)) {
+                        firstMoveInRound = states[i].equals("1");
+                        break;
+                    } else {
+                        firstMoveInRound = false;
+                    }
+                }
+            }
+
+            String gameIsStopped = parts[parts.length - 1];
+            if (gameIsStopped.equals("1")) {
+                gameStopped = true;
+                upperPanel.setVisible(true);
+                upperLabel.setText("Player is disconnected!");
+            } else {
+                gameStopped = false;
+                upperPanel.setVisible(false);
+                upperLabel.setText("");
+            }
+
+            repaint();
+
+            Window window = (Window) SwingUtilities.getWindowAncestor(this);
+            window.showScene("Game");
+        }).start();
     }
     //endregion
 
@@ -548,45 +634,35 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
     @Override
     public void onMessageReceivedGame(String message) {
         new Thread(() -> {
-            if (message.contains(GAME_PLAYER_LEFT)) {
+            if (message.contains(GAME_PLAYER_LEFT) && !Connection.getInstance().isReconnecting()) {
                 System.out.println("Update Game with message: " + message);
                 upperPanel.setVisible(true);
                 gameStoppedServer = true;
                 String disconected = message.split(";")[1];
                 showGameStatusDialog(disconected);
             }
-            if (message.contains(GAME_PLAYER_JOINED)) {
+            if (message.contains(GAME_PLAYER_JOINED) && !Connection.getInstance().isReconnecting()) {
                 System.out.println("Update Game with message: " + message);
                 upperPanel.setVisible(false);
                 gameStoppedServer = false;
                 gameStopped = false;
             }
-            if (message.contains(GAME_THROW_DICE)) {
+            if ((
+                    message.contains(GAME_THROW_DICE) ||
+                    message.contains(GAME_SELECT_DICE) ||
+                    message.contains(GAME_NEXT_TURN) ||
+                    message.contains(GAME_END_TURN))
+                    && !Connection.getInstance().isReconnecting()) {
                 System.out.println("Update Game with message: " + message);
                 updateGame(message);
             }
-
-            if (message.contains(GAME_SELECT_DICE)) {
-                System.out.println("Update Game with message: " + message);
-                updateGame(message);
-            }
-
-            if (message.contains(GAME_NEXT_TURN)) {
-                System.out.println("Update Game with message: " + message);
-                updateGame(message);
-            }
-
-            if (message.contains(GAME_END_TURN)) {
-                System.out.println("Update Game with message: " + message);
-                updateGame(message);
-            }
-            if (message.contains(QUEUE_REJOIN)) {
+            if (message.contains(QUEUE_REJOIN) && !Connection.getInstance().isReconnecting()) {
                 System.out.println("Update Game with message: " + message);
                 Connection.getInstance().setStatus(0);
                 Window window = (Window) SwingUtilities.getWindowAncestor(this);
                 window.showScene("Queue");
             }
-            if (message.contains(GAME_PLAYER_DISCONNECTED)) {
+            if (message.contains(GAME_PLAYER_DISCONNECTED) && !Connection.getInstance().isReconnecting()) {
                 System.out.println("Update Game with message: " + message);
                 gameStopped = true;
                 upperPanel.setVisible(true);
@@ -596,15 +672,34 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
 
             if (message.contains(CONNECTION_LOST)) {
                 gameStoppedClient = true;
-                JOptionPane.showMessageDialog(this, "Connection Lost", "Error", JOptionPane.ERROR_MESSAGE);
+                new Thread(() -> JOptionPane.showMessageDialog(this, "Connection Lost", "Error", JOptionPane.ERROR_MESSAGE)).start();
                 upperPanel.setVisible(true);
                 upperLabel.setText("Connection Lost");
             }
-            if (message.contains(CONNECTION_RECONNECTED)) {
+//            if (message.contains(CONNECTION_RECONNECTED) && !Connection.getInstance().isReconnecting()) {
+//                gameStoppedClient = false;
+//                JOptionPane.showMessageDialog(this, "Connection Retrieved", "Error", JOptionPane.INFORMATION_MESSAGE);
+//                upperPanel.setVisible(false);
+//                upperLabel.setText("");
+//            }
+            if (message.contains(CONNECTION_RECONNECT) && !message.contains(NOGAME)) {
+                updateGameOnReconnect(message);
                 gameStoppedClient = false;
-                JOptionPane.showMessageDialog(this, "Connection Retrieved", "Error", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println("Game synchronized with message: " + message);
+            }
+            if (message.contains(CONNECTION_ALIVE) && Connection.getInstance().isReconnecting()) {
+                try {
+                    sleep(1000);
+                    Connection.getInstance().makeContact(CONNECTION_RECONNECT, "");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Connection.getInstance().setReconnecting(false);
+                gameStoppedClient = false;
                 upperPanel.setVisible(false);
                 upperLabel.setText("");
+                Connection.getInstance().makeContact(CONNECTION_RECONNECT, "");
+                new Thread(() -> JOptionPane.showMessageDialog(this, "Connection Retrieved", "Error", JOptionPane.INFORMATION_MESSAGE)).start();
             }
         }).start();
     }

@@ -41,6 +41,11 @@
 #define BASE_QUEUE "queue:"
 #define QUEUE_REJOIN "rejoin:"
 
+// TAGS RECONNECT CONNECTION
+#define BASE_CONNECTION "connection:"
+#define CONNECTION_RECONNECT "recConn:"
+#define CONNECTION_ALIVE "alive:"
+
 
 
 #endif //TAGS_H
