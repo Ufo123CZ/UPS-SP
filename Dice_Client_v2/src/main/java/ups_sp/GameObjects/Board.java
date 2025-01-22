@@ -13,8 +13,12 @@ import java.util.List;
 import static ups_sp.Utils.Colours.*;
 import static ups_sp.Utils.Const.*;
 
+/**
+ * Board class is responsible for drawing the board, dices, and the text on the board.
+ */
 public class Board extends Materials {
 
+    // Textures
     private final TexturePaint textureBoard, textureBoardEdge, textureHinge, screwTexture, textureEdges, textureText;
     @Setter // Local
     private Graphics2D g2d;
@@ -32,6 +36,9 @@ public class Board extends Materials {
     Line2D.Float hingeJointLineR;
     Ellipse2D.Float screw;
 
+    /**
+     * Constructor
+     */
     public Board() {
         // Load the textures
         textureBoard = loadTexture("oak.jpg");
@@ -44,6 +51,9 @@ public class Board extends Materials {
         initGO();
     }
 
+    /**
+     * Initialize the Graphics Objects
+     */
     private void initGO() {
         // Components
         edge = new Rectangle2D.Float(
@@ -100,6 +110,9 @@ public class Board extends Materials {
         );
     }
 
+    /**
+     * Draw the board
+     */
     public void drawBoard() {
         g2d.setPaint(textureBoardEdge);
         g2d.fill(edge);
@@ -166,6 +179,9 @@ public class Board extends Materials {
         }
     }
 
+    /**
+     * Draw the text on the board
+     */
     public void drawBoardText() {
         AffineTransform old = g2d.getTransform();
         g2d.setFont(GAME_TEXT_FONT);
@@ -182,6 +198,10 @@ public class Board extends Materials {
         g2d.setTransform(old);
     }
 
+    /**
+     * Draw the dices
+     * @param diceList List of dices
+     */
     public void drawDices(List<Dice[]> diceList) {
         AffineTransform old = g2d.getTransform();
         for (int i = 0; i < 2; i++) {
@@ -214,11 +234,5 @@ public class Board extends Materials {
             }
             g2d.setTransform(old);
         }
-    }
-
-    public void drawStateText(String text) {
-        g2d.setFont(GAME_TEXT_FONT);
-        g2d.setPaint(textureText);
-        g2d.drawString(text, PLAYER_STATS_SIZE / 2f, PLAYER_STATS_SIZE / 0.75f);
     }
 }

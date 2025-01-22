@@ -11,10 +11,19 @@ import java.awt.event.WindowEvent;
 import static ups_sp.Utils.Const.WINDOW_HEIGHT;
 import static ups_sp.Utils.Const.WINDOW_WIDTH;
 
+/**
+ * Window class
+ * <p>
+ * This class is a JFrame that contains the main panels of the game.
+ * It contains the login, queue, game and help panels.
+ */
 public class Window extends JFrame {
     private CardLayout cardLayout;
     private JPanel mainPanel;
 
+    /**
+     * Constructor
+     */
     public Window() {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
@@ -22,6 +31,7 @@ public class Window extends JFrame {
         GamePanel gamePanel = new GamePanel();
         QueuePanel queuePanel = new QueuePanel(gamePanel);
 
+        // Add the panels to the main panel
         mainPanel.add(new LoginPanel(this), "Login");
         mainPanel.add(queuePanel, "Queue");
         mainPanel.add(gamePanel, "Game");
@@ -48,6 +58,10 @@ public class Window extends JFrame {
         });
     }
 
+    /**
+     * Show a scene
+     * @param sceneName The name of the scene to show
+     */
     public void showScene(String sceneName) {
         cardLayout.show(mainPanel, sceneName);
     }

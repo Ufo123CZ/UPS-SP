@@ -6,8 +6,17 @@ import java.util.Objects;
 
 import static ups_sp.Utils.Const.ASSETS_ADDS;
 
+/**
+ * HelpPanel class
+ * <p>
+ * This class is a JPanel that displays the help information for the gamePanel.
+ * It contains the rules and combinations of the gamePanel.
+ */
 public class HelpPanel extends JPanel {
 
+    /**
+     * Constructor
+     */
     public HelpPanel() {
         this.setBackground(Color.WHITE);
         setLayout(new GridBagLayout());
@@ -28,7 +37,6 @@ public class HelpPanel extends JPanel {
 
 
         // Help Combinations image
-//        origIcon = new ImageIcon("src/main/resources/Assets/Adds/Combinations.png");
         origIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource(ASSETS_ADDS + "Combinations.png")));
         origImage = origIcon.getImage();
         // Scale the image

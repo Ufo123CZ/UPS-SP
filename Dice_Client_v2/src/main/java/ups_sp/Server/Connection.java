@@ -9,12 +9,16 @@ import java.net.Socket;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static java.lang.Thread.sleep;
 import static ups_sp.Server.Messages.*;
 import static ups_sp.Utils.Const.*;
 
+/**
+ * Connection class is a singleton class that handles the connection to the server.
+ * It is responsible for sending and receiving messages from the server.
+ * It also has a listener thread that listens for incoming messages.
+ */
 public class Connection extends Component {
 
     // Server details
@@ -68,6 +72,13 @@ public class Connection extends Component {
         return instance;
     }
 
+    /**
+     * Set the server details.
+     * @param serverAddress - IP address of the server
+     * @param port - Port number of the server
+     * @param playerName - Player name
+     * @param status - Status of the connection (-1 = not connected, 0 = in queue, 1 = in game)
+     */
     public void setServerDetails(String serverAddress, int port, String playerName, int status) {
         this.serverAddress = serverAddress;
         this.port = port;
@@ -75,12 +86,15 @@ public class Connection extends Component {
         this.status = status;
     }
 
+    /**
+     * Open a socket connection to the server.
+     * @return - True if the connection was successful, false otherwise
+     */
     public boolean openSocket() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<Boolean> future = executor.submit(() -> {
             try {
                 socket = new Socket(serverAddress, port);
-//                socket.setSoTimeout((int)(DISCONNECTED_CONNECTION));
                 socket.setKeepAlive(true);
                 out = new PrintWriter(socket.getOutputStream(), true);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -110,6 +124,9 @@ public class Connection extends Component {
         }
     }
 
+    /**
+     * Close the socket connection.
+     */
     public void closeSocket() {
         try {
             stopListening();
@@ -121,12 +138,23 @@ public class Connection extends Component {
         } catch (IOException | InterruptedException ignored) {}
     }
 
+    /**
+     * Send a message to the server.
+     * @param action - Action to be performed
+     * @param information - Information to be sent
+     */
     public void makeContact(String action, String information) {
         // Prepare and send the message
         response = messageBuilder(action, information);
         System.out.println("Sent: " + response);
     }
 
+    /**
+     * Build the message what will be sent to the server.
+     * @param action - Action to be performed
+     * @param information - Information to be sent
+     * @return - The message
+     */
     private String messageBuilder(String action, String information) {
         // Prepare the message
         int messageLength;
@@ -148,6 +176,11 @@ public class Connection extends Component {
         return messageHeader + action + ";" + information;
     }
 
+    /**
+     * Exclude the first two parts of the message (signature and length).
+     * @param receivedMessage - The received message
+     * @return - The message without the first two parts
+     */
     private static StringBuilder exludePartsOfMessage(String receivedMessage) {
         String[] parts = receivedMessage.split(";");
         // Chain all parts except the first two
@@ -161,6 +194,9 @@ public class Connection extends Component {
         return messageBuilder;
     }
 
+    /**
+     * Start the listener thread.
+     */
     private void startListening() {
         listening = new AtomicBoolean(true);
         lastMess = new AtomicLong(System.currentTimeMillis());
@@ -228,6 +264,9 @@ public class Connection extends Component {
         listenerThread.start();
     }
 
+    /**
+     * Send messages to the server.
+     */
     public void sendMessages() {
         new Thread(() -> {
             while(listening.get()) {
@@ -244,10 +283,12 @@ public class Connection extends Component {
         }).start();
     }
 
+    /**
+     * Check the status of the connection.
+     */
     private void statusCheck() {
         new Thread(() -> {
             reconnecting = false;
-            boolean reconSended = false;
             int counter = 0;
             long lastPing = System.currentTimeMillis();
             while (listening.get()) {
@@ -273,19 +314,13 @@ public class Connection extends Component {
                         }
                     } else if (timeNow - lastMess.get() <= NO_CONNECTION) { // RECONNECTED
                         counter = 0;
-//                        if (eventListenerGame != null) {
-//                            reconnecting = false;
-//                            eventListenerGame.onMessageReceivedGame(CONNECTION_RECONNECTED);
-//                        }
                     }
                     // PING
                     if ((timeNow - lastPing > PING_INTERVAL) && !reconnecting ) {
                         // Last ping message
                         lastPing = System.currentTimeMillis();
-
                         // Check if out is filled with pong
                         out.println(pongMessage);
-
                     }
                 } catch (InterruptedException e) {
                     System.out.println("Error: " + e.getMessage());
@@ -294,6 +329,10 @@ public class Connection extends Component {
         }).start();
     }
 
+    /**
+     * Stop the listener thread.
+     * @throws InterruptedException - Exception
+     */
     private void stopListening() throws InterruptedException {
         listening.set(false);
         sleep(2000);
@@ -302,14 +341,23 @@ public class Connection extends Component {
         }
     }
 
+    /**
+     * Event listeners for Login
+     */
     public interface EventListenerLogin {
         void onMessageReceivedLogin(String message);
     }
 
+    /**
+     * Event listeners for Queue
+     */
     public interface EventListenerQueue {
         void onMessageReceivedQueue(String message);
     }
 
+    /**
+     * Event listeners for Game
+     */
     public interface EventListenerGame {
         void onMessageReceivedGame(String message);
     }

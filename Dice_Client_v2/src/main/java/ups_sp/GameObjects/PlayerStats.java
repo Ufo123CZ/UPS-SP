@@ -12,7 +12,12 @@ import java.awt.geom.Rectangle2D;
 import static ups_sp.Utils.Colours.*;
 import static ups_sp.Utils.Const.*;
 
+/**
+ * PlayerStats class is responsible for drawing the player stats.
+ */
 public class PlayerStats extends Materials {
+    // Textures
+    TexturePaint textureStatsBG, textureEdge;
 
     // Graphics2D Object
     Rectangle2D.Float statsBG;
@@ -31,8 +36,9 @@ public class PlayerStats extends Materials {
     @Getter @Setter // Server
     public int throwScore = 0;
 
-    TexturePaint textureStatsBG, textureEdge;
-
+    /**
+     * Constructor
+     */
     public PlayerStats() {
         textureStatsBG = loadTexture("paper.jpg");
         textureEdge = loadTexture("dark_iron.jpg");
@@ -40,6 +46,9 @@ public class PlayerStats extends Materials {
         initGO();
     }
 
+    /**
+     * Initialize the Graphics Objects
+     */
     private void initGO() {
         // Components
         statsBG = new Rectangle2D.Float(
@@ -56,6 +65,10 @@ public class PlayerStats extends Materials {
 
     }
 
+    /**
+     * Draw the player stats
+     * @param onMove Player on move
+     */
     public void drawStats(String onMove) {
         // Draw the stats
         AffineTransform old = g2d.getTransform();
@@ -97,6 +110,10 @@ public class PlayerStats extends Materials {
         g2d.setTransform(old);
     }
 
+    /**
+     * Draw the divider
+     * @param divider Line2D.Float
+     */
     private void drawDivider(Line2D.Float divider) {
         AffineTransform old2 = g2d.getTransform();
         g2d.translate(-PLAYER_STATS_SIZE / 20f, PLAYER_STATS_SIZE / 10f);

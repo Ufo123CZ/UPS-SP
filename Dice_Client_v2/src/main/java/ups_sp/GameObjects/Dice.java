@@ -13,8 +13,12 @@ import static ups_sp.Utils.Colours.*;
 import static ups_sp.Utils.Const.DICE_ROLL_ARC;
 import static ups_sp.Utils.Const.DICE_SIZE;
 
+/**
+ * Dice class is responsible for drawing the dice and the dots on the dice.
+ */
 public class Dice extends Materials {
 
+    // Textures
     private final TexturePaint textureDice, textureDot;
 
     // Graphics2D Object
@@ -35,6 +39,9 @@ public class Dice extends Materials {
     @Getter @Setter // Server
     private boolean hold = false;
 
+    /**
+     * Constructor
+     */
     public Dice() {
         // Load the textures
         textureDice = loadTexture("birch.jpg");
@@ -43,6 +50,9 @@ public class Dice extends Materials {
         initGO();
     }
 
+    /**
+     * Initialize the Graphics Objects
+     */
     private void initGO() {
         // Components
         dice = new RoundRectangle2D.Float(
@@ -61,6 +71,9 @@ public class Dice extends Materials {
         );
     }
 
+    /**
+     * Draw the dice and the dots on the dice.
+     */
     public void drawDice() {
         // Draw the dice
         g2d.setPaint(textureDice);
@@ -108,6 +121,12 @@ public class Dice extends Materials {
         }
     }
 
+    /**
+     * Mark the dice with a color.
+     * @param color Color[] - Colors to mark the dice
+     *              - Red color for the dice selected
+     *              - Green color for the dice hover
+     */
     public void markEllipse(Color[] color) {
         AffineTransform old = g2d.getTransform();
         g2d.setStroke(new BasicStroke(2));

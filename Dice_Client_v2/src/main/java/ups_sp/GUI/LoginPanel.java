@@ -12,12 +12,23 @@ import java.awt.*;
 
 import static ups_sp.Server.Messages.SERVER_ERROR;
 
+/**
+ * LoginPanel class
+ * <p>
+ * This class is a JPanel that displays the login information for the game.
+ * It contains the fields for the user to input their name, IP and port.
+ */
 public class LoginPanel extends JPanel implements Connection.EventListenerLogin {
     private JTextField nameField;
     private JTextField ipField;
     private JTextField portField;
     private JButton connectButton;
 
+    /**
+     * Constructor
+     *
+     * @param window The window object
+     */
     public LoginPanel(Window window) {
         this.setBackground(Color.WHITE);
         setLayout(new GridBagLayout());
@@ -88,7 +99,7 @@ public class LoginPanel extends JPanel implements Connection.EventListenerLogin 
                 return;
             }
 
-            // check if name is valid
+            // Check if name is valid
             // no /  or ; or \ or | or , or \n or \r
             if (nameField.getText().contains("/") || nameField.getText().contains(";") ||
                     nameField.getText().contains("\\") || nameField.getText().contains("|") ||
@@ -114,31 +125,34 @@ public class LoginPanel extends JPanel implements Connection.EventListenerLogin 
         Connection.getInstance().setEventListenerLogin(this);
     }
 
+    /**
+     * Update the game with the information from the server
+     * @param message String - Information from the server (TAG and information)
+     */
     @Override
     public void onMessageReceivedLogin(String message) {
-        if (message.contains(Messages.LOGIN)) {
-            if (message.contains(Messages.ERROR)) {
+        if (message.contains(Messages.LOGIN)) { // Check if the message is a login message
+            if (message.contains(Messages.ERROR)) { // Check if the message is an error
                 System.out.println("Received: " + message);
                 JOptionPane.showMessageDialog(this, "Connection failed.", "Error", JOptionPane.ERROR_MESSAGE);
                 Connection.getInstance().closeSocket();
                 Window window = (Window) SwingUtilities.getWindowAncestor(this);
                 window.showScene("Login");
             }
-
-            if (message.contains(Messages.SUCCESS)) {
+            if (message.contains(Messages.SUCCESS)) { // Check if the message is a success
                 System.out.println("Connected to the server.");
                 Connection.getInstance().makeContact(Messages.NAMESET, nameField.getText());
             }
         }
-        if (message.contains(Messages.NAMESET)) {
-            if (message.contains(Messages.SUCCESS)) {
+        if (message.contains(Messages.NAMESET)) { // Check if the message is a name set message
+            if (message.contains(Messages.SUCCESS)) { // Check if the message is a success
                 System.out.println("Received: " + message);
                 Connection.getInstance().setStatus(0);
                 Window window = (Window) SwingUtilities.getWindowAncestor(this);
                 window.showScene("Queue");
                 JOptionPane.showMessageDialog(this, "Connected to the server.", "Success", JOptionPane.INFORMATION_MESSAGE);
             }
-            if (message.contains(Messages.ERROR)) {
+            if (message.contains(Messages.ERROR)) { // Check if the message is an error
                 System.out.println("Received: " + message);
                 JOptionPane.showMessageDialog(this, "Name already in use.", "Error", JOptionPane.ERROR_MESSAGE);
                 Connection.getInstance().closeSocket();
@@ -147,14 +161,14 @@ public class LoginPanel extends JPanel implements Connection.EventListenerLogin 
             }
         }
 
-            if (message.contains(SERVER_ERROR)) {
+            if (message.contains(SERVER_ERROR)) { // Check if the message is a server error
                 JOptionPane.showMessageDialog(this, "Connection Lost", "Error", JOptionPane.ERROR_MESSAGE);
                 Connection.getInstance().closeSocket();
                 Window window = (Window) SwingUtilities.getWindowAncestor(this);
                 window.showScene("Login");
             }
 
-            if (message.contains(Messages.TERMINATE)) {
+            if (message.contains(Messages.TERMINATE)) { // Check if the message is a terminate message -> FORCED DISCONNECT
                 System.out.println("Received: " + message);
                 Connection.getInstance().setStatus(-1);
                 Connection.getInstance().closeSocket();

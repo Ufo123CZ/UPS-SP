@@ -11,10 +11,21 @@ import java.util.Objects;
 import static ups_sp.Server.Messages.GAME_CREATED;
 import static ups_sp.Utils.Const.ASSETS_GIF;
 
+/**
+ * QueuePanel class
+ * <p>
+ * This class is a JPanel that displays the queue information for the game.
+ * It contains the loading gif and a cancel button.
+ */
 public class QueuePanel extends JPanel implements Connection.EventListenerQueue {
 
+    // Reference to the GamePanel
     private GamePanel gamePanel;
 
+    /**
+     * Constructor
+     * @param gamePanel The gamePanel object
+     */
     public QueuePanel(GamePanel gamePanel) {
         this.setBackground(Color.WHITE);
         this.gamePanel = gamePanel;
@@ -53,9 +64,14 @@ public class QueuePanel extends JPanel implements Connection.EventListenerQueue 
         Connection.getInstance().setEventListenerQueue(this);
     }
 
+    /**
+     * Update the game with the information from the server
+     * @param message String - Information from the server (TAG and information)
+     */
     @Override
     public void onMessageReceivedQueue(String message) {
         new Thread(() -> {
+            // Read game information to set up the game
             if ((message.contains(GAME_CREATED) || message.contains(Messages.GAME_RECONNECTED)) && !Connection.getInstance().isReconnecting()) {
                 System.out.println("Game Created with: " + message);
                 // Reset Local variables
