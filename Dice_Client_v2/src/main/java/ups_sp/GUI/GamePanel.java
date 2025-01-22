@@ -672,33 +672,22 @@ public class GamePanel extends JPanel implements Connection.EventListenerGame {
 
             if (message.contains(CONNECTION_LOST)) {
                 gameStoppedClient = true;
-                new Thread(() -> JOptionPane.showMessageDialog(this, "Connection Lost", "Error", JOptionPane.ERROR_MESSAGE)).start();
+                new Thread(() -> JOptionPane.showMessageDialog(this, "Connection Lost. Reconnecting...", "Error", JOptionPane.ERROR_MESSAGE)).start();
                 upperPanel.setVisible(true);
                 upperLabel.setText("Connection Lost");
             }
-//            if (message.contains(CONNECTION_RECONNECTED) && !Connection.getInstance().isReconnecting()) {
-//                gameStoppedClient = false;
-//                JOptionPane.showMessageDialog(this, "Connection Retrieved", "Error", JOptionPane.INFORMATION_MESSAGE);
-//                upperPanel.setVisible(false);
-//                upperLabel.setText("");
-//            }
             if (message.contains(CONNECTION_RECONNECT) && !message.contains(NOGAME)) {
                 updateGameOnReconnect(message);
                 gameStoppedClient = false;
                 System.out.println("Game synchronized with message: " + message);
             }
             if (message.contains(CONNECTION_ALIVE) && Connection.getInstance().isReconnecting()) {
-                try {
-                    sleep(1000);
-                    Connection.getInstance().makeContact(CONNECTION_RECONNECT, "");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                System.out.println("Connection is alive with message: " + message);
+                Connection.getInstance().makeContact(CONNECTION_RECONNECT, "");
                 Connection.getInstance().setReconnecting(false);
                 gameStoppedClient = false;
                 upperPanel.setVisible(false);
                 upperLabel.setText("");
-                Connection.getInstance().makeContact(CONNECTION_RECONNECT, "");
                 new Thread(() -> JOptionPane.showMessageDialog(this, "Connection Retrieved", "Error", JOptionPane.INFORMATION_MESSAGE)).start();
             }
         }).start();

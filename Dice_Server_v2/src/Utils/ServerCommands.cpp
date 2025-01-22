@@ -24,7 +24,8 @@ void ServerCommands::initCommandMap() {
         {"help", [](Server &server, std::string&) {
             std::cout << R"(\\---------- Help ----------//)" << std::endl
             << "players - Print all players" << std::endl
-            << "games - Print all games" << std::endl;
+            << "games - Print all games" << std::endl
+            << "all - Print all players and games" << std::endl;
             std::cout << R"(\\---------- ---------- ----------//)" << std::endl;
         }},
         {"exit", [](Server &server, std::string&) {

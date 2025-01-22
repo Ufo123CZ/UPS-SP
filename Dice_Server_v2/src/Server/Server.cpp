@@ -84,7 +84,6 @@ void Server::start() {
             readfds = client_socks;
         }
 
-        // int activity = select(FD_SETSIZE, &readfds, nullptr, nullptr, &timeout);
         // Lock playerLock until activityCheck is done
         int activity = select(FD_SETSIZE, &readfds, nullptr, nullptr, nullptr);
         if (activity < 0 && errno != EINTR) {
@@ -238,6 +237,7 @@ void Server::start() {
         /* ASK CLIENT IF IT IS ALIVE */
         for (Player& player : DataVectors::players) {
             if (player.status == -1) {
+                std::cout << "Player " << player.fd << " is disconnected. Asking if he is alive." << std::endl;
                 std::string response = MessageFormat::aliveCheck();
                 send(player.fd, response.c_str(), response.size(), 0);
             }
@@ -378,7 +378,7 @@ void Server::checkPlayerActivity() {
         for (auto it = DataVectors::players.begin(); it != DataVectors::players.end(); ) {
             std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
             if (now - it->lastMess > DISCONNECTED_TIMEOUT && it->status == -1) { // If no message for 20 seconds
-                std::cout << "Player " << it->name << " is inactive for 20 seconds and will be removed." << std::endl;
+                std::cout << "Player " << it->name << " is inactive for " << DISCONNECTED_TIMEOUT <<" seconds and will be removed." << std::endl;
                 socket_t fd = it->fd;
                 // Announce player left to other players in the game
                 for (Game& game : DataVectors::games) {
@@ -402,7 +402,7 @@ void Server::checkPlayerActivity() {
 
             } else if (now - it->lastMess > DISCONNECTED_TRY && it->status != -1) { // If no message for 5 seconds
                 it->status = -1; // Set state to -1 (disconnected)
-                std::cout << "Player " << it->name << " is inactive for 5 seconds and set to disconnected." << std::endl;
+                std::cout << "Player " << it->name << " is inactive for " << DISCONNECTED_TRY <<" seconds and set to disconnected." << std::endl;
                 // Send message to the player that he is disconnected
                 // check if the player is in the game
                 // if yes send message to the other player that he left

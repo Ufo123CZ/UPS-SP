@@ -153,7 +153,7 @@ namespace Events {
 
     std::pair<int, std::string> announcePlayerLeft(const Player &player) {
         Game *game = nullptr;
-        int makeAnouncementFor, targetedPlayer = -1;
+        int makeAnouncementFor = 0, targetedPlayer = -1;
         for (Game& g : DataVectors::games) {
             if (g.playerNames[0] == player.name) {
                 makeAnouncementFor = 1;
@@ -190,7 +190,7 @@ namespace Events {
 
     std::pair<int, std::string> announcePlayerTempLeft(const Player &player) {
         Game *game = nullptr;
-        int makeAnouncementFor, targetedPlayer = -1;
+        int makeAnouncementFor = 0, targetedPlayer = -1;
         for (Game& g : DataVectors::games) {
             if (g.playerNames[0] == player.name) {
                 makeAnouncementFor = 1;
