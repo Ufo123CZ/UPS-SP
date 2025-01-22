@@ -8,6 +8,10 @@
 
 std::atomic<bool> runningCLI(true);
 
+/**
+ * @brief Command line for peekeing into server Data
+ * @param server - The server object
+ */
 void commandLineInterface(Server &server) {
     ServerCommands::initCommandMap();
     std::string command;
@@ -40,6 +44,11 @@ void commandLineInterface(Server &server) {
     }
 }
 
+/**
+ * @brief Check if the IP address is valid
+ * @param ip - The IP address
+ * @return true if the IP address is valid
+ */
 bool isValidIP(const std::string& ip) {
     const std::regex pattern(
     R"(^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$)"

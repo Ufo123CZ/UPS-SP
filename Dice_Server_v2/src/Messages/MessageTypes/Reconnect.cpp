@@ -5,9 +5,19 @@
 #include "../../Messages/TAGS.h"
 #include "../../Server/Server.h"
 
+/**
+ * Namespace Reconnect
+ * Collection of functions that handle the reconnection of a player
+ */
 namespace Reconnect {
+    /**
+     * @brief Function reconnect
+     * Handles the reconnection of a player
+     * @param fd - File descriptor of the player
+     * @return Response to the player | Empty string if no response
+     */
     std::string reconnect(int fd) {
-        // find the player
+        // Find the player
         bool found = false;
         Player *player = nullptr;
         for (Player& p : DataVectors::players) {

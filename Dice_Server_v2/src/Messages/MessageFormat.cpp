@@ -1,11 +1,13 @@
 #include "MessageFormat.h"
 #include "../Messages/TAGS.h"
 
-#include "../Utils/Consts.h"
-
 // Initialize the message format map
 std::unordered_map<std::string, std::function<std::string(int fd, std::string&)>> MessageFormat::messFormatMap;
 
+/**
+ * @brief Initialize the message format map
+ * This will determine the function to call based on the tag
+ */
 void MessageFormat::initMessageFormatMap() {
     // TAGS
     // LOGIN LOGOUT
@@ -28,6 +30,7 @@ void MessageFormat::initMessageFormatMap() {
     tagGameConfirm.append(BASE_GAME).append(GAME_NEXT_TURN);
     std::string tagGameEndTurn;
     tagGameEndTurn.append(BASE_GAME).append(GAME_END_TURN);
+    // RECONNECT
     std::string tagReconnect;
     tagReconnect.append(BASE_CONNECTION).append(CONNECTION_RECONNECT);
 
@@ -63,6 +66,12 @@ void MessageFormat::initMessageFormatMap() {
     };
 }
 
+/**
+ * @brief Function to build the response with the information and tag
+ * @param information - Information to send
+ * @param tag - Tag of the message
+ * @return response
+ */
 std::string MessageFormat::prepareResponse(const std::string& information, const std::string& tag) {
     // Response is based on the information
     std::string responseHeader, response;
@@ -78,6 +87,10 @@ std::string MessageFormat::prepareResponse(const std::string& information, const
     return response;
 }
 
+/**
+ * @brief Function to build the violation response that will force disconnect client
+ * @return response
+ */
 std::string MessageFormat::createViolationMess() {
     // Response is based on the information
     std::string responseHeader, response;
@@ -94,6 +107,10 @@ std::string MessageFormat::createViolationMess() {
     return response;
 }
 
+/**
+ * @brief Function to build the ping message
+ * @return response
+ */
 std::string MessageFormat::createPingMessage() {
     // Response is based on the information
     std::string response;
@@ -102,6 +119,10 @@ std::string MessageFormat::createPingMessage() {
     return response;
 }
 
+/**
+ * @brief Function to build the alive check message
+ * @return response
+ */
 std::string MessageFormat::aliveCheck() {
     // Response is based on the information
     std::string response;

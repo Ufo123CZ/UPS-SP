@@ -2,7 +2,17 @@
 #include "../../Data/DataVectors.h"
 #include "../../Messages/TAGS.h"
 
+/**
+ * Namespace RejoinQ
+ * Collection of functions that handle the rejoining of the queue
+ */
 namespace RejoinQ {
+    /**
+     * @brief Function rejoinQueue
+     * Handles the rejoining of the queue
+     * @param fd - File descriptor of the player
+     * @return Response to the player
+     */
     std::string rejoinQueue(int fd) {
         // Check if message could come
         for (Player &player : DataVectors::players) {

@@ -5,7 +5,15 @@
 #include "../Messages/MessageFormat.h"
 #include "../Messages/TAGS.h"
 
+/**
+ * Namespace Events
+ * Collections of different events on the server side
+ */
 namespace Events {
+    /**
+     * Function to handle the creation of game
+     * @return game create message with all the information | empty string if no game was created
+     */
     std::string createGame() {
         // Take first two players from the players vector that are not in the game
         // Create a new game with these two players
@@ -91,6 +99,11 @@ namespace Events {
         return response;
     }
 
+    /**
+     * @brief Gather information about the game and send it to the player that is trying to reconnect
+     * @param player - player that is trying to reconnect
+     * @return - information about the game | empty string if player is not in the game
+     */
     std::string reconnectGame(Player &player) {
         Game *game = nullptr;
         for (auto & i : DataVectors::games) {
@@ -151,6 +164,11 @@ namespace Events {
         return response;
     }
 
+    /**
+     * @brief Send information to opponent that player left the game
+     * @param player - player that left the game
+     * @return - fd of the opponent and message | -1 and empty string if player is not in the game
+     */
     std::pair<int, std::string> announcePlayerLeft(const Player &player) {
         Game *game = nullptr;
         int makeAnouncementFor = 0, targetedPlayer = -1;
@@ -188,6 +206,11 @@ namespace Events {
         return std::make_pair(targetedPlayer, response);
     }
 
+    /**
+     * @brief Send information to opponent that player left lost connection and trying to reconnect
+     * @param player - player that left the game
+     * @return - fd of the opponent and message | -1 and empty string if player is not in the game
+     */
     std::pair<int, std::string> announcePlayerTempLeft(const Player &player) {
         Game *game = nullptr;
         int makeAnouncementFor = 0, targetedPlayer = -1;
@@ -226,6 +249,11 @@ namespace Events {
     }
 
 
+    /**
+     * Send information to opponent that player reconnected
+     * @param player - player that reconnected
+     * @return - fd of the opponent and message | -1 and empty string if player is not in the game
+     */
     std::pair<int, std::string> announcePlayerReconnect(const Player &player) {
         Game *game = nullptr;
         int makeAnouncementFor = 0, targetedPlayer = -1;
@@ -261,6 +289,10 @@ namespace Events {
         return std::make_pair(targetedPlayer, response);
     }
 
+    /**
+     * @brief Sends information to that game has ended
+     * @return - message with information about the game end
+     */
     std::string endGame() {
         std::string tag;
         tag.append(BASE_GAME).append(GAME_END);

@@ -9,6 +9,9 @@ extern std::atomic<bool> runningCLI;
 // Initialize the command map
 std::unordered_map<std::string, std::function<void(Server &server, std::string&)>> ServerCommands::commandMap;
 
+/**
+ * Command map initialization
+ */
 void ServerCommands::initCommandMap() {
     commandMap = {
         {"players", [](Server &server, std::string&) {
@@ -37,6 +40,9 @@ void ServerCommands::initCommandMap() {
     };
 }
 
+/**
+ * @brief Print all players
+ */
 void ServerCommands::printPlayers() {
     std::cout << R"(\\---------- Player list ----------//)" << std::endl;
     // Print all players
@@ -55,6 +61,9 @@ void ServerCommands::printPlayers() {
     }
 }
 
+/**
+ * @brief Print all games
+ */
 void ServerCommands::printGames() {
     std::cout << R"(\\---------- Games list ----------//)" << std::endl;
     // Print the game

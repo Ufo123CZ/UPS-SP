@@ -1,7 +1,12 @@
 #include "Player.h"
-#include <iostream>
 
+/**
+ * @brief Construct a new Player:: Player object
+ *
+ * @param fd The file descriptor of the player
+ * @param status The status of the player
+ */
 Player::Player(const int fd, const int status) {
     this->fd = fd;
-    this->status = status; // 0 - queue, 1 - in game
+    this->status = status;
 }

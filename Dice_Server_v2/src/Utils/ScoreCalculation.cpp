@@ -3,7 +3,16 @@
 #include <cmath>
 #include <vector>
 
+/**
+ * Namespace for the score calculation
+ * Collection of functions to calculate the score of the dices
+ */
 namespace ScoreCalculator {
+    /**
+     * Calculate the score of the dices - Straight (1,2,3,4,5,6)
+     * @param diceVals The values of the dices
+     * @return score
+     */
     int isCompleteStraight(const int diceVals[]) {
         bool found[6] = {false, false, false, false, false, false};
 
@@ -24,6 +33,13 @@ namespace ScoreCalculator {
         return STRAIGHT;
     }
 
+    /**
+     * Calculate the score of the dices - Incomplete Straight (1,2,3,4,5 or 2,3,4,5,6)
+     * @param lB The left bound of the straight
+     * @param rB The right bound of the straight
+     * @param diceVals The values of the dices
+     * @return score
+     */
     int isIncompleteStraight(const int lB, const int  rB, const int diceVals[]) {
         bool found[5] = {false, false, false, false, false};
 
@@ -54,6 +70,11 @@ namespace ScoreCalculator {
         return score;
     }
 
+    /**
+     * Calculate the score of the dices - Four/Five/Six of a kind
+     * @param diceVals The values of the dices
+     * @return score
+     */
     std::pair<int, int> isFourToSixOfAKind(const int kindOf, const int diceVals[]) {
         int count[6] = {0, 0, 0, 0, 0, 0};
 
@@ -88,6 +109,11 @@ namespace ScoreCalculator {
         return std::make_pair(0, 0);
     }
 
+    /**
+     * Calculate the score of the dices - Three of a kind
+     * @param diceVals The values of the dices
+     * @return score
+     */
     std::pair<std::pair<int, int>, std::pair<int, int>> isThreeOfAKind(const int diceVals[]) {
         int count[6] = {0, 0, 0, 0, 0, 0};
 
@@ -133,6 +159,11 @@ namespace ScoreCalculator {
         return {firstThreeOfAKind, secondThreeOfAKind};
     }
 
+    /**
+     * Calculate the score of the dices - if straight and 1 or 5 is addition
+     * @param diceVals The values of the dices
+     * @return score
+     */
     std::pair<int, bool> additionalDiceWithStraight(const int diceVals[], bool straight1to5, bool straight2to6, int kindOf) {
         int count[6] = {0, 0, 0, 0, 0, 0};
         int score = 0;
@@ -168,6 +199,11 @@ namespace ScoreCalculator {
         return {score, false};
     }
 
+    /**
+     * Calculate the score of the dices - if 1 or 5 is addition
+     * @param diceVals The values of the dices
+     * @return score
+     */
     std::pair<int, bool> additionalDice(const int kindOf, const int diceVals[]) {
         int count[6] = {0, 0, 0, 0, 0, 0};
         int score = 0;

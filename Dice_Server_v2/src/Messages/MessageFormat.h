@@ -1,14 +1,16 @@
 #ifndef MESSAGEFORMAT_H
 #define MESSAGEFORMAT_H
 
+#include "../Data/Game.h"
+#include "../Data/Player.h"
 #include <unordered_map>
 #include <functional>
 #include <string>
 #include <iostream>
-#include "../Data/Game.h"
-#include "../Data/Player.h"
 
-
+/**
+ * Class MessageFormat
+ */
 class MessageFormat {
 public:
     static void initMessageFormatMap();
@@ -19,12 +21,26 @@ public:
     static std::string aliveCheck();
 };
 
+/**
+ * Namespace Login
+ * Collection of functions that handle the login of a player
+ */
 namespace Login {
     std::string login(int fd, std::string& information);
 }
+
+/**
+ * Namespace Logout
+ * Collection of functions that handle the logout of a player
+ */
 namespace Logout {
     std::string logout(int fd);
 }
+
+/**
+ * Namespace for the game messages
+ * Collection of functions that are used to handle the game messages
+ */
 namespace GameM {
     std::string throwDice(int fd);
     std::string selectDice(int fd, std::string& information);
@@ -36,9 +52,19 @@ namespace GameM {
     std::pair<Game, Player> whereAndWho(int fd);
     bool checkValidInput(bool throwCheck, std::string diceID, bool turnS, int fd);
 }
+
+/**
+ * Namespace RejoinQ
+ * Collection of functions that handle the rejoining of the queue
+ */
 namespace RejoinQ {
     std::string rejoinQueue(int fd);
 }
+
+/**
+ * Namespace Reconnect
+ * Collection of functions that handle the reconnection of a player
+ */
 namespace Reconnect {
     std::string reconnect(int fd);
 }

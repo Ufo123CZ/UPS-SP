@@ -14,16 +14,28 @@
 #include <thread>
 #include <chrono>
 
-
+// Threads and locks
 std::thread activityThread;
 std::mutex playerMutex, fdsMutex;
 
+/**
+ * Server constructor
+ */
 Server::Server() : running(false), serverSocket(-1) {}
 
+/**
+ * Server destructor
+ */
 Server::~Server() {
     stop();
 }
 
+/**
+ * Initialize the server
+ * @param ip IP address
+ * @param port Port number
+ * @return true if the server was successfully initialized, false otherwise
+ */
 bool Server::init(const std::string& ip, int port) {
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == -1) {
@@ -56,10 +68,13 @@ bool Server::init(const std::string& ip, int port) {
     return SUCCESS_INIT;
 }
 
+/**
+ * Start the server and Run the main loop
+ */
 void Server::start() {
     running = true;
     fd_set readfds;
-    struct timeval timeout{};
+    timeval timeout{};
     timeout.tv_sec = 5;
     timeout.tv_usec = 0;
 
@@ -353,6 +368,9 @@ void Server::start() {
     }
 }
 
+/**
+ * Stop the server
+ */
 void Server::stop() {
     running = false;
     if (serverSocket != -1) {
@@ -369,6 +387,10 @@ void Server::stop() {
         activityThread.join(); // Ensure the thread has finished
     }
 }
+
+/**
+ * Check player activity
+ */
 void Server::checkPlayerActivity() {
     while (running) {
         std::this_thread::sleep_for(std::chrono::milliseconds(500)); // Check every 0.5 seconds

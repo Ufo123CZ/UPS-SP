@@ -1,8 +1,11 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+
 #include <string>
 
-
+/**
+ * @brief A class to represent a player
+ */
 class Player {
 public:
     Player(int fd, int status);

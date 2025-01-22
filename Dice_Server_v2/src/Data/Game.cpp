@@ -1,15 +1,19 @@
 #include "Game.h"
-
 #include "Player.h"
 #include "Dice.h"
 #include "../Utils/ScoreCalculation.h"
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <cstring>
 
 std::vector<Player> gamePlayers;
 
+/**
+ * @brief Construct a new Game:: Game object
+ *
+ * @param player1 The first player
+ * @param player2 The second player
+ */
 Game::Game(Player player1, Player player2) {
     // Dice ids
     std::vector<std::string> dicesIds1 = {"DA1", "DA2", "DA3", "DA4", "DA5", "DA6"};
@@ -55,6 +59,11 @@ Game::Game(Player player1, Player player2) {
     std::cout << "Game created." << std::endl;
 }
 
+/**
+ * @brief Perform a move - Roll the dices
+ * Switch the player if there is no possible combination
+ * @return response - The response
+ */
 std::pair<std::string, std::string> Game::rollDices(int who) {
     // Strings for the response
     std::string throwedDices, switchPlayer;
@@ -81,14 +90,7 @@ std::pair<std::string, std::string> Game::rollDices(int who) {
             dice.hold = false;
         }
     }
-
-    // Test
-    // this->dices[who][0].value = 1;
-    // this->dices[who][1].value = 1;
-    // this->dices[who][2].value = 1;
-    // this->dices[who][3].value = 1;
-    // this->dices[who][4].value = 1;
-    // this->dices[who][5].value = 1;
+    // Roll the dices
     for (Dice& dice : this->dices[who]) {
         if (!dice.hold) {
             dice.rollDice();
@@ -115,6 +117,7 @@ std::pair<std::string, std::string> Game::rollDices(int who) {
             }
         }
     }
+    // If there is possible combination, the player can throw again
     if (oneOrFive || threeOfAKind) {
         switchPlayer = " ";
         this->throwB[who] = true;
@@ -129,6 +132,12 @@ std::pair<std::string, std::string> Game::rollDices(int who) {
     return {throwedDices, switchPlayer};
 }
 
+/**
+ * @brief Select the dice
+ * @param who - The player
+ * @param information - The id of the dice
+ * @return response - The response
+ */
 std::string Game::selectDices(int who, std::string& information) {
     std::string response;
     // Select or un-Select the dice in the set
@@ -145,6 +154,11 @@ std::string Game::selectDices(int who, std::string& information) {
     return response;
 }
 
+/**
+ * @brief Hold the selected dices
+ * @param who - The player
+ * @return response - The response
+ */
 std::string Game::holdDices(int who) {
     // Hold the selected dices
     std::string holdedDices;
@@ -160,6 +174,11 @@ std::string Game::holdDices(int who) {
     return holdedDices;
 }
 
+/**
+ * @brief Next turn / next throw
+ * @param who - The player
+ * @return response - The response
+ */
 std::string Game::nextRound(int who) {
     int throwScore = calculateThrow(who);
     std::string change = holdDices(who);
@@ -168,6 +187,11 @@ std::string Game::nextRound(int who) {
     return change;
 }
 
+/**
+ * @brief End the round
+ * @param who - The player
+ * @return response - The response
+ */
 std::string Game::endRound(int who) {
     int throwD = calculateThrow(who);
     this->scores[who][2] = throwD;
@@ -187,6 +211,11 @@ std::string Game::endRound(int who) {
     return "";
 }
 
+/**
+ * @brief Switch the player
+ * @param who - The player
+ * @return response - The response
+ */
 std::string Game::updateDiceEnd(int who) {
     std::string change;
     for (Dice& dice : this->dices[who]) {
@@ -201,11 +230,20 @@ std::string Game::updateDiceEnd(int who) {
     return change;
 }
 
+/**
+ * @brief Restart score of the player
+ * @param who - The player
+ */
 void Game::scoreRestart(int who) {
     this->scores[who][1] = 0;
     this->scores[who][2] = 0;
 }
 
+/**
+ * @brief Calculate the throw
+ * @param who - The player
+ * @return throwScore - The score of the throw
+ */
 int Game::calculateThrow(int who) {
     int dicesVals[6] = {0, 0, 0, 0, 0, 0};
 
@@ -223,6 +261,11 @@ int Game::calculateThrow(int who) {
     return throwScore;
 }
 
+/**
+ * @brief Calculate the selected dices
+ * @param diceVals - The values of the dices
+ * @return score - The score of the selected dices
+ */
 int Game::calculateSelected(const int diceVals[]) {
     // Each position of diceVals is 1-6 dice value or -1 if the dice is not selected
     // Check how many selected dices are there

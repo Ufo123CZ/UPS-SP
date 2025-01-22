@@ -5,7 +5,16 @@
 #include <iostream>
 #include <cstring>
 
+/**
+ * Namespace for message processing
+ * Collects functions for reading and processing messages
+ */
 namespace MessageProcessing {
+    /**
+     * Function for reading message from socket
+     * @param fd - file descriptor
+     * @return - received message
+     */
     std::string readMessage(const int fd) {
         // Variables
         char buffer[INIT_BUFFER_SIZE] = {};
@@ -63,13 +72,15 @@ namespace MessageProcessing {
 
         if (message.empty()) return "";
 
-        // Print the received message
-        // if (messageLength > 8) std::cout << "Received message: " << information << message << std::endl;
-
-
         return message;
     }
 
+    /**
+     * @brief Function for processing message
+     * @param fd - file descriptor
+     * @param message - received message
+     * @return - response message
+     */
     std::string processMessage(int fd, const std::string& message) {
         // split message into parts (command, information)
         std::string command = message.substr(0, message.find(';'));
@@ -82,7 +93,7 @@ namespace MessageProcessing {
             response = mfm->second(fd, information);
         } else {
             std::cerr << "Invalid message from fd: " << fd << std::endl
-            << "Terminate connection" << std::endl;
+                    << "Terminate connection" << std::endl;
             // Create terminating message
             response = MessageFormat::createViolationMess();
         }

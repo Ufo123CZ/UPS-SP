@@ -3,7 +3,18 @@
 #include "../../Data/DataVectors.h"
 #include "../../Messages/TAGS.h"
 
+/**
+ * Namespace Login
+ * Collection of functions that handle the login of a player
+ */
 namespace Login {
+    /**
+     * @brief Function login
+     * Handles the login of a player
+     * @param fd - File descriptor of the player
+     * @param information - Information of the player
+     * @return Response to the player
+     */
     std::string login(const int fd, std::string& information) {
         // Check if message could come
         for (Player &player : DataVectors::players) {

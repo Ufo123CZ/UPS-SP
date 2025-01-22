@@ -2,7 +2,16 @@
 #include "../TAGS.h"
 #include "../../Data/DataVectors.h"
 
+/**
+ * Namespace for the game messages
+ * Collection of functions that are used to handle the game messages
+ */
 namespace GameM {
+    /**
+     * @brief Throw the dices for the player
+     * @param fd - File descriptor of the player
+     * @return - Response message
+     */
     std::string throwDice(int fd) {
         // Check if the message could come
         if (!checkValidInput(true, "", false, fd)) {
@@ -46,6 +55,12 @@ namespace GameM {
 
     }
 
+    /**
+     * @brief Select the dices for the player
+     * @param fd - File descriptor of the player
+     * @param information - Id of the dice
+     * @return - Response message
+     */
     std::string selectDice(int fd, std::string& information) {
         // Check if the message could come
         if (!checkValidInput(false, information, false,fd)) {
@@ -91,6 +106,11 @@ namespace GameM {
         return MessageFormat::prepareResponse(respInfo, tag);
     }
 
+    /**
+     * @brief Hold the dices if they are selected, unhold if all hold, throw unholded/selected dices
+     * @param fd - File descriptor of the player
+     * @return - Response message
+     */
     std::string nextTurn(int fd) {
         // Check if the message could come
         if (!checkValidInput(false, "", true, fd)) {
@@ -140,6 +160,11 @@ namespace GameM {
         return MessageFormat::prepareResponse(respInfo, tag);
     }
 
+    /**
+     * @brief End the turn for the player
+     * @param fd - File descriptor of the player
+     * @return - Response message
+     */
     std::string endTurn(int fd) {
         // Check if the message could come
         if (!checkValidInput(false, "", true, fd)) {
@@ -197,6 +222,16 @@ namespace GameM {
         return MessageFormat::prepareResponse(respInfo, tag);
     }
 
+    /**
+     * @brief Message builder for the game messages
+     * @param name - Name of the player
+     * @param score - Score of the player
+     * @param dice - Dices of the player
+     * @param throwB - First move in round bool
+     * @param switchE - Switch player
+     * @param unique - Unique state (Disconnect, Game state)
+     * @return - Message
+     */
     std::string gameMessGen(const std::string& name, const std::string& score, const std::string& dice, const std::string& throwB,const std::string& switchE, const std::string& unique) {
         std::string info;
         info.append(name).append(";"); // Player Name
@@ -209,6 +244,11 @@ namespace GameM {
         return info;
     }
 
+    /**
+     * @brief Find the game and player
+     * @param fd - File descriptor of the player
+     * @return - Pair of game and player
+     */
     std::pair<Game, Player> whereAndWho(int fd) {
         Player *player = nullptr;
         Game *game = nullptr;
@@ -226,13 +266,17 @@ namespace GameM {
                 }
             }
         }
-        // if (player == nullptr || game == nullptr) {
-        //     throw std::runtime_error("Player or Game not found");
-        // }
-
         return std::make_pair(*game, *player);
     }
 
+    /**
+     * @brief Check if the input is valid
+     * @param throwCheck - Check if the dices are thrown
+     * @param diceID - Id of the dice
+     * @param turnS - Check if the turn is possible
+     * @param fd - File descriptor of the player
+     * @return - True if the input is valid
+     */
     bool checkValidInput(bool throwCheck, std::string diceID, bool turnS, int fd) {
         for (Player &player : DataVectors::players) {
             if (player.fd == fd) {
@@ -319,6 +363,10 @@ namespace GameM {
         return true;
     }
 
+    /**
+     * @brief Update the game in the vector
+     * @param game - Game to update
+     */
     void updateGame(Game& game) {
         for (Game& g : DataVectors::games) {
             if (g.playerNames[0] == game.playerNames[0]) {

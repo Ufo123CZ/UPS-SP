@@ -6,6 +6,9 @@
 #include <functional>
 #include <string>
 
+/**
+ * Class for the server commands
+ */
 class ServerCommands {
 public:
     static void initCommandMap();

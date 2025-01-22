@@ -19,6 +19,10 @@
 #define ONE 100
 #define FIVE 50
 
+/**
+ * Namespace for the score calculation
+ * Collection of functions to calculate the score of the dices
+ */
 namespace ScoreCalculator {
     int isCompleteStraight(const int diceVals[]);
     int isIncompleteStraight(int lB, int  rB, const int diceVals[]);

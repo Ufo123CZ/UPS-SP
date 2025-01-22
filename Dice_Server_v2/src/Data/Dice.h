@@ -3,11 +3,12 @@
 
 #include <string>
 
-
+/**
+ * @brief A class to represent a dice
+ */
 class Dice {
 public:
     Dice(const std::string &id);
-    // ~Dice();
 
     void rollDice();
     void selectDice();

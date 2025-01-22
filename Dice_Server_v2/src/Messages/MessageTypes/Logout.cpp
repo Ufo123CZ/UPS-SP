@@ -3,8 +3,17 @@
 #include "../../Data/DataVectors.h"
 #include "../../Data/Player.h"
 
-
+/**
+ * Namespace Logout
+ * Collection of functions that handle the logout of a player
+ */
 namespace Logout {
+    /**
+     * @brief Function logout
+     * Handles the logout of a player
+     * @param fd - File descriptor of the player
+     * @return Response to the player
+     */
     std::string logout(int fd) {
         std::string name;
         // Remove player from the vector

@@ -1,10 +1,13 @@
 #ifndef DATAVECTORS_H
 #define DATAVECTORS_H
 
-#include <vector>
 #include "Player.h"
 #include "Game.h"
+#include <vector>
 
+/**
+ * @brief A class to store the data vectors
+ */
 class DataVectors {
 public:
     static void initDataVectors();

@@ -1,9 +1,13 @@
 #ifndef EVENTS_H
 #define EVENTS_H
 
-#include <string>
 #include "../Data/Game.h"
+#include <string>
 
+/**
+ * Namespace Events
+ * Collections of different events on the server side
+ */
 namespace Events {
     std::string createGame();
     std::string reconnectGame(Player &player);
