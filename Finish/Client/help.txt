@@ -1,0 +1,2 @@
+set JAVA_HOME=C:\Users\martin12\Downloads\jdk-17.0.12
+set PATH=C:\Users\martin12\Downloads\jdk-17.0.12\bin;%PATH%
