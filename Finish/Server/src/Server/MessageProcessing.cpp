@@ -19,9 +19,11 @@ namespace MessageProcessing {
         // Variables
         char buffer[INIT_BUFFER_SIZE] = {};
         int messageLength = 0;
-        std::string message, information;
+        std::string message;
         bool found = false;
+
         // Receive the first 8 bytes
+        memset(buffer, 0, sizeof(buffer));
         recv(fd, &buffer, 8, 0);
 
 
@@ -33,7 +35,6 @@ namespace MessageProcessing {
                 required++;
                 if (required == 2) {
                     std::string temp(buffer);
-                    information = temp;
                     // Get Message prefix
                     std::string prefix = temp.substr(0, temp.find(';'));
                     if (prefix != BASE_IN) {
@@ -61,13 +62,12 @@ namespace MessageProcessing {
         recv(fd, &buffer, messageLength, 0);
         message.append(buffer);
 
-        // remove /n from the end
-        if (message[message.length() - 1] == '\n') {
-            message = message.substr(0, message.length() - 1);
+        // Remove trailing newline and carriage return characters
+        if (!message.empty() && (message.back() == '\n' || message.back() == '\r')) {
+            message.pop_back();
         }
-        // remove /r from the end
-        if (message[message.length() - 1] == '\r') {
-            message = message.substr(0, message.length() - 1);
+        if (!message.empty() && (message.back() == '\n' || message.back() == '\r')) {
+            message.pop_back();
         }
 
         if (message.empty()) return "";

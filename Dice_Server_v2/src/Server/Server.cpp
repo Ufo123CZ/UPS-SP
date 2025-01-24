@@ -165,7 +165,7 @@ void Server::start() {
                             || (response.find(BASE_LOGIN) != std::string::npos && response.find(NAMESET) != std::string::npos && response.find(ERROR) != std::string::npos)
                             || response.find(TERMINATION) != std::string::npos) {
                             send(fd, response.c_str(), response.size(), 0);
-                            sleep(1);
+                            // sleep(1);
                             // Remove the player from the game if he is in the game
                             for (Game& game : DataVectors::games) {
                                 game.gamePlayers.erase(std::remove_if(game.gamePlayers.begin(), game.gamePlayers.end(), [fd](const Player& player) {

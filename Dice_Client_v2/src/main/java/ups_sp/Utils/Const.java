@@ -28,8 +28,8 @@ public class Const {
 
 
     // Timeouts
-    public static final long DISCONNECTED_CONNECTION = 15000; // 15 seconds
-    public static final long NO_CONNECTION = 3000; // 3 seconds
+    public static final long DISCONNECTED_CONNECTION = 30000; // 15 seconds
+    public static final long NO_CONNECTION = 5000; // 3 seconds
     public static final long PING_INTERVAL = 2000; // 2 seconds
 
 

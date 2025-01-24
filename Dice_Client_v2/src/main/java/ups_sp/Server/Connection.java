@@ -101,7 +101,7 @@ public class Connection extends Component {
                 pongMessage = messageBuilder(PONG, "");
                 response = "";
                 startListening();
-                sendMessages();
+                //sendMessages();
                 return true;
             } catch (IOException e) {
                 System.out.println("Error: " + e.getMessage());
@@ -147,6 +147,10 @@ public class Connection extends Component {
         // Prepare and send the message
         response = messageBuilder(action, information);
         System.out.println("Sent: " + response);
+        if (!response.isEmpty()) {
+            out.println(response);
+            response = "";
+        }
     }
 
     /**
@@ -205,10 +209,11 @@ public class Connection extends Component {
         listenerThread = new Thread(() -> {
             while (listening.get()) {
                 try {
-                    sleep(100);
+                    sleep(50);
                     String receivedMessage;
                     /* READING RECONNECTING */
                     while (statusOK.get()) {
+                        sleep(50);
                         if (in.ready()) {
                             // Read the message
                             lastMess.set(System.currentTimeMillis());
@@ -246,7 +251,7 @@ public class Connection extends Component {
                     if (!response.isEmpty() && !response.equals("\n")) {
                         out.println(response);
                     }
-                    response = "";
+//                    response = "";
 
                 } catch (IOException | InterruptedException | NullPointerException e) {
                     if (!listening.get()) {
