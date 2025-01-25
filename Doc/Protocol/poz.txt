@@ -1,0 +1,18 @@
+S = Server
+C = Client
+
+S1 - ds;<length>;log:in:;[SUCCES(S1S) / ERROR(S1E)]
+S2 - ds;<length>;log:nameset:;[SUCCES(S2S) / ERROR(S2E)]
+S3 - ds;<length>;game:create:;<initGameData>
+S4 - ds;<length>;game:<gameUpdate>;<data>
+S5 - ds;<length>;alive:;
+S6 - ds;<length>;recConn:;<gameData> / nogame
+
+
+C1 - dc;<length>;log:nameset:;<name>
+C2 - dc;<length>;game:throw:;
+C3 - dc;<length>;game:select:;<diceId>
+C4 - dc;<length>;game:nextT:;
+C5 - dc;<length>;game:endT:;
+C6 - dc;<length>;recConn:;
+C7 - dc;<length>;log:out:;
